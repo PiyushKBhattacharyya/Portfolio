@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
-import SpinningModel from '@/components/canvas/SpinningModel';
 
 // profile image component
 function PortraitComponent() {
@@ -121,9 +120,6 @@ export default function Hero() {
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 blur-3xl"></div>
             <div className="relative z-10">
               <PortraitComponent />
-            </div>
-            <div className="absolute inset-0 -z-10 flex items-center justify-center">
-              <SpinningModel />
             </div>
           </div>
         </motion.div>

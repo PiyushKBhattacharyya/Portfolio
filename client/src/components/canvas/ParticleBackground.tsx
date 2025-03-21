@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { noise } from "@chriscourses/perlin-noise";
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,97 +19,109 @@ export default function ParticleBackground() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const particles: {
-      x: number;
-      y: number;
-      size: number;
-      speedX: number;
-      speedY: number;
-      angle: number;
-      angleSpeed: number;
-      driftX: number;
-      driftY: number;
-      color: string;
-    }[] = [];
+    const particles = [];
 
     const createParticles = () => {
       const particleCount = Math.min(window.innerWidth / 10, 150);
       for (let i = 0; i < particleCount; i++) {
+        const depth = Math.random() * 3 + 1;
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
+          size: (Math.random() * 2 + 0.5) * (depth / 3),
+          speedX: ((Math.random() - 0.5) * 0.5) / depth,
+          speedY: ((Math.random() - 0.5) * 0.5) / depth,
           angle: Math.random() * Math.PI * 2,
           angleSpeed: (Math.random() - 0.5) * 0.02,
           driftX: (Math.random() - 0.5) * 0.1,
           driftY: (Math.random() - 0.5) * 0.1,
-          color: "#6366F1",
+          noiseOffsetX: Math.random() * 1000,
+          noiseOffsetY: Math.random() * 1000,
+          depth,
+          color: `rgba(99, 102, 241, ${depth / 4})`,
         });
       }
     };
 
     createParticles();
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let isMouseMoving = false;
-
-    const handleMouseMove = (e: MouseEvent) => {
+    let mouseX = 0, mouseY = 0, isMouseMoving = false;
+    
+    const handleMouseMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       isMouseMoving = true;
-      setTimeout(() => {
+
+      clearTimeout(mouseMoveTimeout);
+      mouseMoveTimeout = setTimeout(() => {
         isMouseMoving = false;
-      }, 100);
+      }, 300);
     };
 
+    let mouseMoveTimeout;
     window.addEventListener("mousemove", handleMouseMove);
 
-    let animationId: number;
+    let animationId;
+    let noiseTime = 0;
+
+    const getDayProgress = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      return (hours + now.getMinutes() / 60) / 24; // Value between 0 (midnight) and 1 (next midnight)
+    };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      const dayProgress = getDayProgress();
+
+      const nightColor = "#0f172a";
+      const dayColor = "#87CEFA";
+      
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, "#0f172a");
-      gradient.addColorStop(1, "#1e293b");
-      ctx.fillStyle = gradient;
+      gradient.addColorStop(0, nightColor);
+      gradient.addColorStop(1, dayColor);
+
+      // Smooth transition based on time
+      const bgOpacity = Math.sin(dayProgress * Math.PI * 2) * 0.5 + 0.5;
+      ctx.fillStyle = `rgba(15, 23, 42, ${1 - bgOpacity})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      noiseTime += 0.01;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Organic motion update
+        const noiseX = noise(p.noiseOffsetX, noiseTime) - 0.5;
+        const noiseY = noise(p.noiseOffsetY, noiseTime) - 0.5;
+
+        p.x += noiseX * 1.5 * (p.depth / 3);
+        p.y += noiseY * 1.5 * (p.depth / 3);
+
         p.angle += p.angleSpeed;
         p.x += p.speedX + Math.cos(p.angle) * 0.3 + p.driftX;
         p.y += p.speedY + Math.sin(p.angle) * 0.3 + p.driftY;
 
-        // Smooth velocity damping
         p.speedX *= 0.98;
         p.speedY *= 0.98;
 
-        // Random drift variation
-        p.driftX += (Math.random() - 0.5) * 0.01;
-        p.driftY += (Math.random() - 0.5) * 0.01;
-
-        // Wrap around edges
         if (p.x > canvas.width) p.x = 0;
         if (p.x < 0) p.x = canvas.width;
         if (p.y > canvas.height) p.y = 0;
         if (p.y < 0) p.y = canvas.height;
 
-        if (isMouseMoving) {
-          const dx = mouseX - p.x;
-          const dy = mouseY - p.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
-            const angle = Math.atan2(dy, dx);
-            p.speedX -= Math.cos(angle) * 0.02;
-            p.speedY -= Math.sin(angle) * 0.02;
-          }
+        if (isMouseMoving && distance < 120) {
+          const force = Math.min(3 / distance, 0.05);
+          p.speedX -= Math.cos(Math.atan2(dy, dx)) * force;
+          p.speedY -= Math.sin(Math.atan2(dy, dx)) * force;
+        } else if (!isMouseMoving && distance < 200) {
+          const force = (distance / 200) * 0.001;
+          p.speedX += dx * force;
+          p.speedY += dy * force;
         }
 
         ctx.beginPath();
