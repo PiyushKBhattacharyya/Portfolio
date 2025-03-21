@@ -239,23 +239,6 @@ export default function Contact() {
                 </div>
               </TiltCard>
               
-              <TiltCard className="p-8 bg-slate-900/80 backdrop-blur-sm rounded-xl shadow-lg border border-primary/20">
-                <h3 className="text-2xl font-poppins font-bold mb-4">Looking for a developer?</h3>
-                <p className="text-slate-300 mb-6">
-                  I'm currently available for freelance work and open to discussing full-time opportunities.
-                </p>
-                <motion.a 
-                  href="https://calendly.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all"
-                  whileHover={{ y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <CalendarClock size={20} />
-                  <span>Schedule a Call</span>
-                </motion.a>
-              </TiltCard>
             </div>
           </motion.div>
         </div>
