@@ -5,8 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run dev",
+    "build": "npm run build",
+    "vercel-build": "npm run build",
     "check": "tsc"
   },
+
   "dependencies": {
     "@chriscourses/perlin-noise": "^1.0.6",
     "@hookform/resolvers": "^3.9.1",
