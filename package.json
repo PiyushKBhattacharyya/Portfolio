@@ -4,9 +4,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "vite", 
-    "build": "vite build",
-    "start": "vite preview",
+    "dev": "vite --host",
+    "start": "npm run dev",
     "check": "tsc"
   },
   "dependencies": {
