@@ -20,7 +20,7 @@ export default function Experience() {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto"></div>
           <p className="mt-4 text-lg text-slate-300 max-w-2xl mx-auto">
-            My professional journey in AI, ML, and full stack development
+            My professional journey so far
           </p>
         </motion.div>
         

@@ -88,13 +88,13 @@ export const EXPERIENCE = [
     company: "National Institute of Electronics and Information Technology (NIELIT)",
     period: "May 2024 - Jun 2024",
     description: "Leveraging deep learning for medical diagnostics, I developed a Heart Disease Prediction Model using MLP, enhancing diagnostic efficiency by 15%. Additionally, I also built a 1D-CNN-BiLSTM Arrhythmia Detection Model, achieving an impressive 99.4% accuracy in ECG classification, contributing to more reliable and automated healthcare solutions",
-    skills: ["Python", "TensorFlow", "ECG Analysis", "Healthcare ML"],
+    skills: ["Python", "TensorFlow", "ECG Analysis"],
     colorClass: "primary"
   },
   {
     title: "App Developer Apprenticeship",
     company: "National Informatics Centre (NIC)",
-    period: "2020 - 2022",
+    period: "June 2023 - July 2023",
     description: "Engineered an AI-powered Face Recognition System, cutting authentication errors by 30%. Developed a Student Information System with PHP, MySQL, and REST APIs, optimizing data retrieval and UI performance. Additionally, designed secure and scalable backend architectures for Android applications, ensuring efficiency and reliability.",
     skills: ["Flutter", "Dart", "REST API", "Docker"],
     colorClass: "secondary"
