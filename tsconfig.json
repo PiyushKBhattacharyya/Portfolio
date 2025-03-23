@@ -1,21 +1,31 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "include": [
+    "client/src/**/*",
+    "shared/**/*",
+    "server/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
   "compilerOptions": {
-    "incremental": true,
-    "isolatedModules": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
-    "module": "ESNext",
-    "strict": true,
+    "incremental": true, 
+    "isolatedModules": true, 
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo", 
+    "noEmit": false,  // Emit .js files to be handled by Vite, which helps Vercel optimize the build
+    "module": "ESNext", 
+    "strict": true, 
     "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
-    "baseUrl": ".",
-    "types": ["node", "vite/client"],
+    "jsx": "preserve", 
+    "esModuleInterop": true, 
+    "skipLibCheck": true, 
+    "allowImportingTsExtensions": true, 
+    "moduleResolution": "bundler", 
+    "baseUrl": ".", 
+    "types": ["node", "vite/client"], 
     "paths": {
       "@/*": ["./client/src/*"],
       "@shared/*": ["./shared/*"]
