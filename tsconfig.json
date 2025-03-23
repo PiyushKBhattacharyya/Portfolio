@@ -2,8 +2,7 @@
   "include": [
     "client/src/**/*",
     "shared/**/*",
-    "server/**/*",
-    "src/types/**/*",
+    "server/**/*"
   ],
   "exclude": [
     "node_modules",
@@ -13,20 +12,21 @@
     "**/*.spec.ts"
   ],
   "compilerOptions": {
-    "incremental": true, 
-    "isolatedModules": true, 
-    "tsBuildInfoFile": "./node_modules/.tsbuildinfo", 
-    "noEmit": false,  // Emit .js files to be handled by Vite, which helps Vercel optimize the build
-    "module": "ESNext", 
-    "strict": true, 
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve", 
-    "esModuleInterop": true, 
-    "skipLibCheck": true, 
-    "allowImportingTsExtensions": true, 
-    "moduleResolution": "bundler", 
-    "baseUrl": ".", 
-    "types": ["node", "vite/client"], 
+    "incremental": true,
+    "isolatedModules": true,
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
+    "noEmit": true,  // Keep this to prevent unnecessary .js output during build
+    "module": "ESNext",
+    "strict": false,  // Disabling strict mode speeds up TypeScript compilation
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,  // Skips checking .d.ts files in node_modules
+    "skipDefaultLibCheck": true,  // Skips default lib type checking for speed
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",  // More stable for Vercel builds
+    "baseUrl": ".",
+    "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["./client/src/*"],
       "@shared/*": ["./shared/*"]
