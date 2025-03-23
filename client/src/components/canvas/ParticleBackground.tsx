@@ -1,6 +1,23 @@
 import { useEffect, useRef } from "react";
 import { noise } from "@chriscourses/perlin-noise";
 
+// Define the Particle type
+type Particle = {
+  x: number;
+  y: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  angle: number;
+  angleSpeed: number;
+  driftX: number;
+  driftY: number;
+  noiseOffsetX: number;
+  noiseOffsetY: number;
+  depth: number;
+  color: string;
+};
+
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -19,7 +36,8 @@ export default function ParticleBackground() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const particles = [];
+    // Type particles as an array of Particle objects
+    const particles: Particle[] = [];
 
     const createParticles = () => {
       const particleCount = Math.min(window.innerWidth / 10, 150);
@@ -46,8 +64,9 @@ export default function ParticleBackground() {
     createParticles();
 
     let mouseX = 0, mouseY = 0, isMouseMoving = false;
-    
-    const handleMouseMove = (e) => {
+
+    // Add type to the event parameter
+    const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       isMouseMoving = true;
@@ -58,10 +77,10 @@ export default function ParticleBackground() {
       }, 300);
     };
 
-    let mouseMoveTimeout;
+    let mouseMoveTimeout: ReturnType<typeof setTimeout>;
     window.addEventListener("mousemove", handleMouseMove);
 
-    let animationId;
+    let animationId: ReturnType<typeof requestAnimationFrame>;
     let noiseTime = 0;
 
     const getDayProgress = () => {
@@ -77,7 +96,7 @@ export default function ParticleBackground() {
 
       const nightColor = "#0f172a";
       const dayColor = "#87CEFA";
-      
+
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
       gradient.addColorStop(0, nightColor);
       gradient.addColorStop(1, dayColor);
