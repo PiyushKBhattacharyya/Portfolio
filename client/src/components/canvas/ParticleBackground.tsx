@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { noise } from "@chriscourses/perlin-noise";
 
-// Define the Particle type
 type Particle = {
   x: number;
   y: number;
@@ -16,6 +15,8 @@ type Particle = {
   noiseOffsetY: number;
   depth: number;
   color: string;
+  exploded: boolean;
+  life: number;
 };
 
 export default function ParticleBackground() {
@@ -36,7 +37,6 @@ export default function ParticleBackground() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Type particles as an array of Particle objects
     const particles: Particle[] = [];
 
     const createParticles = () => {
@@ -56,16 +56,19 @@ export default function ParticleBackground() {
           noiseOffsetX: Math.random() * 1000,
           noiseOffsetY: Math.random() * 1000,
           depth,
-          color: `rgba(99, 102, 241, ${depth / 4})`,
+          color: `rgba(255, 255, 255, ${depth / 4})`, // White particles for contrast
+          exploded: false,
+          life: 1,
         });
       }
     };
 
     createParticles();
 
-    let mouseX = 0, mouseY = 0, isMouseMoving = false;
+    let mouseX = 0,
+      mouseY = 0,
+      isMouseMoving = false;
 
-    // Add type to the event parameter
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -83,27 +86,8 @@ export default function ParticleBackground() {
     let animationId: ReturnType<typeof requestAnimationFrame>;
     let noiseTime = 0;
 
-    const getDayProgress = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      return (hours + now.getMinutes() / 60) / 24; // Value between 0 (midnight) and 1 (next midnight)
-    };
-
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const dayProgress = getDayProgress();
-
-      const nightColor = "#0f172a";
-      const dayColor = "#87CEFA";
-
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, nightColor);
-      gradient.addColorStop(1, dayColor);
-
-      // Smooth transition based on time
-      const bgOpacity = Math.sin(dayProgress * Math.PI * 2) * 0.5 + 0.5;
-      ctx.fillStyle = `rgba(15, 23, 42, ${1 - bgOpacity})`;
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; // Dark theme with subtle trails
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       noiseTime += 0.01;
@@ -111,36 +95,48 @@ export default function ParticleBackground() {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        const noiseX = noise(p.noiseOffsetX, noiseTime) - 0.5;
-        const noiseY = noise(p.noiseOffsetY, noiseTime) - 0.5;
+        if (p.exploded) {
+          p.size *= 0.95;
+          p.life -= 0.02;
+          if (p.life <= 0) {
+            p.exploded = false;
+            p.size = Math.random() * 2 + 0.5;
+            p.life = 1;
+            p.x = Math.random() * canvas.width;
+            p.y = Math.random() * canvas.height;
+          }
+        } else {
+          const noiseX = noise(p.noiseOffsetX, noiseTime) - 0.5;
+          const noiseY = noise(p.noiseOffsetY, noiseTime) - 0.5;
 
-        p.x += noiseX * 1.5 * (p.depth / 3);
-        p.y += noiseY * 1.5 * (p.depth / 3);
+          p.x += noiseX * 1.5 * (p.depth / 3);
+          p.y += noiseY * 1.5 * (p.depth / 3);
 
-        p.angle += p.angleSpeed;
-        p.x += p.speedX + Math.cos(p.angle) * 0.3 + p.driftX;
-        p.y += p.speedY + Math.sin(p.angle) * 0.3 + p.driftY;
+          p.angle += p.angleSpeed;
+          p.x += p.speedX + Math.cos(p.angle) * 0.3 + p.driftX;
+          p.y += p.speedY + Math.sin(p.angle) * 0.3 + p.driftY;
 
-        p.speedX *= 0.98;
-        p.speedY *= 0.98;
+          p.speedX *= 0.98;
+          p.speedY *= 0.98;
 
-        if (p.x > canvas.width) p.x = 0;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.y > canvas.height) p.y = 0;
-        if (p.y < 0) p.y = canvas.height;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.y > canvas.height) p.y = 0;
+          if (p.y < 0) p.y = canvas.height;
 
-        const dx = mouseX - p.x;
-        const dy = mouseY - p.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+          const dx = mouseX - p.x;
+          const dy = mouseY - p.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (isMouseMoving && distance < 120) {
-          const force = Math.min(3 / distance, 0.05);
-          p.speedX -= Math.cos(Math.atan2(dy, dx)) * force;
-          p.speedY -= Math.sin(Math.atan2(dy, dx)) * force;
-        } else if (!isMouseMoving && distance < 200) {
-          const force = (distance / 200) * 0.001;
-          p.speedX += dx * force;
-          p.speedY += dy * force;
+          if (isMouseMoving && distance < 100) {
+            const force = Math.min(3 / distance, 0.05);
+            p.speedX -= Math.cos(Math.atan2(dy, dx)) * force;
+            p.speedY -= Math.sin(Math.atan2(dy, dx)) * force;
+          } else if (!isMouseMoving && distance < 200) {
+            const force = (distance / 200) * 0.001;
+            p.speedX += dx * force;
+            p.speedY += dy * force;
+          }
         }
 
         ctx.beginPath();
@@ -154,13 +150,19 @@ export default function ParticleBackground() {
           const dy = p.y - p2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
+          if (distance < 20) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(99, 102, 241, ${0.2 - distance / 500})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 - distance / 100})`; // Subtle white lines
             ctx.lineWidth = 0.5;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
+
+            if (Math.random() < 0.01) {
+              p.exploded = true;
+              p.speedX = (Math.random() - 0.5) * 2;
+              p.speedY = (Math.random() - 0.5) * 2;
+            }
           }
         }
       }
@@ -177,5 +179,11 @@ export default function ParticleBackground() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 -z-10 w-full h-full" style={{ pointerEvents: "none" }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 -z-10 w-full h-full"
+      style={{ pointerEvents: "none" }}
+    />
+  );
 }
