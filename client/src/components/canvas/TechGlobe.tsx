@@ -1,17 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import { SiReact, SiNodedotjs, SiJavascript, SiPython, SiTensorflow, SiPytorch, SiMongodb, SiDocker, SiGit } from "react-icons/si";
+import { IconCloud } from "../magicui/icon-cloud";
 
-const techIcons = [
-  { id: "React", icon: SiReact, color: "#61DAFB" },
-  { id: "Node.js", icon: SiNodedotjs, color: "#539E43" },
-  { id: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-  { id: "Python", icon: SiPython, color: "#3776AB" },
-  { id: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
-  { id: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
-  { id: "MongoDB", icon: SiMongodb, color: "#47A248" },
-  { id: "Docker", icon: SiDocker, color: "#2496ED" },
-  { id: "Git", icon: SiGit, color: "#F05032" },
+const slugs = [
+  "typescript", "javascript", "dart", "java", "react", "flutter", "android", "html5", "css3", "nextdotjs",
+  "nodedotjs", "express", "postgresql", "vercel",  "docker", "git",  "github", "visualstudiocode", "androidstudio", "figma",
 ];
+
+const images = slugs.map((slug) => `https://cdn.simpleicons.org/${slug}/${slug}`);
 
 const generateSpherePositions = (count, radius) => {
   let positions = [];
@@ -39,11 +34,23 @@ export default function InsaneTechCloud() {
       setRotation({ x: y * 15, y: x * 15 });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const x = (touch.clientX / window.innerWidth - 0.5) * 2;
+        const y = (touch.clientY / window.innerHeight - 0.5) * -2;
+        setRotation({ x: y * 15, y: x * 15 });
+      }
+    };
 
-  const positions = generateSpherePositions(techIcons.length, 100);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
 
   return (
     <div
@@ -54,43 +61,11 @@ export default function InsaneTechCloud() {
         alignItems: "center",
         justifyContent: "center",
         perspective: "1000px",
-        background: "inherit", // Keeps your original background
+        background: "inherit",
         overflow: "hidden",
       }}
     >
-      <div
-        ref={cloudRef}
-        style={{
-          width: "200px",
-          height: "200px",
-          position: "relative",
-          transformStyle: "preserve-3d",
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-          animation: "spin 50s infinite linear",
-        }}
-      >
-        {techIcons.map((tech, index) => {
-          const pos = positions[index];
-          return (
-            <div
-              key={tech.id}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transformOrigin: "center",
-                transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px)`,
-                color: tech.color,
-                fontSize: "2rem",
-                transition: "transform 0.1s",
-                opacity: 0.9,
-              }}
-            >
-              <tech.icon size={40} />
-            </div>
-          );
-        })}
-      </div>
+      <IconCloud images={images} />
     </div>
   );
 }

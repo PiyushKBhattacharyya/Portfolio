@@ -31,7 +31,7 @@ export default function ParticleBackground() {
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight * 3; // Extend canvas height
+      canvas.height = window.innerHeight;
     };
 
     resizeCanvas();
@@ -65,19 +65,36 @@ export default function ParticleBackground() {
 
     createParticles();
 
+    let mouseX = 0,
+      mouseY = 0,
+      isMouseMoving = false;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      isMouseMoving = true;
+
+      clearTimeout(mouseMoveTimeout);
+      mouseMoveTimeout = setTimeout(() => {
+        isMouseMoving = false;
+      }, 300);
+    };
+
+    let mouseMoveTimeout: ReturnType<typeof setTimeout>;
+    window.addEventListener("mousemove", handleMouseMove);
+
+    let animationId: ReturnType<typeof requestAnimationFrame>;
     let noiseTime = 0;
 
     const animate = () => {
-      const scrollPosition = window.scrollY || 0;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const darknessFactor = Math.min(scrollPosition / maxScroll, 1);
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  
+      gradient.addColorStop(0, "#121826"); // Dark navy with a hint of blue
+      gradient.addColorStop(0.5, "#1E2A47"); // Deep blue-gray
+      gradient.addColorStop(0, "#121826"); // Dark navy with a hint of blue
 
-      // Gradient that gets progressively darker as you scroll
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgb(20, 20, 20)"); // Lighter black at the top
-      gradient.addColorStop(darknessFactor, `rgb(${10 - darknessFactor * 10}, ${10 - darknessFactor * 10}, ${10 - darknessFactor * 10})`); // Darker as you scroll
-      gradient.addColorStop(1, "rgb(0, 0, 0)"); // Full black at the bottom
-
+    
+      // Apply the gradient as the background
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -86,37 +103,87 @@ export default function ParticleBackground() {
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        const noiseX = noise(p.noiseOffsetX, noiseTime) - 0.5;
-        const noiseY = noise(p.noiseOffsetY, noiseTime) - 0.5;
+        if (p.exploded) {
+          p.size *= 0.95;
+          p.life -= 0.02;
+          if (p.life <= 0) {
+            p.exploded = false;
+            p.size = Math.random() * 2 + 0.5;
+            p.life = 1;
+            p.x = Math.random() * canvas.width;
+            p.y = Math.random() * canvas.height;
+          }
+        } else {
+          const noiseX = noise(p.noiseOffsetX, noiseTime) - 0.5;
+          const noiseY = noise(p.noiseOffsetY, noiseTime) - 0.5;
 
-        p.x += noiseX * 1.5 * (p.depth / 3);
-        p.y += noiseY * 1.5 * (p.depth / 3);
+          p.x += noiseX * 1.5 * (p.depth / 3);
+          p.y += noiseY * 1.5 * (p.depth / 3);
 
-        p.angle += p.angleSpeed;
-        p.x += p.speedX + Math.cos(p.angle) * 0.3 + p.driftX;
-        p.y += p.speedY + Math.sin(p.angle) * 0.3 + p.driftY;
+          p.angle += p.angleSpeed;
+          p.x += p.speedX + Math.cos(p.angle) * 0.3 + p.driftX;
+          p.y += p.speedY + Math.sin(p.angle) * 0.3 + p.driftY;
 
-        p.speedX *= 0.98;
-        p.speedY *= 0.98;
+          p.speedX *= 0.98;
+          p.speedY *= 0.98;
 
-        if (p.x > canvas.width) p.x = 0;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.y > canvas.height) p.y = 0;
-        if (p.y < 0) p.y = canvas.height;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.y > canvas.height) p.y = 0;
+          if (p.y < 0) p.y = canvas.height;
+
+          const dx = mouseX - p.x;
+          const dy = mouseY - p.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (isMouseMoving && distance < 100) {
+            const force = Math.min(3 / distance, 0.05);
+            p.speedX -= Math.cos(Math.atan2(dy, dx)) * force;
+            p.speedY -= Math.sin(Math.atan2(dy, dx)) * force;
+          } else if (!isMouseMoving && distance < 200) {
+            const force = (distance / 200) * 0.001;
+            p.speedX += dx * force;
+            p.speedY += dy * force;
+          }
+        }
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 20) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 - distance / 100})`; // Subtle white lines
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+
+            if (Math.random() < 0.01) {
+              p.exploded = true;
+              p.speedX = (Math.random() - 0.5) * 2;
+              p.speedY = (Math.random() - 0.5) * 2;
+            }
+          }
+        }
       }
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animationId);
     };
   }, []);
 
@@ -127,5 +194,4 @@ export default function ParticleBackground() {
       style={{ pointerEvents: "none" }}
     />
   );
-}
-  
+} 
