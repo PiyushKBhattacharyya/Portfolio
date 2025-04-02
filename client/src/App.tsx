@@ -9,7 +9,6 @@ import Projects from "@/components/sections/Projects";
 import Awards from "@/components/sections/Awards";
 import TechStack from "@/components/sections/TechStack";
 import Experience from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
 
 // Lazy load the particle background to improve initial load time
 const ParticleBackground = lazy(() => import("@/components/canvas/ParticleBackground"));
@@ -43,7 +42,6 @@ function Home() {
         <Awards />
         <Experience />
         <TechStack />
-        <Contact />
       </main>
       
       <Footer />
