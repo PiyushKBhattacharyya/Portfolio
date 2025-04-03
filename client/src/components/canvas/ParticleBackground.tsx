@@ -84,21 +84,21 @@ export default function ParticleBackground() {
     window.addEventListener("mousemove", handleMouseMove);
 
     let animationId: ReturnType<typeof requestAnimationFrame>;
+    let hue = 220;
     let noiseTime = 0;
+    let colorShift = 0;
 
     const animate = () => {
+      colorShift += 0.5;
+      const dynamicHue = (hue + Math.sin(colorShift * 0.01) * 30) % 360;
       const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  
-      gradient.addColorStop(0, "#121826"); // Dark navy with a hint of blue
-      gradient.addColorStop(0.5, "#1E2A47"); // Deep blue-gray
-      gradient.addColorStop(0, "#121826"); // Dark navy with a hint of blue
-
-    
-      // Apply the gradient as the background
+      gradient.addColorStop(0, `hsl(${dynamicHue}, 60%, 15%)`);
+      gradient.addColorStop(0.5, `hsl(${(dynamicHue + 30) % 360}, 50%, 10%)`);
+      gradient.addColorStop(1, `hsl(${(dynamicHue + 60) % 360}, 55%, 12%)`);
+      
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      noiseTime += 0.01;
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
