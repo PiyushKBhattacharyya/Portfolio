@@ -49,7 +49,12 @@ export const PROJECTS = [
     tags: ["Open3D", "NumPy", "SciPy", "Python"],
     githubUrl: "https://github.com/PiyushKBhattacharyya/Featureless-Point-Cloud-Registration"
   },
-
+  {
+    title: "AutoML",
+    description: "An interactive web application that simplifies the machine learning workflow.",
+    tags: ["Streamlit", "PyCaret", "Pandas Profiling", "Plotly"],
+    githubUrl: "https://github.com/PiyushKBhattacharyya/AutoML"
+  },
 ];
 
 // Awards and achievements
