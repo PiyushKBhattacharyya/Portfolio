@@ -49,12 +49,7 @@ export const PROJECTS = [
     tags: ["Open3D", "NumPy", "SciPy", "Python"],
     githubUrl: "https://github.com/PiyushKBhattacharyya/Featureless-Point-Cloud-Registration"
   },
-  {
-    title: "Multiclass Arrythmia Detection",
-    description: "Developing a 1D-CNN-BiLSTM model for arrhythmia classification",
-    tags: ["TensorFlow", "NumPy", "Pandas", "Python"],
-    githubUrl: "https://github.com/PiyushKBhattacharyya/arrthymia-study"
-  },
+
 ];
 
 // Awards and achievements
