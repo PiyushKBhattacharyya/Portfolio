@@ -54,21 +54,14 @@ export default function Hero() {
           <h1 className="text-4xl md:text-6xl font-bold font-poppins mb-4">
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Piyush Kaushik Bhattacharyya</span>
           </h1>
-          <h2 className="text-2xl md:text-3xl font-light text-slate-300 mb-6">
+          <h2 className="text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">
             ML Engineer & Full Stack Developer
           </h2>
           <p className="text-lg md:text-xl text-slate-300/90 mb-8 max-w-lg">
-            Crafting innovative AI solutions and immersive digital experiences with cutting-edge web technologies.
+            Crafting innovative 
+            AI solutions and immersive digital experiences with cutting-edge web technologies.
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
-            <motion.a 
-              href="#contact" 
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-purple-500 text-white font-bold hover:shadow-lg hover:shadow-primary/50 transition-all"
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get in Touch
-            </motion.a>
             <motion.a 
               href="#projects" 
               className="px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-bold transition-all"
