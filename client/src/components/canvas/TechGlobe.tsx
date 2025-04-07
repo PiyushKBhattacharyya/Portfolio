@@ -4,8 +4,8 @@ import { IconCloud } from "../magicui/icon-cloud";
 const slugs = [
   "typescript", "javascript", "dart", "java", "react", "flutter", "android", "html5", "css3", "nextdotjs",
   "nodedotjs", "express", "postgresql", "vercel",  "docker", "git",  "github", "visualstudiocode", "androidstudio", "figma",
+  "pytorch", "tensorflow", "scikitlearn"
 ];
-
 const images = slugs.map((slug) => `https://cdn.simpleicons.org/${slug}/${slug}`);
 
 const generateSpherePositions = (count, radius) => {
