@@ -39,7 +39,7 @@ export default function Navbar() {
     if (element) {
       element.scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
+        block: 'center',
       });
       
       // Update URL hash without page jump
