@@ -8,6 +8,7 @@ export default function Experience() {
   return (
     <section id="experience" className="min-h-screen py-20">
       <div className="container mx-auto px-4">
+        {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -23,7 +24,8 @@ export default function Experience() {
             My professional journey so far
           </p>
         </motion.div>
-        
+
+        {/* Experience Cards */}
         <div className="max-w-4xl mx-auto space-y-10">
           {EXPERIENCE.map((job, index) => (
             <motion.div 
@@ -36,10 +38,12 @@ export default function Experience() {
             >
               <TiltCard className={`p-6 bg-slate-900/80 backdrop-blur-sm border border-${job.colorClass}/20 rounded-xl shadow-lg`}>
                 <div className="flex flex-col md:flex-row gap-4">
+                  {/* Job Icon */}
                   <div className={`w-12 h-12 rounded-lg bg-${job.colorClass}/10 flex items-center justify-center shrink-0`}>
                     <Briefcase className={`text-${job.colorClass}`} />
                   </div>
-                  
+
+                  {/* Job Details */}
                   <div className="flex-grow">
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
                       <h3 className="text-xl font-bold font-poppins">{job.title}</h3>
@@ -49,6 +53,7 @@ export default function Experience() {
                     <p className="text-base text-slate-300 mb-4">{job.company}</p>
                     <p className="text-base text-slate-400 mb-4">{job.description}</p>
                     
+                    {/* Skills List */}
                     <div className="flex flex-wrap gap-2">
                       {job.skills.map((skill, skillIndex) => (
                         <Badge 
@@ -63,8 +68,8 @@ export default function Experience() {
                   </div>
                 </div>
               </TiltCard>
-              
-              {/* Timeline connector (except for last item) */}
+
+              {/* Timeline Connector (except for last item) */}
               {index < EXPERIENCE.length - 1 && (
                 <div className="absolute left-6 top-[4.5rem] bottom-[-2.5rem] w-0.5 bg-gradient-to-b from-primary/50 to-transparent"></div>
               )}

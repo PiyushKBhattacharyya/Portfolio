@@ -7,6 +7,8 @@ export default function Projects() {
   return (
     <section id="projects" className="min-h-screen py-20">
       <div className="container mx-auto px-4">
+        
+        {/* Header Section: Title and Description */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -22,7 +24,8 @@ export default function Projects() {
             Explore some of my recent works.
           </p>
         </motion.div>
-        
+
+        {/* Project Grid Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {PROJECTS.map((project, index) => (
             <ProjectCard
@@ -32,7 +35,8 @@ export default function Projects() {
             />
           ))}
         </div>
-        
+
+        {/* "View All Projects" Button Section */}
         <motion.div 
           className="mt-12 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -41,17 +45,18 @@ export default function Projects() {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <motion.a 
-            href="#" 
+            href="https://github.com/PiyushKBhattacharyya" 
+            target="_blank" 
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-bold transition-all"
             whileHover={{ y: -5 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a href="https://github.com/PiyushKBhattacharyya" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-              <span>View All Projects</span>
-              <ExternalLink size={16} />
-            </a>
+            <span>View All Projects</span>
+            <ExternalLink size={16} />
           </motion.a>
         </motion.div>
+        
       </div>
     </section>
   );

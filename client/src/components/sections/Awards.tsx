@@ -6,6 +6,8 @@ export default function Awards() {
   return (
     <section id="awards" className="min-h-screen py-20">
       <div className="container mx-auto px-4">
+        
+        {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -22,9 +24,11 @@ export default function Awards() {
           </p>
         </motion.div>
         
+        {/* Timeline Section */}
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Timeline Line */}
+            
+            {/* Timeline Line Animation */}
             <motion.div 
               className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary via-purple-500 to-pink-500"
               initial={{ height: 0 }}
@@ -33,12 +37,13 @@ export default function Awards() {
               transition={{ duration: 1 }}
             ></motion.div>
             
+            {/* Mapping over awards to create timeline items */}
             {AWARDS.map((award, index) => (
               <TimelineItem
                 key={index}
                 award={award}
                 index={index}
-                position={index % 2 === 0 ? 'left' : 'right'}
+                position={index % 2 === 0 ? 'left' : 'right'}  // Alternating position for timeline items
               />
             ))}
           </div>

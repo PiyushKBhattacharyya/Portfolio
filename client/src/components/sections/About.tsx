@@ -3,7 +3,8 @@ import { Code, Cpu, Brain, SmartphoneIcon, Server } from 'lucide-react';
 import TiltCard from '@/components/ui/tilt-card';
 import SkillCard from '@/components/ui/skill-card';
 
-const skills = [
+// Skill set data
+const skillsData = [
   {
     icon: <Code size={28} />,
     title: "Full Stack Development",
@@ -12,7 +13,7 @@ const skills = [
   {
     icon: <Brain size={28} />,
     title: "AI & Machine Learning",
-    description: "Developing intelligent solutions with TensorFlow, PyTorch and natural language processing."
+    description: "Developing intelligent solutions with TensorFlow, PyTorch, and natural language processing."
   },
   {
     icon: <SmartphoneIcon size={28} />,
@@ -30,6 +31,7 @@ export default function About() {
   return (
     <section id="about" className="min-h-screen py-20">
       <div className="container mx-auto px-4">
+        {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -43,7 +45,10 @@ export default function About() {
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto"></div>
         </motion.div>
         
+        {/* Main Content */}
         <div className="flex flex-col lg:flex-row items-center gap-12">
+          
+          {/* Personal Information Section */}
           <motion.div 
             className="lg:w-1/2"
             initial={{ opacity: 0, x: -50 }}
@@ -56,15 +61,15 @@ export default function About() {
               <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl">
                 <h3 className="text-2xl font-poppins font-bold mb-4">Who I Am</h3>
                 <p className="text-slate-300 mb-6">
-                  I'm a pre-final year ML Engineer and Full Stack Developer
-                  with a passion for AI, machine learning, and modern web technologies. 
+                  I'm a pre-final year ML Engineer and Full Stack Developer with a passion for AI, machine learning, and modern web technologies. 
                   With a solid foundation in computer science, I love building intelligent solutions that solve real-world problems.
                 </p>
                 <p className="text-slate-300 mb-6">
-                  My tech journey started in college when I got hooked on AI and machine learning.
-                  Since then, I've been diving deep into AI/ML and full-stack development,
+                  My tech journey started in college when I got hooked on AI and machine learning. Since then, I've been diving deep into AI/ML and full-stack development,
                   creating systems that blend cutting-edge technology with practical impact.
                 </p>
+
+                {/* Educational and Professional Info */}
                 <div className="grid grid-cols-2 gap-4 mt-8">
                   <div>
                     <h4 className="font-poppins font-medium text-primary mb-2">Education</h4>
@@ -87,6 +92,7 @@ export default function About() {
             </div>
           </motion.div>
           
+          {/* Skill Cards Section */}
           <motion.div 
             className="lg:w-1/2"
             initial={{ opacity: 0, x: 50 }}
@@ -95,13 +101,13 @@ export default function About() {
             transition={{ duration: 0.7 }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {skills.map((skill, index) => (
+              {skillsData.map((skill, index) => (
                 <SkillCard 
                   key={index}
                   icon={skill.icon}
                   title={skill.title}
                   description={skill.description}
-                  delay={index * 0.1}
+                  delay={index * 0.1}  // Staggered animation for each skill
                 />
               ))}
             </div>

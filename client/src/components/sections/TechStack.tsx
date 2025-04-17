@@ -3,26 +3,29 @@ import TechGlobe from '@/components/canvas/TechGlobe';
 import { TECH_STACK } from '@/lib/constants';
 
 export default function TechStack() {
-  const slugs = [
+  // List of technologies to be displayed as icons
+  const techStack = [
     "typescript", "javascript", "dart", "java", "react", "flutter", "android", "html5", "css3", "nextdotjs",
     "nodedotjs", "express", "postgresql", "vercel", "docker", "git", "github", "visualstudiocode", "androidstudio", "figma",
   ];
 
-  // Convert slugs to a map of icons
-  const techIcons = slugs.reduce((acc, slug) => {
-    acc[slug.toLowerCase()] = (
+  // Mapping technology slugs to their respective icons
+  const technologyIcons = techStack.reduce((iconMap, techSlug) => {
+    const lowerCaseSlug = techSlug.toLowerCase();
+    iconMap[lowerCaseSlug] = (
       <img
-        src={`https://cdn.simpleicons.org/${slug}/${slug}`}
-        alt={slug}
+        src={`https://cdn.simpleicons.org/${techSlug}/${techSlug}`}
+        alt={techSlug}
         className="h-6 w-6"
       />
     );
-    return acc;
+    return iconMap;
   }, {} as Record<string, React.ReactNode>);
 
   return (
     <section id="techstack" className="min-h-screen py-20">
       <div className="container mx-auto px-4">
+        {/* Section Header with Animation */}
         <motion.div 
           className="text-center mb-8"
           initial={{ opacity: 0, y: 20 }}
