@@ -9,8 +9,7 @@ import Projects from "@/components/sections/Projects";
 import Awards from "@/components/sections/Awards";
 import TechStack from "@/components/sections/TechStack";
 import Experience from "@/components/sections/Experience";
-// import { SpeedInsights } from '@vercel/speed-insights/next';
-// import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react"
 
 // Lazy load the particle background to improve initial load time
 const ParticleBackground = lazy(() => import("@/components/canvas/ParticleBackground"));
@@ -54,12 +53,11 @@ function Home() {
 function App() {
   return (
     <>
-      {/* <SpeedInsights />
-      <Analytics /> */}
       <Switch>
         <Route path="/" component={Home} />
         <Route component={NotFound} />
       </Switch>
+      <Analytics />
     </>
   );
 }
