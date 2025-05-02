@@ -53,7 +53,8 @@ export const PROJECTS = [
     title: "AutoML",
     description: "An interactive web application that simplifies the machine learning workflow.",
     tags: ["Streamlit", "PyCaret", "Pandas Profiling", "Plotly"],
-    githubUrl: "https://github.com/PiyushKBhattacharyya/AutoML"
+    githubUrl: "https://github.com/PiyushKBhattacharyya/AutoML",
+    liveUrl: "https://automl.streamlit.app/"
   },
 ];
 

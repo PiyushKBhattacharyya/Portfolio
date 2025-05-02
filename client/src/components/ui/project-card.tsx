@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github } from 'lucide-react';
+import { ArrowRight, Github, Link } from 'lucide-react';
 import TiltCard from './tilt-card';
 
 interface ProjectProps {
@@ -8,6 +8,7 @@ interface ProjectProps {
   description: string;
   tags: string[];
   githubUrl: string;
+  liveUrl?: string;
 }
 
 interface ProjectCardProps {
@@ -67,6 +68,17 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             >
               <Github size={20} />
             </a>
+            {project.liveUrl && (
+              <a 
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`text-slate-300 ${colorScheme.link} transition-colors`}
+              >
+                <Link size={14} />
+                Live Preview
+              </a>
+            )}
           </div>
         </div>
       </TiltCard>
