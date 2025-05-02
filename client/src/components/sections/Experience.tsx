@@ -51,20 +51,25 @@ export default function Experience() {
                     </div>
                     
                     <p className="text-base text-slate-300 mb-4">{job.company}</p>
-                    <p className="text-base text-slate-400 mb-4">{job.description}</p>
+                    {job.description && (
+                      <p className="text-base text-slate-400 mb-4">{job.description}</p>
+                    )}
+
                     
                     {/* Skills List */}
-                    <div className="flex flex-wrap gap-2">
-                      {job.skills.map((skill, skillIndex) => (
-                        <Badge 
-                          key={skillIndex} 
-                          variant="outline" 
-                          className={`bg-${job.colorClass}/10 border-${job.colorClass}/30 text-slate-300`}
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
+                    {job.skills && job.skills.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {job.skills.map((skill, skillIndex) => (
+                          <Badge 
+                            key={skillIndex} 
+                            variant="outline" 
+                            className={`bg-${job.colorClass}/10 border-${job.colorClass}/30 text-slate-300`}
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </TiltCard>
