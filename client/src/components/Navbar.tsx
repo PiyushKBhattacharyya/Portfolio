@@ -11,6 +11,7 @@ const navigationLinks = [
   { href: "#awards", label: "Awards" },
   { href: "#experience", label: "Experience" },
   { href: "#techstack", label: "Tech Stack" },
+  { href: "https://drive.google.com/file/d/10Kbfy1fNZfPm5XZQQWr9Q48pVRT5Qteu/view?usp=sharing", label: "Resume"}
 ];
 
 export default function Navbar() {
@@ -43,6 +44,11 @@ export default function Navbar() {
   // Handle navigation click to scroll to the respective section and update the URL
   const handleNavigationClick = (href: string) => {
     setIsMobileMenuOpen(false); // Close the mobile menu on click
+    // External link handling (like resume)
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer"); // Open in new tab
+      return;
+    }
 
     const targetElement = document.querySelector(href); // Find the element to scroll to
     if (targetElement) {
@@ -92,8 +98,13 @@ export default function Navbar() {
                     after:transition-all after:duration-300
                     ${activeSection === link.href.substring(1) ? 'after:w-full' : 'after:w-0 hover:after:w-full'}
                   `}
-                >
-                  {link.label}
+                  ><span className={`
+                    ${link.label === "Resume"
+                      ? "bg-white/10  text - gray 900 px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/20 shadow-md hover:bg-white/20 transition-all duration-200"
+                      : ""}
+                  `}>
+                    {link.label}
+                  </span>
                 </a>
               </li>
             ))}
@@ -126,8 +137,13 @@ export default function Navbar() {
                 className={`transition-colors ${
                   activeSection === link.href.substring(1) ? 'text-primary' : 'text-slate-300 hover:text-primary'
                 }`}
-              >
-                {link.label}
+              ><span className={`
+                  ${link.label === "Resume"
+                    ? "bg-white/10 text-primary px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/20 shadow-md hover:bg-white/20 transition-all duration-200"
+                    : ""}
+                `}>
+                  {link.label}
+                </span>
               </a>
             </li>
           ))}
