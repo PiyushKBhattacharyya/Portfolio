@@ -87,16 +87,16 @@ export const EXPERIENCE = [
   {
     title: "Summer Intern",
     company: "Indian Oil Corporation Ltd. (IOCL)",
-    period: "May 2025 - Present",
-    // description: "Engineered an AI-powered Face Recognition System, cutting authentication errors by 30%. Developed a Student Information System with PHP, MySQL, and REST APIs, optimizing data retrieval and UI performance. Additionally, designed secure and scalable backend architectures for Android applications, ensuring efficiency and reliability.",
-    // skills: ["Flutter", "Dart", "REST API", "Docker"],
+    period: "May 2025 - Jun 2025",
+    description: "Led the design, development, and training of a Computer Vision model to detect Personal Protective Equipment (PPE) compliance (helmets, safety vests, gloves) for refinery workers.",
+    skills: ["Machine Learning", "Image Processing", "Project Management"],
     colorClass: "primary"
   },
   {
     title: "AIoT Intern",
     company: "National Institute of Electronics and Information Technology (NIELIT)",
     period: "May 2024 - Jun 2024",
-    description: "Leveraging deep learning for medical diagnostics, I developed a Heart Disease Prediction Model using MLP, enhancing diagnostic efficiency by 15%. Additionally, I also built a 1D-CNN-BiLSTM Arrhythmia Detection Model, achieving an impressive 99.4% accuracy in ECG classification, contributing to more reliable and automated healthcare solutions",
+    description: "Developed a deep learning architecture for arrhythmia detection, significantly reducing reliance on manual ECG analysis and streamlining cardiac risk assessment workflows.",
     skills: ["Python", "TensorFlow", "ECG Analysis"],
     colorClass: "secondary"
   },
