@@ -61,7 +61,7 @@ export default function About() {
               <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl">
                 <h3 className="text-2xl font-poppins font-bold mb-4">Who I Am</h3>
                 <p className="text-slate-300 mb-6">
-                  I'm a pre-final year ML Engineer and Full Stack Developer with a passion for AI, machine learning, and modern web technologies. 
+                  I'm a final year student specializing in ML and Full Stack Developer. 
                   With a solid foundation in computer science, I love building intelligent solutions that solve real-world problems.
                 </p>
                 <p className="text-slate-300 mb-6">
