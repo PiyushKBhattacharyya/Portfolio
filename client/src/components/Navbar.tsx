@@ -11,7 +11,7 @@ const navigationLinks = [
   { href: "#awards", label: "Awards" },
   { href: "#experience", label: "Experience" },
   { href: "#techstack", label: "Tech Stack" },
-  { href: "https://drive.google.com/file/d/1zjHBpYg1igv9aWoq37iyKiGyki-t8Qoy/view?usp=sharing", label: "Resume"}
+  { href: "https://drive.google.com/file/d/1mUNIU8S6cARZr2hTFvuH64D61JkTwMmS/view?usp=sharing", label: "Resume"}
 ];
 
 export default function Navbar() {
