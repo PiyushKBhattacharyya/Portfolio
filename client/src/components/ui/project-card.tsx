@@ -41,9 +41,6 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <TiltCard className="rounded-xl overflow-hidden shadow-lg bg-slate-900/80 backdrop-blur-sm">
-        <div className="relative h-48 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-slate-900 to-transparent"></div>
-        </div>
         <div className="p-6">
           <h3 className="text-xl font-bold font-poppins mb-2">{project.title}</h3>
           <p className="text-slate-300/80 text-sm mb-4">

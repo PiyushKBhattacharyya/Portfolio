@@ -30,15 +30,16 @@ export default function Navbar() {
 
   // Effect to track scroll position and modify navbar appearance
   useEffect(() => {
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 50); // Change navbar style after scrolling 50px
-    };
+  const onScroll = () => {
+    if (window.scrollY > 50) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
 
-    // Attach scroll event listener
-    window.addEventListener('scroll', onScroll);
-
-    // Cleanup the event listener on component unmount
-    return () => window.removeEventListener('scroll', onScroll);
+  window.addEventListener('scroll', onScroll);
+  return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   // Handle navigation click to scroll to the respective section and update the URL
@@ -63,13 +64,13 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 
-        ${isScrolled 
-          ? 'bg-dark/80 backdrop-blur-md py-2 shadow-md' // Apply dark background on scroll
-          : 'bg-transparent py-4'}`} // Transparent background when at the top
-    >
-      <div className="container mx-auto px-4 flex justify-between items-center">
+    <header className={`fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:w-[80%] z-50 rounded-2xl border border-white/20 shadow-xl transition-all duration-300
+      ${isScrolled
+        ? 'bg-white/10 backdrop-blur-md py-2'
+        : 'bg-white/5 backdrop-blur-sm py-4'}`}
+      >
+
+      <div className="px-6 md:px-10 flex justify-between items-center">
         {/* Logo and Home Navigation */}
         <div>
           <h1 
@@ -91,7 +92,7 @@ export default function Navbar() {
                     e.preventDefault();
                     handleNavigationClick(link.href); // Handle smooth scrolling on click
                   }}
-                  className={`relative hover:text-primary transition-colors py-2
+                  className={`relative transition-colors duration-300 py-2 px-2 rounded-md font-medium
                     ${activeSection === link.href.substring(1) ? 'text-primary' : 'text-slate-300'}
                     after:content-[''] after:absolute after:-bottom-1 after:left-0 
                     after:h-0.5 after:bg-gradient-to-r after:from-primary after:to-pink-500 

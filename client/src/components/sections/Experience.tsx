@@ -38,9 +38,18 @@ export default function Experience() {
             >
               <TiltCard className={`p-6 bg-slate-900/80 backdrop-blur-sm border border-${job.colorClass}/20 rounded-xl shadow-lg`}>
                 <div className="flex flex-col md:flex-row gap-4">
-                  {/* Job Icon */}
-                  <div className={`w-12 h-12 rounded-lg bg-${job.colorClass}/10 flex items-center justify-center shrink-0`}>
-                    <Briefcase className={`text-${job.colorClass}`} />
+                  
+                  {/* Icon + Connector */}
+                  <div className="relative flex flex-col items-center">
+                    {/* Job Icon */}
+                    <div className={`w-12 h-12 rounded-lg bg-${job.colorClass}/10 flex items-center justify-center shrink-0 z-10`}>
+                      <Briefcase className={`text-${job.colorClass}`} />
+                    </div>
+
+                    {/* Timeline Connector (except for last item) */}
+                    {index < EXPERIENCE.length - 1 && (
+                      <div className="w-0.5 bg-gradient-to-b from-primary/50 to-transparent absolute top-12 bottom-[-2.5rem]"></div>
+                    )}
                   </div>
 
                   {/* Job Details */}
@@ -55,9 +64,8 @@ export default function Experience() {
                       <p className="text-base text-slate-400 mb-4">{job.description}</p>
                     )}
 
-                    
-                    {/* Skills List */}
-                    {job.skills && job.skills.length > 0 && (
+                    {/* Skills */}
+                    {job.skills?.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {job.skills.map((skill, skillIndex) => (
                           <Badge 
@@ -73,11 +81,6 @@ export default function Experience() {
                   </div>
                 </div>
               </TiltCard>
-
-              {/* Timeline Connector (except for last item) */}
-              {index < EXPERIENCE.length - 1 && (
-                <div className="absolute left-6 top-[4.5rem] bottom-[-2.5rem] w-0.5 bg-gradient-to-b from-primary/50 to-transparent"></div>
-              )}
             </motion.div>
           ))}
         </div>
