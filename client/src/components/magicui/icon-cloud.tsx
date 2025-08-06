@@ -15,6 +15,7 @@ interface Icon {
 interface IconCloudProps {
   icons?: React.ReactNode[];
   images?: string[];
+  radius?: number;
 }
 
 function easeOutCubic(t: number): number {

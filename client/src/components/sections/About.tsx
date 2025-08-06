@@ -1,55 +1,56 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { Code, Cpu, Brain, SmartphoneIcon, Server } from 'lucide-react';
 import TiltCard from '@/components/ui/tilt-card';
 import SkillCard from '@/components/ui/skill-card';
 
-// Skill set data
+// Skill data
 const skillsData = [
   {
-    icon: <Code size={28} />,
+    icon: <Code size={26} />,
     title: "Full Stack Development",
     description: "Building responsive and performant web applications using modern frameworks and technologies."
   },
   {
-    icon: <Brain size={28} />,
+    icon: <Brain size={26} />,
     title: "AI & Machine Learning",
     description: "Developing intelligent solutions with TensorFlow, PyTorch, and natural language processing."
   },
   {
-    icon: <SmartphoneIcon size={28} />,
+    icon: <SmartphoneIcon size={26} />,
     title: "Responsive Design",
     description: "Crafting interfaces that work seamlessly across all devices and screen sizes."
   },
   {
-    icon: <Server size={28} />,
+    icon: <Server size={26} />,
     title: "Backend Systems",
-    description: "Developing robust and scalable server-side applications and APIs."
+    description: "Creating robust and scalable server-side applications and APIs."
   }
 ];
 
 export default function About() {
   return (
-    <section id="about">
+    <section id="about" className="py-20">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold font-poppins mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Me</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto"></div>
+          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary to-pink-500 rounded-full"></div>
         </motion.div>
-        
-        {/* Main Content */}
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          
-          {/* Personal Information Section */}
-          <motion.div 
+
+        {/* Grid Layout */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12">
+          {/* Left Column: Info Card */}
+          <motion.div
             className="lg:w-1/2"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -57,43 +58,36 @@ export default function About() {
             transition={{ duration: 0.7 }}
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/20 to-pink-500/20 blur-lg"></div>
-              <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-xl shadow-xl">
-                <h3 className="text-2xl font-poppins font-bold mb-4">Who I Am</h3>
-                <p className="text-slate-300 mb-6">
-                  I'm a final year student specializing in ML and Full Stack Developer. 
-                  With a solid foundation in computer science, I love building intelligent solutions that solve real-world problems.
+              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg"></div>
+              <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-xl shadow-2xl border border-slate-800">
+                <h3 className="text-2xl font-semibold mb-4 text-white">Who I Am</h3>
+                <p className="text-slate-300 leading-relaxed mb-4">
+                  I'm a final year Computer Science student passionate about <span className="text-primary font-medium">machine learning</span> and <span className="text-primary font-medium">full stack development</span>. I enjoy building intelligent, user-centric software that solves real-world problems.
                 </p>
-                <p className="text-slate-300 mb-6">
-                  My tech journey started in college when I got hooked on AI and machine learning. Since then, I've been diving deep into AI/ML and full-stack development,
-                  creating systems that blend cutting-edge technology with practical impact.
+                <p className="text-slate-300 leading-relaxed">
+                  I started my tech journey in college and have been deeply exploring AI/ML and scalable systems ever since. My projects combine innovation, design, and practical utility.
                 </p>
 
-                {/* Educational and Professional Info */}
-                <div className="grid grid-cols-2 gap-4 mt-8">
-                  <div>
-                    <h4 className="font-poppins font-medium text-primary mb-2">Education</h4>
-                    <p className="text-slate-300">B.Tech in Computer Science</p>
-                  </div>
-                  <div>
-                    <h4 className="font-poppins font-medium text-primary mb-2">Experience</h4>
-                    <p className="text-slate-300">1 Year</p>
-                  </div>
-                  <div>
-                    <h4 className="font-poppins font-medium text-primary mb-2">Location</h4>
-                    <p className="text-slate-300">Guwahati, India</p>
-                  </div>
-                  <div>
-                    <h4 className="font-poppins font-medium text-primary mb-2">Languages</h4>
-                    <p className="text-slate-300">English, Hindi, Assamese</p>
-                  </div>
+                {/* Details Grid */}
+                <div className="grid grid-cols-2 gap-6 mt-8">
+                  {[
+                    { label: "Education", value: "B.Tech in Computer Science" },
+                    { label: "Experience", value: "1 Year" },
+                    { label: "Location", value: "Guwahati, India" },
+                    { label: "Languages", value: "English, Hindi, Assamese" }
+                  ].map((item, idx) => (
+                    <div key={idx}>
+                      <h4 className="text-sm font-medium text-primary mb-1">{item.label}</h4>
+                      <p className="text-slate-300 text-sm">{item.value}</p>
+                    </div>
+                  ))}
                 </div>
               </TiltCard>
             </div>
           </motion.div>
-          
-          {/* Skill Cards Section */}
-          <motion.div 
+
+          {/* Right Column: Skills */}
+          <motion.div
             className="lg:w-1/2"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -102,13 +96,19 @@ export default function About() {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {skillsData.map((skill, index) => (
-                <SkillCard 
+                <motion.div
                   key={index}
-                  icon={skill.icon}
-                  title={skill.title}
-                  description={skill.description}
-                  delay={index * 0.1}  // Staggered animation for each skill
-                />
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                >
+                  <SkillCard
+                    icon={skill.icon}
+                    title={skill.title}
+                    description={skill.description}
+                  />
+                </motion.div>
               ))}
             </div>
           </motion.div>
