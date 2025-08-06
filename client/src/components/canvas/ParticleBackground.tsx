@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { noise } from "@chriscourses/perlin-noise";
 
-// Define the Particle type with all necessary properties
+// Define Particle structure
 type Particle = {
   x: number;
   y: number;
@@ -20,7 +20,13 @@ type Particle = {
   life: number;
 };
 
-export default function ParticleBackground() {
+// Props to control theme
+type Props = {
+  theme?: "night" | "sunset";
+  interaction?: boolean;
+};
+
+export default function ParticleBackground({ theme = "night" }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,31 +36,29 @@ export default function ParticleBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Resizes the canvas to match the window dimensions
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     };
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Array to store all the particles
     const particles: Particle[] = [];
-
-    // Create particles and add them to the array
     const createParticles = () => {
-      const maxParticles = Math.min(window.innerWidth / 10, 150);
+      const maxParticles = Math.min(window.innerWidth / 10, 400);
       for (let i = 0; i < maxParticles; i++) {
         const depth = Math.random() * 3 + 1;
         particles.push(createParticle(depth));
       }
     };
 
-    // Helper function to generate a particle
     const createParticle = (depth: number): Particle => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
       size: (Math.random() * 2 + 0.5) * (depth / 3),
       speedX: ((Math.random() - 0.5) * 0.5) / depth,
       speedY: ((Math.random() - 0.5) * 0.5) / depth,
@@ -72,14 +76,14 @@ export default function ParticleBackground() {
 
     createParticles();
 
-    let mouseX = 0, mouseY = 0, isMouseMoving = false;
+    let mouseX = 0,
+      mouseY = 0,
+      isMouseMoving = false;
 
-    // Handle mouse movement and set timeout to detect movement
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       isMouseMoving = true;
-
       clearTimeout(mouseMoveTimeout);
       mouseMoveTimeout = setTimeout(() => {
         isMouseMoving = false;
@@ -94,17 +98,14 @@ export default function ParticleBackground() {
     let noiseTime = 0;
     let colorShift = 0;
 
-    // Main animation loop to update canvas and particles
     const animateParticles = () => {
       colorShift += 0.5;
       const dynamicHue = (hue + Math.sin(colorShift * 0.01) * 30) % 360;
-      const gradient = createBackgroundGradient(dynamicHue);
+      const gradient = createBackgroundGradient(theme, dynamicHue);
 
-      // Set background gradient
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Update and draw each particle
       particles.forEach((particle, i) => {
         if (particle.exploded) {
           handleParticleExplosion(particle);
@@ -116,20 +117,26 @@ export default function ParticleBackground() {
         drawParticleConnections(particle, i);
       });
 
-      // Request next animation frame
+      noiseTime += 0.005;
       animationId = requestAnimationFrame(animateParticles);
     };
 
-    // Creates a background gradient based on the dynamic hue
-    const createBackgroundGradient = (dynamicHue: number) => {
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, `hsl(${dynamicHue}, 60%, 15%)`);
-      gradient.addColorStop(0.5, `hsl(${(dynamicHue + 30) % 360}, 50%, 10%)`);
-      gradient.addColorStop(1, `hsl(${(dynamicHue + 60) % 360}, 55%, 12%)`);
+    const createBackgroundGradient = (theme: string, hue: number) => {
+      const gradient = ctx.createLinearGradient(0, 0, window.innerWidth, window.innerHeight);
+
+      if (theme === "sunset") {
+        const sunsetHue = (hue + 20) % 360; // Offset to a warmer tone
+        gradient.addColorStop(0, `hsl(${sunsetHue}, 70%, 25%)`);
+        gradient.addColorStop(0.5, `hsl(${(sunsetHue + 20) % 360}, 65%, 20%)`);
+        gradient.addColorStop(1, `hsl(${(sunsetHue + 40) % 360}, 60%, 15%)`);
+      } else {
+        gradient.addColorStop(0, `hsl(${hue}, 60%, 15%)`);
+        gradient.addColorStop(0.5, `hsl(${(hue + 30) % 360}, 50%, 10%)`);
+        gradient.addColorStop(1, `hsl(${(hue + 60) % 360}, 55%, 12%)`);
+      }
+
       return gradient;
     };
-
-    // Handles the particle explosion effect
     const handleParticleExplosion = (particle: Particle) => {
       particle.size *= 0.95;
       particle.life -= 0.02;
@@ -138,16 +145,14 @@ export default function ParticleBackground() {
       }
     };
 
-    // Resets the particle to its initial state
     const resetParticle = (particle: Particle) => {
       particle.exploded = false;
       particle.size = Math.random() * 2 + 0.5;
       particle.life = 1;
-      particle.x = Math.random() * canvas.width;
-      particle.y = Math.random() * canvas.height;
+      particle.x = Math.random() * window.innerWidth;
+      particle.y = Math.random() * window.innerHeight;
     };
 
-    // Updates the particle's position and movement based on noise and other factors
     const updateParticleMovement = (particle: Particle) => {
       const noiseX = noise(particle.noiseOffsetX, noiseTime) - 0.5;
       const noiseY = noise(particle.noiseOffsetY, noiseTime) - 0.5;
@@ -162,17 +167,14 @@ export default function ParticleBackground() {
       particle.speedX *= 0.98;
       particle.speedY *= 0.98;
 
-      // Wrap particles around the canvas edges
-      if (particle.x > canvas.width) particle.x = 0;
-      if (particle.x < 0) particle.x = canvas.width;
-      if (particle.y > canvas.height) particle.y = 0;
-      if (particle.y < 0) particle.y = canvas.height;
+      if (particle.x > window.innerWidth) particle.x = 0;
+      if (particle.x < 0) particle.x = window.innerWidth;
+      if (particle.y > window.innerHeight) particle.y = 0;
+      if (particle.y < 0) particle.y = window.innerHeight;
 
-      // Apply mouse attraction or repulsion
       applyMouseEffects(particle);
     };
 
-    // Applies mouse effects based on proximity
     const applyMouseEffects = (particle: Particle) => {
       const dx = mouseX - particle.x;
       const dy = mouseY - particle.y;
@@ -189,31 +191,30 @@ export default function ParticleBackground() {
       }
     };
 
-    // Draws a single particle on the canvas
     const drawParticle = (particle: Particle) => {
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fillStyle = particle.color;
+      ctx.shadowColor = particle.exploded ? "white" : "transparent";
+      ctx.shadowBlur = particle.exploded ? 10 : 0;
       ctx.fill();
     };
 
-    // Draws connections between particles that are close to each other
     const drawParticleConnections = (particle: Particle, index: number) => {
       for (let j = index + 1; j < particles.length; j++) {
-        const otherParticle = particles[j];
-        const dx = particle.x - otherParticle.x;
-        const dy = particle.y - otherParticle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        const other = particles[j];
+        const dx = particle.x - other.x;
+        const dy = particle.y - other.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 20) {
+        if (dist < 20) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 - distance / 100})`;
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 - dist / 100})`;
           ctx.lineWidth = 0.5;
           ctx.moveTo(particle.x, particle.y);
-          ctx.lineTo(otherParticle.x, otherParticle.y);
+          ctx.lineTo(other.x, other.y);
           ctx.stroke();
 
-          // Randomly trigger particle explosions on close proximity
           if (Math.random() < 0.01) {
             particle.exploded = true;
             particle.speedX = (Math.random() - 0.5) * 2;
@@ -223,16 +224,14 @@ export default function ParticleBackground() {
       }
     };
 
-    // Start the particle animation loop
     animateParticles();
 
-    // Cleanup on component unmount
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <canvas

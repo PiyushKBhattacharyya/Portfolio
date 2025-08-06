@@ -1,79 +1,65 @@
-import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';  // Import icons
-import { motion } from 'framer-motion';  // Import motion for animation effects
+import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-// Footer component that includes social links and a scroll-to-top button
 export default function Footer() {
-  
-  // Function to scroll to the top of the page
   const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="py-12 bg-slate-900">
-      <div className="container mx-auto px-4">
+    <footer className="relative z-50 bg-primary/10 backdrop-blur-md border-t border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
+      <div className="container mx-auto px-4 py-12 flex flex-col items-center space-y-6 text-center">
         
-        {/* Footer content container */}
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          
-          {/* Name section */}
-          <div className="mb-6 md:mb-0">
-            <h2 className="text-2xl font-bold font-poppins text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">
-              Piyush Kaushik Bhattacharyya
-            </h2>
-          </div>
-          
-          {/* Social media links section */}
-          <div className="flex space-x-6 mb-6 md:mb-0">
-            <motion.a 
-              href="https://github.com/PiyushKBhattacharyya"
-              target="_blank" 
+        {/* Name with your preferred gradient */}
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold font-poppins text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 tracking-tight">
+          Piyush Kaushik Bhattacharyya
+        </h2>
+
+        {/* Social Icons with motion and color preference */}
+        <div className="flex space-x-6">
+          {[{
+            href: "https://github.com/PiyushKBhattacharyya",
+            label: "GitHub",
+            icon: <Github size={20} />,
+          }, {
+            href: "https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/",
+            label: "LinkedIn",
+            icon: <Linkedin size={20} />,
+          }, {
+            href: "mailto:piyushbhattacharyya@gmail.com",
+            label: "Email",
+            icon: <Mail size={20} />,
+          }].map(({ href, label, icon }) => (
+            <motion.a
+              key={label}
+              href={href}
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-xl text-slate-300 hover:text-primary transition-colors"
-              aria-label="GitHub"
-              whileHover={{ y: -5, color: '#6366F1' }}
+              aria-label={label}
+              className="text-slate-300 hover:text-primary transition-colors"
+              whileHover={{ y: -4, scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Github size={20} />
+              {icon}
             </motion.a>
-
-            <motion.a 
-              href="https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/"
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-xl text-slate-300 hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-              whileHover={{ y: -5, color: '#6366F1' }}
-            >
-              <Linkedin size={20} />
-            </motion.a>
-
-            <motion.a 
-              href="mailto:piyushbhattacharyya@gmail.com"
-              className="text-xl text-slate-300 hover:text-primary transition-colors"
-              aria-label="Email"
-              whileHover={{ y: -5, color: '#6366F1' }}
-            >
-              <Mail size={20} />
-            </motion.a>
-          </div>
-
-          {/* Scroll to top button */}
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <button 
-              onClick={handleScrollToTop}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/20 hover:bg-primary/40 transition-colors"
-              aria-label="Scroll to top"
-            >
-              <ArrowUp className="text-primary" size={18} />
-            </button>
-          </motion.div>
+          ))}
         </div>
+
+        {/* Scroll to Top Button with glassmorphic feel */}
+        <motion.button
+          onClick={handleScrollToTop}
+          whileHover={{ scale: 1.15 }}
+          whileTap={{ scale: 0.9 }}
+          aria-label="Scroll to top"
+          className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 transition-colors p-2"
+        >
+          <ArrowUp className="text-primary" size={18} />
+        </motion.button>
+
+        {/* Optional footer text */}
+        <p className="text-xs text-slate-400 font-light tracking-tight">
+          © {new Date().getFullYear()} Piyush K. Bhattacharyya — All rights reserved.
+        </p>
       </div>
     </footer>
   );
