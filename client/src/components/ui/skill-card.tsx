@@ -1,4 +1,6 @@
-import { ReactNode, useState } from 'react';
+'use client';
+
+import { ReactNode, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface SkillCardProps {
@@ -10,12 +12,20 @@ interface SkillCardProps {
 
 export default function SkillCard({ icon, title, description, delay = 0 }: SkillCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkTouchDevice();
+  }, []);
 
   const colorClasses = [
-    { border: "border-primary/20 hover:border-primary/60", bg: "bg-primary/10" },
-    { border: "border-purple-500/20 hover:border-purple-500/60", bg: "bg-purple-500/10" },
-    { border: "border-pink-500/20 hover:border-pink-500/60", bg: "bg-pink-500/10" },
-    { border: "border-blue-400/20 hover:border-blue-400/60", bg: "bg-blue-400/10" }
+    { border: 'border-primary/20 hover:border-primary/60', bg: 'bg-primary/10' },
+    { border: 'border-purple-500/20 hover:border-purple-500/60', bg: 'bg-purple-500/10' },
+    { border: 'border-pink-500/20 hover:border-pink-500/60', bg: 'bg-pink-500/10' },
+    { border: 'border-blue-400/20 hover:border-blue-400/60', bg: 'bg-blue-400/10' },
   ];
 
   const colorIndex = title.charCodeAt(0) % colorClasses.length;
@@ -25,23 +35,29 @@ export default function SkillCard({ icon, title, description, delay = 0 }: Skill
 
   return (
     <motion.div
-      onClick={toggleExpand}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
       className={`cursor-pointer bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border ${colors.border} transition-all shadow-xl flex flex-col items-center justify-center min-h-[180px]`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
+      onClick={toggleExpand}
+      {...(!isTouch && {
+        onMouseEnter: () => setExpanded(true),
+        onMouseLeave: () => setExpanded(false),
+      })}
     >
-      <div className={`w-16 h-16 flex items-center justify-center rounded-full ${colors.bg} transition-all duration-300 mb-${expanded ? '4' : '0'}`}>
+      <div
+        className={`w-16 h-16 flex items-center justify-center rounded-full ${colors.bg} transition-all duration-300 mb-${
+          expanded ? '4' : '0'
+        }`}
+      >
         {icon}
       </div>
 
-      {/* Show on hover or click */}
+      {/* Expandable section */}
       <motion.div
         initial={{ opacity: 0, height: 0 }}
-        animate={expanded ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+        animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
         transition={{ duration: 0.3 }}
         className="overflow-hidden text-center"
       >

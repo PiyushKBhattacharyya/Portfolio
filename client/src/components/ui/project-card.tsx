@@ -1,4 +1,6 @@
-import { useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Link } from 'lucide-react';
 import TiltCard from './tilt-card';
@@ -18,12 +20,32 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkTouchDevice();
+  }, []);
 
   const getColorScheme = (idx: number) => {
     const schemes = [
-      { tag: 'bg-primary/20 text-primary', link: 'text-primary hover:text-pink-500', github: 'hover:text-primary' },
-      { tag: 'bg-purple-500/20 text-purple-500', link: 'text-purple-500 hover:text-pink-500', github: 'hover:text-purple-500' },
-      { tag: 'bg-pink-500/20 text-pink-500', link: 'text-pink-500 hover:text-primary', github: 'hover:text-pink-500' }
+      {
+        tag: 'bg-primary/20 text-primary',
+        link: 'text-primary hover:text-pink-500',
+        github: 'hover:text-primary',
+      },
+      {
+        tag: 'bg-purple-500/20 text-purple-500',
+        link: 'text-purple-500 hover:text-pink-500',
+        github: 'hover:text-purple-500',
+      },
+      {
+        tag: 'bg-pink-500/20 text-pink-500',
+        link: 'text-pink-500 hover:text-primary',
+        github: 'hover:text-pink-500',
+      },
     ];
     return schemes[idx % schemes.length];
   };
@@ -36,9 +58,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.2 }}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
-      onClick={() => setExpanded(prev => !prev)}
+      {...(!isTouch && {
+        onMouseEnter: () => setExpanded(true),
+        onMouseLeave: () => setExpanded(false),
+      })}
+      onClick={() => setExpanded((prev) => !prev)}
     >
       <TiltCard className="group rounded-2xl overflow-hidden backdrop-blur-md bg-slate-900/60 transition-all duration-300 shadow-xl hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:border hover:border-white/10 border border-transparent transform-gpu">
         <motion.div
@@ -60,7 +84,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {project.tags.map((tag, idx) => (
-                <span key={idx} className={`text-xs px-2 py-1 rounded-full ${colorScheme.tag}`}>
+                <span
+                  key={idx}
+                  className={`text-xs px-2 py-1 rounded-full ${colorScheme.tag}`}
+                >
                   {tag}
                 </span>
               ))}
