@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
+import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
 
 function ProfileImage() {
   return (
@@ -44,10 +44,10 @@ export default function Hero() {
       id="home"
       className="min-h-screen flex items-center justify-center pt-20 relative"
     >
-      <div className="container mx-auto px-4 py-20 flex flex-col-reverse md:flex-row items-center gap-12">
+      <div className="container mx-auto px-20 py-20 flex flex-col-reverse md:flex-row items-center gap-12 cursor-default select-none">
         {/* Text Section */}
         <motion.div
-          className="w-full md:w-1/2 text-center md:text-left"
+          className="w-full md:w-1/2 text-center md:text-left cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -58,7 +58,7 @@ export default function Hero() {
               Piyush Kaushik Bhattacharyya
             </span>
           </h1>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-8">
             ML Engineer & Full Stack Developer
           </h2>
           <p className="text-base sm:text-lg text-slate-300/90 mb-8 max-w-xl mx-auto md:mx-0">
@@ -69,7 +69,7 @@ export default function Hero() {
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <motion.a
               href="#projects"
-              className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md"
+              className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none"
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -118,7 +118,7 @@ export default function Hero() {
         ref={scrollIndicatorRef}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-slate-300/50"
       >
-        <ChevronDown size={28} />
+        
       </div>
     </section>
   );

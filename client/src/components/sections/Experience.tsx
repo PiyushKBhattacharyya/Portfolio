@@ -10,7 +10,7 @@ export default function Experience() {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-16 cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -26,11 +26,11 @@ export default function Experience() {
         </motion.div>
 
         {/* Experience Cards */}
-        <div className="max-w-4xl mx-auto space-y-10">
+        <div className="max-w-4xl mx-auto space-y-10 cursor-default select-none">
           {EXPERIENCE.map((job, index) => (
             <motion.div 
               key={index}
-              className="relative"
+              className="relative cursor-default select-none"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

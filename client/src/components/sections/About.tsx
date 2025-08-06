@@ -35,7 +35,7 @@ export default function About() {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-16 cursor-default select-none"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -48,10 +48,10 @@ export default function About() {
         </motion.div>
 
         {/* Grid Layout */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12">
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-8 py-20 px-20 cursor-default select-none">
           {/* Left Column: Info Card */}
           <motion.div
-            className="lg:w-1/2"
+            className="lg:w-1/2 cursor-default select-none"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -88,13 +88,13 @@ export default function About() {
 
           {/* Right Column: Skills */}
           <motion.div
-            className="lg:w-1/2"
+            className="lg:w-1/2 cursor-default select-none"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 cursor-default select-none">
               {skillsData.map((skill, index) => (
                 <motion.div
                   key={index}

@@ -16,7 +16,7 @@ export default function TiltCard({
   children,
   className = '',
   maxTilt = 20,
-  scale = 1.07,
+  scale = 1.03,
   perspective = 1500,
   transitionSpeed = 300,
   glareOpacity = 0.3,

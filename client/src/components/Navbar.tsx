@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Home, User, Folder, Download, Sun, Moon } from 'lucide-react';
+import { Home, User, Folder, Download, Sun, Moon, Award, ChartSpline } from 'lucide-react';
 import {
   TooltipProvider,
   Tooltip,
@@ -19,20 +19,13 @@ const navItems = [
   {
     href: '#awards',
     label: 'Awards',
-    icon: (
-      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M12 8c1.657 0 3-1.567 3-3.5S13.657 1 12 1 9 2.567 9 4.5 10.343 8 12 8zm0 0v13M8 17h8" />
-      </svg>
-    ),
+    icon: <Award className="w-5 h-5 sm:w-6 sm:h-6" />
+    
   },
   {
     href: '#experience',
     label: 'Experience',
-    icon: (
-      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M4 7V4a1 1 0 011-1h2a1 1 0 011 1v3m10 0V4a1 1 0 00-1-1h-2a1 1 0 00-1 1v3M4 7h16v13H4V7z" />
-      </svg>
-    ),
+    icon: <ChartSpline className="w-5 h-5 sm:w-6 sm:h-6" />
   },
   {
     href: 'https://drive.google.com/file/d/1HSY9JYVuxtI9feDlR5HmImbEOaXoCkB6/view?usp=sharing',
@@ -115,8 +108,8 @@ export default function Navbar() {
                         y: -8,
                         transition: {
                           type: 'spring',
-                          stiffness: 300,
-                          damping: 20,
+                          stiffness: 500,
+                          damping: 40,
                         },
                       }}
                       whileTap={{
@@ -125,7 +118,7 @@ export default function Navbar() {
                         transition: {
                           type: 'spring',
                           stiffness: 300,
-                          damping: 20,
+                          damping: 40,
                         },
                       }}
                       className={cn(

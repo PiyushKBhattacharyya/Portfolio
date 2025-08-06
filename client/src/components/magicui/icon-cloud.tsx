@@ -15,7 +15,6 @@ interface Icon {
 interface IconCloudProps {
   icons?: React.ReactNode[];
   images?: string[];
-  radius?: number;
 }
 
 function easeOutCubic(t: number): number {
@@ -102,6 +101,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
     const numIcons = items.length || 20;
 
     // Fibonacci sphere parameters
+    const radius = 150;
     const offset = 2 / numIcons;
     const increment = Math.PI * (3 - Math.sqrt(5));
 
@@ -114,9 +114,9 @@ export function IconCloud({ icons, images }: IconCloudProps) {
       const z = Math.sin(phi) * r;
 
       newIcons.push({
-        x: x * 100,
-        y: y * 100,
-        z: z * 100,
+        x: x * radius,
+        y: y * radius,
+        z: z * radius,
         scale: 1,
         opacity: 1,
         id: i,
@@ -311,8 +311,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
   return (
     <canvas
       ref={canvasRef}
-      width={400}
-      height={400}
+      width={500}
+      height={500}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

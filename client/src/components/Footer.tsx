@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export default function Footer() {
   return (
     <footer className="relative z-50 bg-primary/10 backdrop-blur-md border-t border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
-      <div className="container mx-auto px-4 py-12 flex flex-col items-center space-y-6 text-center">
+      <div className="container mx-auto px-4 py-12 flex flex-col items-center space-y-6 text-center cursor-default select-none">
         
         {/* Name with your preferred gradient */}
         <h2 className="text-lg sm:text-xl md:text-2xl font-semibold font-poppins text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 tracking-tight">
@@ -53,7 +53,7 @@ export default function Footer() {
         </motion.a>
 
         {/* Optional footer text */}
-        <p className="text-xs text-slate-400 font-light tracking-tight">
+        <p className="text-xs text-slate-400 font-light tracking-tight ">
           © {new Date().getFullYear()} Piyush K. Bhattacharyya — All rights reserved.
         </p>
       </div>

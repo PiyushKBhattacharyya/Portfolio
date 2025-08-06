@@ -6,17 +6,17 @@ import { PROJECTS } from '@/lib/constants';
 export default function Projects() {
   return (
     <section id="projects" className="min-h-screen py-20">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-10 ">
         
         {/* Header Section: Title and Description */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-16 cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold font-poppins mb-4">
+          <h2 className="text-4xl font-bold font-poppins mb-4 cursor-default select-none">
             Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Projects</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto"></div>
@@ -26,7 +26,7 @@ export default function Projects() {
         </motion.div>
 
         {/* Project Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 cursor-default select-none">
           {PROJECTS.map((project, index) => (
             <ProjectCard
               key={index}
@@ -38,7 +38,7 @@ export default function Projects() {
 
         {/* "View All Projects" Button Section */}
         <motion.div 
-          className="mt-12 text-center"
+          className="mt-12 text-center cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -48,7 +48,7 @@ export default function Projects() {
             href="https://github.com/PiyushKBhattacharyya" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-bold transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-bold transition-all cursor-default select-none"
             whileHover={{ y: -5 }}
             whileTap={{ scale: 0.95 }}
           >
