@@ -2,10 +2,6 @@ import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Footer() {
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <footer className="relative z-50 bg-primary/10 backdrop-blur-md border-t border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
       <div className="container mx-auto px-4 py-12 flex flex-col items-center space-y-6 text-center">
@@ -46,15 +42,15 @@ export default function Footer() {
         </div>
 
         {/* Scroll to Top Button with glassmorphic feel */}
-        <motion.button
-          onClick={handleScrollToTop}
+        <motion.a
+          href="#home"
           whileHover={{ scale: 1.15 }}
           whileTap={{ scale: 0.9 }}
           aria-label="Scroll to top"
           className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 transition-colors p-2"
         >
           <ArrowUp className="text-primary" size={18} />
-        </motion.button>
+        </motion.a>
 
         {/* Optional footer text */}
         <p className="text-xs text-slate-400 font-light tracking-tight">

@@ -29,7 +29,7 @@ const skillsData = [
 
 export default function About() {
   return (
-    <section id="about" className="min-h-screen py-20">
+    <section id="about">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div 
