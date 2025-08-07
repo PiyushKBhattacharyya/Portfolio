@@ -10,7 +10,7 @@ import {
 } from '@radix-ui/react-tooltip';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import ParticleBackground from './canvas/ParticleBackground';
+import ParticleBackground from './ui/ParticleBackground';
 
 const navItems = [
   { href: '#home', label: 'Home', icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" /> },

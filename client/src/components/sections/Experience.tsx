@@ -26,7 +26,7 @@ export default function Experience() {
         </motion.div>
 
         {/* Experience Cards */}
-        <div className="max-w-4xl mx-auto space-y-10 cursor-default select-none">
+        <div className="px-5 py-5 max-w-4xl mx-auto space-y-10 cursor-default select-none">
           {EXPERIENCE.map((job, index) => (
             <motion.div 
               key={index}

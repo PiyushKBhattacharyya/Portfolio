@@ -12,7 +12,7 @@ import Experience from "@/components/sections/Experience";
 import { Analytics } from "@vercel/analytics/react";
 
 // Lazy load the particle background to improve initial load time
-const ParticleBackground = lazy(() => import("@/components/canvas/ParticleBackground"));
+const ParticleBackground = lazy(() => import("@/components/ui/ParticleBackground"));
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);

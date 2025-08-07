@@ -48,7 +48,7 @@ export default function About() {
         </motion.div>
 
         {/* Grid Layout */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-8 py-20 px-20 cursor-default select-none">
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-8 px-5 py-5 lg:px-20 lg:py-20 cursor-default select-none">
           {/* Left Column: Info Card */}
           <motion.div
             className="lg:w-1/2 cursor-default select-none"
