@@ -44,8 +44,6 @@
 }
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
-  will-change: opacity, transform;
-  transform: translateZ(0);
 }
 
 @keyframes float {
@@ -55,8 +53,6 @@
 }
 .animate-float {
   animation: float 3s ease-in-out infinite;
-  will-change: transform;
-  transform: translateZ(0);
 }
 
 @keyframes pulse-glow {
@@ -66,8 +62,6 @@
 }
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
-  will-change: box-shadow;
-  transform: translateZ(0);
 }
 
 @keyframes slide-in-left {
@@ -76,8 +70,6 @@
 }
 .animate-slide-in-left {
   animation: slide-in-left 0.5s ease-out forwards;
-  will-change: transform, opacity;
-  transform: translateZ(0);
 }
 
 @keyframes slide-in-right {
@@ -86,6 +78,4 @@
 }
 .animate-slide-in-right {
   animation: slide-in-right 0.5s ease-out forwards;
-  will-change: transform, opacity;
-  transform: translateZ(0);
 }

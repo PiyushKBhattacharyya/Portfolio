@@ -1,4 +1,4 @@
-import { useRef, useEffect, ReactNode } from 'react';
+import { useRef, useEffect, ReactNode, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
 interface TiltCardProps {
@@ -25,38 +25,48 @@ export default function TiltCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
 
+  // Detect if device is mobile
+  const isMobile = typeof window !== 'undefined' &&
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    window.innerWidth < 768);
+
+  // Throttle function to limit how often the event handler runs
+  const throttle = useCallback((callback: Function, delay: number) => {
+    let lastCall = 0;
+    return function(...args: any[]) {
+      const now = Date.now();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        callback(...args);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     const card = cardRef.current;
     const glare = glareRef.current;
     if (!card || !glare) return;
 
-    if (disableTiltOnMobile && window.innerWidth < 768) return;
+    // Disable tilt effect on mobile if specified
+    if (disableTiltOnMobile && isMobile) return;
 
-    // Throttle function to limit how often the mousemove handler fires
-    const throttle = (fn: Function, delay: number) => {
-      let lastCall = 0;
-      return (...args: any[]) => {
-        const now = Date.now();
-        if (now - lastCall < delay) return;
-        lastCall = now;
-        return fn(...args);
-      };
-    };
-
+    // Adjust glare opacity for mobile
+    const effectiveGlareOpacity = isMobile ? glareOpacity * 0.7 : glareOpacity;
+    
+    // Simplified transform calculation for mobile
     const updateTransformStyle = (x: number, y: number) => {
       const rect = card.getBoundingClientRect();
       
+      // Calculate glare position
       const glareX = ((x - rect.left) / rect.width) * 100;
       const glareY = ((y - rect.top) / rect.height) * 100;
 
-      glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, ${glareOpacity}), transparent 80%)`;
-      
-      // Calculate tilt based on mouse position
-      const tiltX = ((glareY / 100) * maxTilt * 2) - maxTilt;
-      const tiltY = (((glareX / 100) * maxTilt * 2) - maxTilt) * -1;
-      
-      // Apply 3D transform with hardware acceleration hints
-      card.style.transform = `perspective(${perspective}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
+      // Use simpler gradient on mobile
+      if (isMobile) {
+        glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, ${effectiveGlareOpacity}), transparent)`;
+      } else {
+        glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, ${effectiveGlareOpacity}), transparent 80%)`;
+      }
     };
 
     const resetStyles = () => {
@@ -64,23 +74,56 @@ export default function TiltCard({
       glare.style.background = 'none';
     };
 
-    // Throttled event handler to improve performance
-    const throttledMouseMove = throttle((e: MouseEvent) => updateTransformStyle(e.clientX, e.clientY), 16);
-    const handleMouseLeave = () => resetStyles();
+    // Handle both mouse and touch events
+    const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+      let clientX: number, clientY: number;
+      
+      // Handle touch events
+      if ('touches' in e) {
+        if (e.touches.length === 0) return;
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      updateTransformStyle(clientX, clientY);
+    };
+    
+    const handlePointerLeave = () => resetStyles();
 
-    card.addEventListener('mousemove', throttledMouseMove);
-    card.addEventListener('mouseleave', handleMouseLeave);
+    // Apply more aggressive throttling on mobile
+    const throttleTime = isMobile ? 100 : 50; // 100ms on mobile, 50ms on desktop
+    const throttledPointerHandler = throttle(handlePointerMove, throttleTime);
+
+    // Add event listeners with passive option for better performance
+    card.addEventListener('mousemove', throttledPointerHandler as EventListener, { passive: true });
+    card.addEventListener('touchmove', throttledPointerHandler as EventListener, { passive: true });
+    card.addEventListener('mouseleave', handlePointerLeave);
+    card.addEventListener('touchend', handlePointerLeave);
 
     return () => {
-      card.removeEventListener('mousemove', throttledMouseMove);
-      card.removeEventListener('mouseleave', handleMouseLeave);
+      card.removeEventListener('mousemove', throttledPointerHandler as EventListener);
+      card.removeEventListener('touchmove', throttledPointerHandler as EventListener);
+      card.removeEventListener('mouseleave', handlePointerLeave);
+      card.removeEventListener('touchend', handlePointerLeave);
     };
-  }, [maxTilt, scale, perspective, glareOpacity, disableTiltOnMobile]);
+  }, [maxTilt, scale, perspective, glareOpacity, disableTiltOnMobile, isMobile, throttle]);
+
+  // Adjust animation settings for mobile
+  const hoverAnimation = {
+    scale: isMobile ? Math.min(scale, 1.02) : scale, // Reduce scale on mobile
+    transition: {
+      duration: isMobile ? 0.2 : 0.3,
+      ease: "easeOut"
+    }
+  };
 
   return (
     <motion.div
       ref={cardRef}
-      whileHover={{ scale: scale }}
+      whileHover={hoverAnimation}
       className={`
         relative rounded-2xl overflow-hidden transform-gpu
         transition-transform duration-${transitionSpeed}
@@ -91,8 +134,10 @@ export default function TiltCard({
         ${className}
       `}
       style={{
-        willChange: "transform",
-        transformStyle: "preserve-3d"
+        willChange: "transform", // Hint for hardware acceleration
+        transform: "translateZ(0)", // Force hardware acceleration
+        backfaceVisibility: "hidden", // Prevent flickering
+        perspective: perspective // Set perspective for 3D transforms
       }}
     >
       {/* Glare Effect */}
@@ -101,12 +146,12 @@ export default function TiltCard({
         className="absolute inset-0 pointer-events-none z-30 rounded-inherit"
       />
 
-      {/* Neon Border Glow */}
+      {/* Neon Border Glow - Reduced animation complexity on mobile */}
       <div className="absolute inset-0 z-20 rounded-inherit pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="absolute inset-0 rounded-inherit border-2 border-cyan-400/30 animate-pulse blur-[2px]" />
+        <div className={`absolute inset-0 rounded-inherit border-2 border-cyan-400/30 ${isMobile ? '' : 'animate-pulse'} blur-[2px]`} />
       </div>
 
-      {/* Inner Light Overlay */}
+      {/* Inner Light Overlay - Simplified gradient on mobile */}
       <div className="absolute inset-0 z-10 rounded-inherit bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
 
       {/* Content */}

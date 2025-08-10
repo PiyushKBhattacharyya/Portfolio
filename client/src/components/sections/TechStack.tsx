@@ -2,6 +2,12 @@
 
 import { motion } from 'framer-motion';
 import TiltCard from '@/components/ui/tilt-card';
+import { useEffect, useState } from 'react';
+
+// Detect if device is mobile
+const isMobile = typeof window !== 'undefined' &&
+  (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+  window.innerWidth < 768);
 
 // Tech categories
 const techCategories = [
@@ -77,6 +83,17 @@ const getGridColsClass = (count: number) => {
 
 // TechStack Component
 export default function TechStack() {
+  // Component-level mobile detection for SSR compatibility
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  
+  useEffect(() => {
+    // Set mobile state after component mounts to avoid hydration issues
+    setIsMobileDevice(
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth < 768
+    );
+  }, []);
+  
   return (
     <section id="techstack" className="min-h-screen py-20">
       <div className="container mx-auto px-5 md:px-20">
@@ -85,14 +102,21 @@ export default function TechStack() {
           className="text-center mb-20 cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
-          style={{ willChange: "opacity, transform" }}
+          viewport={{ once: true, amount: isMobile ? 0.1 : 0.3 }} // Reduced threshold on mobile
+          transition={{
+            duration: isMobile ? 0.4 : 0.5, // Faster animation on mobile
+            ease: "easeOut"
+          }}
+          style={{
+            willChange: "opacity, transform", // Hint for hardware acceleration
+            transform: "translateZ(0)", // Force hardware acceleration
+            backfaceVisibility: "hidden" // Prevent flickering
+          }}
         >
           <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">Tech Stack</span>
           </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto rounded-full animate-pulse-glow" />
+          <div className={`w-32 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto rounded-full ${isMobile ? '' : 'animate-pulse-glow'}`} />
           <p className="mt-6 text-lg text-slate-300/90 max-w-2xl mx-auto leading-relaxed">
             Technologies I've mastered throughout my development journey
           </p>
@@ -105,9 +129,17 @@ export default function TechStack() {
               key={label}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-              style={{ willChange: "opacity, transform" }}
+              viewport={{ once: true, amount: isMobile ? 0.1 : 0.2 }} // Reduced threshold on mobile
+              transition={{
+                duration: isMobile ? 0.5 : 0.6, // Faster animation on mobile
+                delay: isMobile ? categoryIndex * 0.05 : categoryIndex * 0.1, // Reduced staggering on mobile
+                ease: "easeOut"
+              }}
+              style={{
+                willChange: "opacity, transform", // Hint for hardware acceleration
+                transform: "translateZ(0)", // Force hardware acceleration
+                backfaceVisibility: "hidden" // Prevent flickering
+              }}
             >
               <h3 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">{label}</h3>
               <TiltCard className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20">
@@ -118,16 +150,33 @@ export default function TechStack() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true, amount: 0.1 }}
-                      transition={{ duration: 0.4, delay: 0.1 + iconIndex * 0.05 }}
-                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      transition={{
+                        duration: isMobile ? 0.2 : 0.3, // Faster animation on mobile
+                        delay: isMobile ? 0.05 + iconIndex * 0.02 : 0.1 + iconIndex * 0.05, // Reduced delays on mobile
+                        ease: "easeOut"
+                      }}
+                      whileHover={{
+                        scale: isMobile ? 1.1 : 1.2, // Reduced scale on mobile
+                        rotate: isMobile ? 3 : 5, // Reduced rotation on mobile
+                        transition: {
+                          type: "spring",
+                          stiffness: isMobile ? 400 : 300, // Stiffer springs on mobile for faster animations
+                          damping: isMobile ? 25 : 20 // More damping on mobile for less oscillation
+                        }
+                      }}
                       className="flex flex-col items-center justify-center gap-2"
-                      style={{ willChange: "transform, opacity" }}
+                      style={{
+                        willChange: "transform, opacity", // Hint for hardware acceleration
+                        transform: "translateZ(0)", // Force hardware acceleration
+                        backfaceVisibility: "hidden" // Prevent flickering
+                      }}
                     >
                       <img
                         src={getIconUrl(icon)}
                         alt={icon}
                         className="h-12 w-12 object-contain mx-auto filter drop-shadow-lg"
-                        loading="lazy"
+                        loading={isMobile ? "lazy" : "eager"} // Lazy load on mobile
+                        decoding="async"
                       />
                       <span className="text-xs text-slate-400 capitalize">{icon}</span>
                     </motion.div>

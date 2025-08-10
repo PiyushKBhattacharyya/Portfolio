@@ -1,8 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
+
+// Detect if device is mobile
+const isMobile = typeof window !== 'undefined' &&
+  (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+  window.innerWidth < 768);
 
 function ProfileImage() {
   return (
@@ -12,17 +17,28 @@ function ProfileImage() {
       className="rounded-full border-4 border-primary/30 shadow-2xl shadow-primary/30"
       width={300}
       height={300}
+      loading="eager" // Prioritize loading on all devices
     />
   );
 }
 
 export default function Hero() {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-
+  
+  // Detect if device is mobile for component-level optimizations
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  
   useEffect(() => {
+    // Set mobile state after component mounts to avoid hydration issues
+    setIsMobileDevice(
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth < 768
+    );
+    
     const element = scrollIndicatorRef.current;
     if (!element) return;
 
+    // Optimize animation for mobile
     const bounce = element.animate(
       [
         { transform: 'translateY(0)' },
@@ -30,14 +46,14 @@ export default function Hero() {
         { transform: 'translateY(0)' },
       ],
       {
-        duration: 2000,
+        duration: isMobileDevice ? 2500 : 2000, // Slightly slower on mobile for better performance
         iterations: Infinity,
         easing: 'ease-in-out',
         composite: 'replace',
         fill: 'both'
       }
     );
-
+    
     // Reduce animation workload when tab is not visible
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -46,14 +62,14 @@ export default function Hero() {
         bounce.playbackRate = 1; // Normal speed when visible
       }
     };
-
+    
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       bounce.cancel();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isMobileDevice]);
 
   return (
     <section
@@ -66,8 +82,15 @@ export default function Hero() {
           className="w-full md:w-1/2 text-center md:text-left cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{ willChange: "opacity, transform" }}
+          transition={{
+            duration: isMobile ? 0.6 : 0.8, // Faster animation on mobile
+            ease: "easeOut"
+          }}
+          style={{
+            willChange: "opacity, transform", // Hint for hardware acceleration
+            transform: "translateZ(0)", // Force hardware acceleration
+            backfaceVisibility: "hidden" // Prevent flickering
+          }}
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins mb-4 leading-tight">
             Hi, I'm{' '}
@@ -88,9 +111,17 @@ export default function Hero() {
             <motion.a
               href="#projects"
               className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/30"
-              whileHover={{ y: -4, scale: 1.05 }}
+              whileHover={{ y: isMobile ? -2 : -4, scale: isMobile ? 1.02 : 1.05 }} // Reduced animation on mobile
               whileTap={{ scale: 0.95 }}
-              style={{ willChange: "transform" }}
+              transition={{
+                type: "spring",
+                stiffness: isMobile ? 400 : 300, // Stiffer springs on mobile for faster animations
+                damping: isMobile ? 25 : 20 // More damping on mobile for less oscillation
+              }}
+              style={{
+                willChange: "transform", // Hint for hardware acceleration
+                transform: "translateZ(0)" // Force hardware acceleration
+              }}
             >
               <span className="relative z-10 flex items-center">
                 <span className="mr-2">View Projects</span>
@@ -129,11 +160,19 @@ export default function Hero() {
           className="w-full md:w-1/2 flex justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          style={{ willChange: "opacity" }}
+          transition={{
+            duration: isMobile ? 0.7 : 1, // Faster animation on mobile
+            delay: isMobile ? 0.2 : 0.3, // Shorter delay on mobile
+            ease: "easeOut"
+          }}
+          style={{
+            willChange: "opacity", // Hint for hardware acceleration
+            transform: "translateZ(0)" // Force hardware acceleration
+          }}
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 blur-2xl animate-pulse" />
+            {/* Conditionally apply pulse animation based on device */}
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 blur-2xl ${isMobile ? 'opacity-70' : 'animate-pulse'}`} />
             <div className="relative z-10">
               <ProfileImage />
             </div>
@@ -162,6 +201,11 @@ function SocialIcon({
   label: string;
   icon: React.ReactNode;
 }) {
+  // Detect if device is mobile
+  const isMobile = typeof window !== 'undefined' &&
+    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    window.innerWidth < 768);
+    
   return (
     <motion.a
       href={href}
@@ -169,8 +213,16 @@ function SocialIcon({
       rel="noopener noreferrer"
       className="p-2 text-xl hover:text-primary transition-all duration-300 hover:shadow-md hover:shadow-primary/20 rounded-full"
       aria-label={label}
-      whileHover={{ y: -4 }}
-      style={{ willChange: "transform" }}
+      whileHover={{ y: isMobile ? -2 : -4 }} // Reduced animation on mobile
+      transition={{
+        type: "spring",
+        stiffness: isMobile ? 400 : 300, // Stiffer springs on mobile for faster animations
+        damping: isMobile ? 25 : 20 // More damping on mobile for less oscillation
+      }}
+      style={{
+        willChange: "transform", // Hint for hardware acceleration
+        transform: "translateZ(0)" // Force hardware acceleration
+      }}
     >
       {icon}
     </motion.a>
