@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
   * {
     @apply border-border;
   }
@@ -12,15 +16,25 @@
   }
 
   ::-webkit-scrollbar {
-    display: none;
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, hsl(var(--primary)), #ec4899);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #ec4899, hsl(var(--primary)));
   }
 
   * {
-    scrollbar-width: none;
-  }
-
-  *::-ms-scrollbar {
-    display: none;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary)) rgba(15, 23, 42, 0.3);
   }
 }
 
@@ -30,4 +44,38 @@
 }
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 5px 0 rgba(124, 58, 237, 0.5); }
+  50% { box-shadow: 0 0 20px 5px rgba(124, 58, 237, 0.5); }
+  100% { box-shadow: 0 0 5px 0 rgba(124, 58, 237, 0.5); }
+}
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes slide-in-left {
+  0% { transform: translateX(-100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
+@keyframes slide-in-right {
+  0% { transform: translateX(100px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
 }

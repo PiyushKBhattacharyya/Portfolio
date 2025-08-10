@@ -54,8 +54,9 @@ export default function Hero() {
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins mb-4 leading-tight">
             Hi, I'm{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-gradient-shift">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-gradient-shift relative">
               Piyush Kaushik Bhattacharyya
+              <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-pink-500 rounded-full transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
             </span>
           </h1>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-8">
@@ -69,11 +70,19 @@ export default function Hero() {
           <div className="flex flex-wrap justify-center md:justify-start gap-4">
             <motion.a
               href="#projects"
-              className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none"
-              whileHover={{ y: -4 }}
+              className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/30"
+              whileHover={{ y: -4, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              View Projects
+              <span className="relative z-10 flex items-center">
+                <span className="mr-2">View Projects</span>
+                <span className="relative top-px">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 transform translate-x-0 group-hover:translate-x-1">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </span>
+              </span>
             </motion.a>
           </div>
 
@@ -139,7 +148,7 @@ function SocialIcon({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="p-2 text-xl hover:text-primary transition-all"
+      className="p-2 text-xl hover:text-primary transition-all duration-300 hover:shadow-md hover:shadow-primary/20 rounded-full"
       aria-label={label}
       whileHover={{ y: -4 }}
     >

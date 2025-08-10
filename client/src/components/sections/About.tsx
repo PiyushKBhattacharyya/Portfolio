@@ -42,13 +42,13 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Me</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">Me</span>
           </h2>
-          <div className="h-1 w-24 mx-auto bg-gradient-to-r from-primary to-pink-500 rounded-full"></div>
+          <div className="h-1 w-32 mx-auto bg-gradient-to-r from-primary to-pink-500 rounded-full animate-pulse-glow"></div>
         </motion.div>
 
         {/* Grid Layout */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-8 px-5 py-5 lg:px-20 lg:py-20 cursor-default select-none">
+        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12 px-6 py-10 lg:px-24 lg:py-24 cursor-default select-none">
           {/* Left Column: Info Card */}
           <motion.div
             className="lg:w-1/2 cursor-default select-none"
@@ -58,18 +58,18 @@ export default function About() {
             transition={{ duration: 0.7 }}
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg"></div>
-              <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-xl shadow-2xl border border-slate-800">
+              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg animate-pulse-glow"></div>
+              <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-10 rounded-xl shadow-2xl border border-slate-800/50 hover:border-primary/30 transition-all duration-300">
                 <h3 className="text-2xl font-semibold mb-4 text-white">Who I Am</h3>
-                <p className="text-slate-300 leading-relaxed mb-4">
+                <p className="text-slate-300 leading-relaxed mb-6 text-base">
                   I'm a final year Computer Science student passionate about <span className="text-primary font-medium">machine learning</span> and <span className="text-primary font-medium">full stack development</span>. I enjoy building intelligent, user-centric software that solves real-world problems.
                 </p>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-slate-300 leading-relaxed mb-2 text-base">
                   I started my tech journey in college and have been deeply exploring AI/ML and scalable systems ever since. My projects combine innovation, design, and practical utility.
                 </p>
 
                 {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-6 mt-8">
+                <div className="grid grid-cols-2 gap-8 mt-10">
                   {[
                     { label: "Education", value: "B.Tech in Computer Science" },
                     { label: "Experience", value: "1 Year" },
@@ -77,8 +77,8 @@ export default function About() {
                     { label: "Languages", value: "English, Hindi, Assamese" }
                   ].map((item, idx) => (
                     <div key={idx}>
-                      <h4 className="text-sm font-medium text-primary mb-1">{item.label}</h4>
-                      <p className="text-slate-300 text-sm">{item.value}</p>
+                      <h4 className="text-sm font-medium text-primary mb-2">{item.label}</h4>
+                      <p className="text-slate-300 text-sm font-medium">{item.value}</p>
                     </div>
                   ))}
                 </div>
@@ -94,7 +94,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 cursor-default select-none">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 cursor-default select-none">
               {skillsData.map((skill, index) => (
                 <motion.div
                   key={index}

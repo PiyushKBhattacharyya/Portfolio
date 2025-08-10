@@ -79,8 +79,8 @@ export default function Navbar() {
           className={cn(
             'fixed top-4 left-1/2 -translate-x-1/2 z-50',
             'flex gap-2 sm:gap-4 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full',
-            'backdrop-blur-md bg-black/30 hover:bg-black/50',
-            'shadow-lg border border-white/10 transition-all duration-300'
+            'backdrop-blur-md bg-black/40 hover:bg-black/60',
+            'shadow-lg shadow-primary/10 border border-white/10 transition-all duration-300'
           )}
         >
           {navItems.map(({ href, label, icon, target, rel }) => {
@@ -99,13 +99,13 @@ export default function Navbar() {
                       rel={rel}
                       initial={false}
                       animate={{
-                        scale: isActive ? 1.2 : 0.6,
-                        opacity: isActive ? 1 : 0.8,
-                        y: isActive ? -6 : 0,
+                        scale: isActive ? 1.3 : 0.7,
+                        opacity: isActive ? 1 : 0.7,
+                        y: isActive ? -8 : 0,
                       }}
                       whileHover={{
-                        scale: 1.25,
-                        y: -8,
+                        scale: 1.3,
+                        y: -10,
                         transition: {
                           type: 'spring',
                           stiffness: 500,
@@ -113,8 +113,8 @@ export default function Navbar() {
                         },
                       }}
                       whileTap={{
-                        scale: 1.25,
-                        y: -8,
+                        scale: 1.3,
+                        y: -10,
                         transition: {
                           type: 'spring',
                           stiffness: 300,
@@ -124,23 +124,26 @@ export default function Navbar() {
                       className={cn(
                         'group relative flex flex-col items-center justify-center p-2 rounded-md',
                         'transition-all duration-300 ease-in-out text-white',
-                        isActive && 'text-pink-400'
+                        isActive ? 'text-pink-400 font-bold' : 'text-white/80'
                       )}
                     >
                       {icon}
                       <span
                         className={cn(
-                          'absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px]',
-                          'bg-pink-500 transition-all duration-300 ease-in-out',
-                          isActive ? 'w-3/4' : 'w-0 group-hover:w-3/4'
+                          'absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px]',
+                          'bg-gradient-to-r from-primary to-pink-500 rounded-full transition-all duration-300 ease-in-out',
+                          isActive ? 'w-full shadow-glow' : 'w-0 group-hover:w-3/4'
                         )}
+                        style={{
+                          boxShadow: isActive ? '0 0 8px rgba(236, 72, 153, 0.7)' : 'none'
+                        }}
                       />
                     </motion.a>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     sideOffset={6}
-                    className="text-sm rounded-md bg-black px-2 py-1 text-white shadow"
+                    className="text-sm rounded-md bg-black/80 backdrop-blur-sm px-3 py-1.5 text-white shadow-lg border border-white/10"
                   >
                     {label}
                   </TooltipContent>
@@ -155,13 +158,13 @@ export default function Navbar() {
               <motion.button
                 onClick={toggleTheme}
                 whileHover={{
-                  scale: 1.25,
-                  rotate: 10,
+                  scale: 1.3,
+                  rotate: 15,
                   transition: { type: 'spring', stiffness: 300, damping: 20 },
                 }}
                 whileTap={{
-                  scale: 1.25,
-                  rotate: 10,
+                  scale: 1.3,
+                  rotate: 15,
                   transition: { type: 'spring', stiffness: 300, damping: 20 },
                 }}
                 className={cn(
@@ -179,7 +182,7 @@ export default function Navbar() {
             <TooltipContent
               side="bottom"
               sideOffset={6}
-              className="text-sm rounded-md bg-black px-2 py-1 text-white shadow"
+              className="text-sm rounded-md bg-black/80 backdrop-blur-sm px-3 py-1.5 text-white shadow-lg border border-white/10"
             >
               Toggle Theme
             </TooltipContent>

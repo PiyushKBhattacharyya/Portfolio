@@ -64,12 +64,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       })}
       onClick={() => setExpanded((prev) => !prev)}
     >
-      <TiltCard className="group rounded-2xl overflow-hidden backdrop-blur-md bg-slate-900/60 transition-all duration-300 shadow-xl hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:border hover:border-white/10 border border-transparent transform-gpu">
+      <TiltCard className="group rounded-2xl overflow-hidden backdrop-blur-md bg-slate-900/60 transition-all duration-300 shadow-xl hover:shadow-[0_10px_40px_0_rgba(124,58,237,0.4)] hover:border hover:border-primary/30 border border-transparent transform-gpu animate-pulse-glow">
         <motion.div
           className="p-6 transition-all duration-300 ease-in-out"
           whileHover={{ scale: 1.02 }}
         >
-          <h3 className="text-xl font-bold font-poppins mb-2 text-center text-white tracking-wide">
+          <h3 className="text-xl font-bold font-poppins mb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 tracking-wide">
             {project.title}
           </h3>
 
@@ -78,7 +78,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="overflow-hidden text-slate-300/90"
+            className="overflow-hidden text-slate-300/90 space-y-3"
           >
             <p className="text-sm mb-4">{project.description}</p>
 
@@ -86,7 +86,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               {project.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className={`text-xs px-2 py-1 rounded-full ${colorScheme.tag}`}
+                  className={`text-xs px-3 py-1 rounded-full ${colorScheme.tag} transition-all duration-300 hover:scale-105 hover:shadow-md`}
                 >
                   {tag}
                 </span>
@@ -98,7 +98,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-slate-300 ${colorScheme.github} transition-colors`}
+                className={`text-slate-300 ${colorScheme.github} transition-all duration-300 hover:scale-125`}
               >
                 <Github size={20} />
               </a>
@@ -107,7 +107,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-slate-300 ${colorScheme.link} flex items-center gap-1 transition-colors text-sm`}
+                  className={`text-slate-300 ${colorScheme.link} flex items-center gap-2 transition-all duration-300 hover:scale-110 text-sm font-medium`}
                 >
                   <Link size={14} />
                   Live Preview

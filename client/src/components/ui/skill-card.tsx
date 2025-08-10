@@ -35,7 +35,7 @@ export default function SkillCard({ icon, title, description, delay = 0 }: Skill
 
   return (
     <motion.div
-      className={`cursor-pointer bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border ${colors.border} transition-all shadow-xl flex flex-col items-center justify-center min-h-[180px]`}
+      className={`cursor-pointer bg-slate-900/80 backdrop-blur-sm p-6 rounded-xl border ${colors.border} transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/20 flex flex-col items-center justify-center min-h-[180px] hover:-translate-y-2`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -49,7 +49,7 @@ export default function SkillCard({ icon, title, description, delay = 0 }: Skill
       <div
         className={`w-16 h-16 flex items-center justify-center rounded-full ${colors.bg} transition-all duration-300 mb-${
           expanded ? '4' : '0'
-        }`}
+        } transform ${expanded ? 'scale-110' : 'scale-100'} hover:rotate-3 animate-pulse-glow`}
       >
         {icon}
       </div>
@@ -61,8 +61,8 @@ export default function SkillCard({ icon, title, description, delay = 0 }: Skill
         transition={{ duration: 0.3 }}
         className="overflow-hidden text-center"
       >
-        <h3 className="text-xl font-poppins font-semibold mb-1">{title}</h3>
-        <p className="text-slate-300/80 text-sm">{description}</p>
+        <h3 className="text-xl font-poppins font-semibold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">{title}</h3>
+        <p className="text-slate-300/90 text-sm leading-relaxed">{description}</p>
       </motion.div>
     </motion.div>
   );

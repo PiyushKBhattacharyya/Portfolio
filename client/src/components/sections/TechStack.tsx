@@ -82,40 +82,56 @@ export default function TechStack() {
       <div className="container mx-auto px-5 md:px-20">
         {/* Header */}
         <motion.div
-          className="text-center mb-12 cursor-default select-none"
+          className="text-center mb-20 cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold font-poppins mb-4">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Tech Stack</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">Tech Stack</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto" />
-          <p className="mt-4 text-lg text-slate-300 max-w-2xl mx-auto">
+          <div className="w-32 h-1 bg-gradient-to-r from-primary to-pink-500 mx-auto rounded-full animate-pulse-glow" />
+          <p className="mt-6 text-lg text-slate-300/90 max-w-2xl mx-auto leading-relaxed">
             Technologies I've mastered throughout my development journey
           </p>
         </motion.div>
 
         {/* Tech Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mx-auto w-fit cursor-default select-none">
-          {techCategories.map(({ label, icons }) => (
-            <div key={label}>
-              <h3 className="mt-4 text-lg text-slate-300 max-w-2xl mx-auto">{label}</h3>
-              <TiltCard>
-                <div className={`grid ${getGridColsClass(icons.length)} gap-4 p-4  mx-auto`}>
-                  {icons.map((icon) => (
-                    <img
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto max-w-5xl cursor-default select-none">
+          {techCategories.map(({ label, icons }, categoryIndex) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+            >
+              <h3 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">{label}</h3>
+              <TiltCard className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20">
+                <div className={`grid ${getGridColsClass(icons.length)} gap-6 p-6 mx-auto`}>
+                  {icons.map((icon, iconIndex) => (
+                    <motion.div
                       key={icon}
-                      src={getIconUrl(icon)}
-                      alt={icon}
-                      className="h-10 w-10 object-contain  mx-auto"
-                      loading="lazy"
-                    />
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.1 + iconIndex * 0.05 }}
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      className="flex flex-col items-center justify-center gap-2"
+                    >
+                      <img
+                        src={getIconUrl(icon)}
+                        alt={icon}
+                        className="h-12 w-12 object-contain mx-auto filter drop-shadow-lg"
+                        loading="lazy"
+                      />
+                      <span className="text-xs text-slate-400 capitalize">{icon}</span>
+                    </motion.div>
                   ))}
                 </div>
               </TiltCard>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
