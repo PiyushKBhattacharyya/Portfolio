@@ -33,10 +33,26 @@ export default function Hero() {
         duration: 2000,
         iterations: Infinity,
         easing: 'ease-in-out',
+        composite: 'replace',
+        fill: 'both'
       }
     );
 
-    return () => bounce.cancel();
+    // Reduce animation workload when tab is not visible
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        bounce.playbackRate = 0.1; // Slow down when not visible
+      } else {
+        bounce.playbackRate = 1; // Normal speed when visible
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      bounce.cancel();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   return (
@@ -51,6 +67,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins mb-4 leading-tight">
             Hi, I'm{' '}
@@ -73,6 +90,7 @@ export default function Hero() {
               className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/30"
               whileHover={{ y: -4, scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{ willChange: "transform" }}
             >
               <span className="relative z-10 flex items-center">
                 <span className="mr-2">View Projects</span>
@@ -112,6 +130,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.3 }}
+          style={{ willChange: "opacity" }}
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 blur-2xl animate-pulse" />
@@ -151,6 +170,7 @@ function SocialIcon({
       className="p-2 text-xl hover:text-primary transition-all duration-300 hover:shadow-md hover:shadow-primary/20 rounded-full"
       aria-label={label}
       whileHover={{ y: -4 }}
+      style={{ willChange: "transform" }}
     >
       {icon}
     </motion.a>

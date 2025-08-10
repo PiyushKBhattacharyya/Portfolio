@@ -42,6 +42,7 @@ function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity" }}
         >
           <Hero />
         </motion.div>
@@ -49,8 +50,9 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px", amount: 0.2 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <About />
         </motion.div>
@@ -58,8 +60,9 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px", amount: 0.2 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <Projects />
         </motion.div>
@@ -67,8 +70,9 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px", amount: 0.2 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <Awards />
         </motion.div>
@@ -76,8 +80,9 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px", amount: 0.2 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <Experience />
         </motion.div>
@@ -85,8 +90,9 @@ function Home() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-100px", amount: 0.2 }}
           transition={{ duration: 0.8 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <TechStack />
         </motion.div>
@@ -95,8 +101,9 @@ function Home() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8 }}
+        style={{ willChange: "opacity" }}
       >
         <Footer />
       </motion.div>

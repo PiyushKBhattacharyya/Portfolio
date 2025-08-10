@@ -33,13 +33,17 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Use '2d' with alpha for better performance
-    const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
+    // Use '2d' with optimized options for better performance
+    const ctx = canvas.getContext("2d", {
+      alpha: false,
+      desynchronized: true,
+      willReadFrequently: false
+    });
     if (!ctx) return;
     
-    // Optimize canvas rendering
+    // Optimize canvas rendering - use medium quality for better performance
     ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
+    ctx.imageSmoothingQuality = 'medium';
 
     const resizeCanvas = () => {
       // Get the current zoom level (1 is normal, 0.25 is 25% zoom)
@@ -68,10 +72,11 @@ export default function ParticleBackground({ theme = "night", interaction = fals
       // Adjust particle count based on screen size with a minimum threshold
       // This ensures consistent particle density at different zoom levels
       const screenArea = window.innerWidth * window.innerHeight;
-      const particleDensity = 1 / 5000; // One particle per 5000 square pixels
+      // Slightly reduce particle density for better performance
+      const particleDensity = 1 / 6000; // One particle per 6000 square pixels
       const maxParticles = Math.min(
         Math.max(Math.floor(screenArea * particleDensity), 50), // Minimum of 50 particles
-        300 // Maximum of 300 particles for performance
+        250 // Maximum of 250 particles for better performance
       );
       
       for (let i = 0; i < maxParticles; i++) {
@@ -141,12 +146,18 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     window.addEventListener("mousemove", handleMouseMove);
 
     let animationId: ReturnType<typeof requestAnimationFrame>;
+    let lastFrameTime = 0;
     let hue = 220;
     let noiseTime = 0;
     let colorShift = 0;
 
-    const animateParticles = () => {
-      colorShift += 0.5;
+    const animateParticles = (timestamp: number) => {
+      // Calculate delta time for smooth animation regardless of frame rate
+      if (!lastFrameTime) lastFrameTime = timestamp;
+      const deltaTime = timestamp - lastFrameTime;
+      lastFrameTime = timestamp;
+      
+      colorShift += 0.5 * (deltaTime / 16.67); // Normalize to 60fps
       const dynamicHue = (hue + Math.sin(colorShift * 0.01) * 30) % 360;
       const gradient = createBackgroundGradient(theme, dynamicHue);
 
@@ -158,18 +169,31 @@ export default function ParticleBackground({ theme = "night", interaction = fals
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      particles.forEach((particle, i) => {
-        if (particle.exploded) {
-          handleParticleExplosion(particle);
-        } else {
-          updateParticleMovement(particle);
+      // Process particles in batches for better performance
+      const batchSize = 30;
+      for (let i = 0; i < particles.length; i += batchSize) {
+        const end = Math.min(i + batchSize, particles.length);
+        
+        for (let j = i; j < end; j++) {
+          const particle = particles[j];
+          
+          if (particle.exploded) {
+            handleParticleExplosion(particle);
+          } else {
+            updateParticleMovement(particle, deltaTime);
+          }
+
+          drawParticle(particle);
+          
+          // Only draw connections for a subset of particles
+          if (j % 4 === 0) {
+            drawParticleConnections(particle, j);
+          }
         }
+      }
 
-        drawParticle(particle);
-        drawParticleConnections(particle, i);
-      });
-
-      noiseTime += 0.005;
+      noiseTime += 0.005 * (deltaTime / 16.67); // Normalize to 60fps
+      
       animationId = requestAnimationFrame(animateParticles);
     };
 
@@ -236,26 +260,29 @@ export default function ParticleBackground({ theme = "night", interaction = fals
       particle.y = Math.random() * window.innerHeight;
     };
 
-    const updateParticleMovement = (particle: Particle) => {
+    const updateParticleMovement = (particle: Particle, deltaTime: number) => {
       // Get the current zoom level to adjust movement speed
       const zoomLevel = window.outerWidth / window.innerWidth;
       // Calculate a movement scale factor that compensates for zoom
       const movementScale = Math.max(0.5, Math.min(1.5, zoomLevel));
       
+      // Normalize movement to 60fps regardless of actual frame rate
+      const timeScale = deltaTime / 16.67;
+      
       const noiseX = noise(particle.noiseOffsetX, noiseTime) - 0.5;
       const noiseY = noise(particle.noiseOffsetY, noiseTime) - 0.5;
 
-      // Scale movement based on zoom level for consistent visual speed
-      particle.x += noiseX * 1.5 * (particle.depth / 3) * movementScale;
-      particle.y += noiseY * 1.5 * (particle.depth / 3) * movementScale;
+      // Scale movement based on zoom level and frame rate for consistent visual speed
+      particle.x += noiseX * 1.5 * (particle.depth / 3) * movementScale * timeScale;
+      particle.y += noiseY * 1.5 * (particle.depth / 3) * movementScale * timeScale;
 
-      particle.angle += particle.angleSpeed * movementScale;
-      particle.x += (particle.speedX + Math.cos(particle.angle) * 0.3 + particle.driftX) * movementScale;
-      particle.y += (particle.speedY + Math.sin(particle.angle) * 0.3 + particle.driftY) * movementScale;
+      particle.angle += particle.angleSpeed * movementScale * timeScale;
+      particle.x += (particle.speedX + Math.cos(particle.angle) * 0.3 + particle.driftX) * movementScale * timeScale;
+      particle.y += (particle.speedY + Math.sin(particle.angle) * 0.3 + particle.driftY) * movementScale * timeScale;
 
-      // Consistent friction regardless of zoom
-      particle.speedX *= 0.98;
-      particle.speedY *= 0.98;
+      // Consistent friction regardless of zoom and frame rate
+      particle.speedX *= Math.pow(0.98, timeScale);
+      particle.speedY *= Math.pow(0.98, timeScale);
 
       // Add a small buffer to prevent edge artifacts when zooming
       const buffer = 5;
@@ -325,11 +352,11 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     };
 
     const drawParticleConnections = (particle: Particle, index: number) => {
-      // Only check connections for every 3rd particle to improve performance
-      if (index % 3 !== 0) return;
+      // Only check connections for every 4th particle to improve performance
+      if (index % 4 !== 0) return;
       
-      const connectionDistance = 100;
-      const maxConnections = 3; // Limit connections per particle for performance
+      const connectionDistance = 90; // Slightly reduced for performance
+      const maxConnections = 2; // Reduced for better performance
       let connections = 0;
       
       for (let j = index + 1; j < particles.length && connections < maxConnections; j++) {
@@ -373,7 +400,8 @@ export default function ParticleBackground({ theme = "night", interaction = fals
       }
     };
 
-    animateParticles();
+    // Start animation with timestamp
+    animationId = requestAnimationFrame(animateParticles);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);

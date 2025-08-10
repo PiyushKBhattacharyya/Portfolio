@@ -32,6 +32,17 @@ export default function TiltCard({
 
     if (disableTiltOnMobile && window.innerWidth < 768) return;
 
+    // Throttle function to limit how often the mousemove handler fires
+    const throttle = (fn: Function, delay: number) => {
+      let lastCall = 0;
+      return (...args: any[]) => {
+        const now = Date.now();
+        if (now - lastCall < delay) return;
+        lastCall = now;
+        return fn(...args);
+      };
+    };
+
     const updateTransformStyle = (x: number, y: number) => {
       const rect = card.getBoundingClientRect();
       
@@ -39,6 +50,13 @@ export default function TiltCard({
       const glareY = ((y - rect.top) / rect.height) * 100;
 
       glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, ${glareOpacity}), transparent 80%)`;
+      
+      // Calculate tilt based on mouse position
+      const tiltX = ((glareY / 100) * maxTilt * 2) - maxTilt;
+      const tiltY = (((glareX / 100) * maxTilt * 2) - maxTilt) * -1;
+      
+      // Apply 3D transform with hardware acceleration hints
+      card.style.transform = `perspective(${perspective}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
     };
 
     const resetStyles = () => {
@@ -46,14 +64,15 @@ export default function TiltCard({
       glare.style.background = 'none';
     };
 
-    const handleMouseMove = (e: MouseEvent) => updateTransformStyle(e.clientX, e.clientY);
+    // Throttled event handler to improve performance
+    const throttledMouseMove = throttle((e: MouseEvent) => updateTransformStyle(e.clientX, e.clientY), 16);
     const handleMouseLeave = () => resetStyles();
 
-    card.addEventListener('mousemove', handleMouseMove);
+    card.addEventListener('mousemove', throttledMouseMove);
     card.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      card.removeEventListener('mousemove', handleMouseMove);
+      card.removeEventListener('mousemove', throttledMouseMove);
       card.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [maxTilt, scale, perspective, glareOpacity, disableTiltOnMobile]);
@@ -71,7 +90,10 @@ export default function TiltCard({
         group
         ${className}
       `}
-
+      style={{
+        willChange: "transform",
+        transformStyle: "preserve-3d"
+      }}
     >
       {/* Glare Effect */}
       <div

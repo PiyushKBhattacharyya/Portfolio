@@ -11,8 +11,7 @@ export const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
   { href: "#awards", label: "Awards" },
-  { href: "#techstack", label: "Tech Stack" },
-  { href: "#contact", label: "Contact" }
+  { href: "#techstack", label: "Tech Stack" }
 ];
 
 // Skills for the about section

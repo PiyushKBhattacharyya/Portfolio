@@ -85,8 +85,9 @@ export default function TechStack() {
           className="text-center mb-20 cursor-default select-none"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
+          style={{ willChange: "opacity, transform" }}
         >
           <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">Tech Stack</span>
@@ -104,8 +105,9 @@ export default function TechStack() {
               key={label}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+              style={{ willChange: "opacity, transform" }}
             >
               <h3 className="text-xl font-semibold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">{label}</h3>
               <TiltCard className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20">
@@ -115,10 +117,11 @@ export default function TechStack() {
                       key={icon}
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, amount: 0.1 }}
                       transition={{ duration: 0.4, delay: 0.1 + iconIndex * 0.05 }}
                       whileHover={{ scale: 1.2, rotate: 5 }}
                       className="flex flex-col items-center justify-center gap-2"
+                      style={{ willChange: "transform, opacity" }}
                     >
                       <img
                         src={getIconUrl(icon)}
