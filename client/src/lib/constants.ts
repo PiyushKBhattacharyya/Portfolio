@@ -64,7 +64,7 @@ export const AWARDS = [
     year: "2025",
     title: "Best Paper Award at NIELIT's NICEDT-2025",
     description: "Awarded for the paper titled 'Development of Lightweight 1D-CNN-BiLSTM Arrhythmia Detection Technique for Real-Time ECG Monitoring' at NIELIT's International Conference on Communication, Electronics & Digital Technologies.",
-    image: "/Portfolio/attached_assets/certificate.jpg",
+    image: "/certificate.jpg",
     colorClass: "primary"
   }
 ];

@@ -7,7 +7,7 @@ import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
 function ProfileImage() {
   return (
     <img
-      src="/images/profile.png"
+      src="/profile.png"
       alt="Piyush Kaushik Bhattacharyya"
       className="rounded-full border-4 border-primary/30 shadow-2xl shadow-primary/30"
       width={300}
