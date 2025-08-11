@@ -25,7 +25,7 @@ export default function Awards() {
         </motion.div>
         
         {/* Timeline Section */}
-        <div className="max-w-4xl mx-auto cursor-default select-none">
+        <div className="max-w-4xl mx-auto cursor-default select-none text-center lg:text-left">
           <div className="relative">
             
             {/* Timeline Line Animation */}

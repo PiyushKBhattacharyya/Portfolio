@@ -106,7 +106,14 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
     >
       <div className="flex flex-col md:flex-row items-center md:items-start relative">
         {/* Left Side */}
-        <div className={`order-1 md:order-1 md:w-1/2 ${position === 'left' ? 'pr-8 md:text-right' : 'pr-8'} mb-8 md:mb-0`}>
+        <div
+          className={`
+            order-1 md:order-1 md:w-1/2
+            flex justify-center md:justify-${position === 'left' ? 'end' : 'start'}
+            px-0 md:px-8 mb-8 md:mb-0
+            md:text-${position === 'left' ? 'right' : 'left'}
+          `}
+        >
           {position === 'left' && renderCard()}
         </div>
 
@@ -121,7 +128,14 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
         </div>
 
         {/* Right Side */}
-        <div className={`order-2 md:order-2 md:w-1/2 ${position === 'right' ? 'pl-8 md:text-left' : 'pl-8'} mb-8 md:mb-0`}>
+        <div
+          className={`
+            order-2 md:order-2 md:w-1/2
+            flex justify-center md:justify-${position === 'right' ? 'start' : 'end'}
+            px-0 md:px-8 mb-8 md:mb-0
+            md:text-${position === 'right' ? 'left' : 'right'}
+          `}
+        >
           {position === 'right' && renderCard()}
         </div>
       </div>
