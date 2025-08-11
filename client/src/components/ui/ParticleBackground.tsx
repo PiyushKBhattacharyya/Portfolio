@@ -45,21 +45,18 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     ctx.imageSmoothingQuality = isMobile ? 'medium' : 'high';
 
     const resizeCanvas = () => {
-      // Get the current zoom level (1 is normal, 0.25 is 25% zoom)
       const zoomLevel = window.outerWidth / window.innerWidth;
-      
-      // Use a more stable approach for pixel ratio that accounts for zoom
       const effectivePixelRatio = Math.min(window.devicePixelRatio, 2);
-      
-      // Set canvas dimensions with consideration for zoom
+
+      // Reset transform before scaling to prevent cumulative scale effects
+      ctx.resetTransform();
+
       canvas.width = window.innerWidth * effectivePixelRatio;
       canvas.height = window.innerHeight * effectivePixelRatio;
-      
-      // Set the display size (css pixels)
+
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
-      
-      // Scale the drawing context
+
       ctx.scale(effectivePixelRatio, effectivePixelRatio);
     };
 
@@ -67,71 +64,85 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     window.addEventListener("resize", resizeCanvas);
 
     const particles: Particle[] = [];
-    const createParticles = () => {
-      // Adjust particle count based on screen size with a minimum threshold
-      // This ensures consistent particle density at different zoom levels
-      const screenArea = window.innerWidth * window.innerHeight;
-      
-      // Reduce particle density on mobile devices
-      const particleDensity = isMobile ? 1 / 10000 : 1 / 5000; // One particle per 10000 square pixels on mobile
-      
-      const maxParticles = Math.min(
-        Math.max(Math.floor(screenArea * particleDensity), isMobile ? 30 : 50), // Lower minimum on mobile
-        isMobile ? 150 : 300 // Lower maximum on mobile
-      );
-      
-      for (let i = 0; i < maxParticles; i++) {
-        const depth = Math.random() * 3 + 1;
-        particles.push(createParticle(depth));
-      }
+
+const createParticles = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const screenArea = width * height;
+
+  const particleDensity = isMobile ? 1 / 10000 : 1 / 5000;
+
+  const minParticles = isMobile ? 30 : 50;
+  const maxParticlesAllowed = isMobile ? 100 : 200;
+
+  const calculatedCount = Math.floor(screenArea * particleDensity);
+  const maxParticles = Math.min(Math.max(calculatedCount, minParticles), maxParticlesAllowed);
+
+  // Pre-allocate array size for potential slight perf gain
+  particles.length = 0;
+
+  for (let i = 0; i < maxParticles; i++) {
+    const depth = Math.random() * 3 + 1;
+    particles.push(createParticle(depth, width, height));
+    }
+  };
+
+  const createParticle = (depth: number, width: number, height: number): Particle => {
+    // Helper to generate HSLA color string
+    const randomRange = (min: number, max: number) => min + Math.random() * (max - min);
+
+    let hue: number;
+    if (theme === "night") {
+      hue = Math.random() > 0.7
+        ? randomRange(180, 240)  // cyan/blue tones
+        : randomRange(240, 300); // purple/violet tones
+    } else {
+      hue = Math.random() > 0.5
+        ? randomRange(20, 60)    // orange/yellow tones
+        : randomRange(320, 360); // pink/magenta tones
+    }
+    const saturation = randomRange(70, 100);
+    const lightness = randomRange(70, 100);
+    const alpha = depth / 4;
+
+    const particleColor = `hsla(${hue.toFixed(1)}, ${saturation.toFixed(1)}%, ${lightness.toFixed(1)}%, ${alpha.toFixed(2)})`;
+
+    // Cache some random values to avoid repeated calls
+    const baseSize = randomRange(0.5, 3.0);
+    const baseSpeedX = (Math.random() - 0.5) * 0.5;
+    const baseSpeedY = (Math.random() - 0.5) * 0.5;
+    const baseAngle = Math.random() * Math.PI * 2;
+    const baseAngleSpeed = (Math.random() - 0.5) * 0.02;
+    const baseDriftX = (Math.random() - 0.5) * 0.1;
+    const baseDriftY = (Math.random() - 0.5) * 0.1;
+    const noiseOffsetX = Math.random() * 1000;
+    const noiseOffsetY = Math.random() * 1000;
+
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: baseSize * (depth / 3),
+      speedX: baseSpeedX / depth,
+      speedY: baseSpeedY / depth,
+      angle: baseAngle,
+      angleSpeed: baseAngleSpeed,
+      driftX: baseDriftX,
+      driftY: baseDriftY,
+      noiseOffsetX,
+      noiseOffsetY,
+      depth,
+      color: particleColor,
+      exploded: false,
+      life: 1,
     };
+  };
 
-    const createParticle = (depth: number): Particle => {
-      // Create a more varied color palette based on theme
-      let particleColor: string;
-      
-      if (theme === "night") {
-        // For night theme: blues, purples, and cyans
-        const hue = Math.random() > 0.7
-          ? 180 + Math.random() * 60  // cyan/blue tones
-          : 240 + Math.random() * 60; // purple/violet tones
-        const saturation = 70 + Math.random() * 30;
-        const lightness = 70 + Math.random() * 30;
-        particleColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${depth / 4})`;
-      } else {
-        // For sunset theme: oranges, pinks, and yellows
-        const hue = Math.random() > 0.5
-          ? 20 + Math.random() * 40   // orange/yellow tones
-          : 320 + Math.random() * 40; // pink/magenta tones
-        const saturation = 70 + Math.random() * 30;
-        const lightness = 70 + Math.random() * 30;
-        particleColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${depth / 4})`;
-      }
-      
-      return {
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        size: (Math.random() * 2.5 + 0.5) * (depth / 3),
-        speedX: ((Math.random() - 0.5) * 0.5) / depth,
-        speedY: ((Math.random() - 0.5) * 0.5) / depth,
-        angle: Math.random() * Math.PI * 2,
-        angleSpeed: (Math.random() - 0.5) * 0.02,
-        driftX: (Math.random() - 0.5) * 0.1,
-        driftY: (Math.random() - 0.5) * 0.1,
-        noiseOffsetX: Math.random() * 1000,
-        noiseOffsetY: Math.random() * 1000,
-        depth,
-        color: particleColor,
-        exploded: false,
-        life: 1,
-      };
-    };
+  createParticles();
 
-    createParticles();
-
-    let mouseX = 0,
-      mouseY = 0,
-      isMouseMoving = false;
+  let mouseX = 0,
+    mouseY = 0,
+    isMouseMoving = false;
+    // Initialize mouse position
 
     // Handle both mouse and touch events for interaction
     const handlePointerMove = (e: MouseEvent | TouchEvent) => {
@@ -164,31 +175,56 @@ export default function ParticleBackground({ theme = "night", interaction = fals
 
     // Track frame timing for mobile optimization
     let lastFrameTime = 0;
-    const targetFPS = isMobile ? 30 : 60; // Lower target FPS on mobile
-    const frameInterval = 1000 / targetFPS;
-    
+    let dynamicFPS = isMobile ? 45 : 60;
+    let frameInterval = 1000 / dynamicFPS;
+
     const animateParticles = (timestamp: number) => {
-      // Skip frames on mobile to maintain target FPS
+      gradientCache.clear();
+
       const elapsed = timestamp - lastFrameTime;
-      if (isMobile && elapsed < frameInterval) {
+      if (elapsed < frameInterval) {
         animationId = requestAnimationFrame(animateParticles);
         return;
       }
-      
       lastFrameTime = timestamp;
-      colorShift += 0.5;
+
+      // Dynamically adjust FPS smoothly
+      if (elapsed > frameInterval * 1.3 && dynamicFPS > 30) {
+        dynamicFPS -= 5;
+        frameInterval = 1000 / dynamicFPS;
+      } else if (elapsed < frameInterval * 0.8 && dynamicFPS < 60) {
+        dynamicFPS += 5;
+        frameInterval = 1000 / dynamicFPS;
+      }
+
+      // Cache window size and isMobile locally
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const mobile = isMobile;
+
+      // Clear background with gradient in one go
+      ctx.clearRect(0, 0, width, height);
+
       const dynamicHue = (hue + Math.sin(colorShift * 0.01) * 30) % 360;
       const gradient = createBackgroundGradient(theme, dynamicHue);
 
-      // Clear the canvas with a solid color first to prevent artifacts
-      ctx.fillStyle = theme === "night" ? "#0a0a1a" : "#1a0a0a";
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-      
-      // Then apply the gradient
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.fillRect(0, 0, width, height);
 
-      particles.forEach((particle, i) => {
+      colorShift += 0.5;
+
+      const len = particles.length;
+      for (let i = 0; i < len; i++) {
+        const particle = particles[i];
+
+        // Cull out-of-bounds particles quickly
+        if (
+          particle.x < -20 ||
+          particle.x > width + 20 ||
+          particle.y < -20 ||
+          particle.y > height + 20
+        ) continue;
+
         if (particle.exploded) {
           handleParticleExplosion(particle);
         } else {
@@ -196,46 +232,43 @@ export default function ParticleBackground({ theme = "night", interaction = fals
         }
 
         drawParticle(particle);
-        
-        // Reduce connection calculations on mobile
-        if (!isMobile || i % (isMobile ? 5 : 3) === 0) {
+
+        if (!mobile || i % (mobile ? 8 : 6) === 0) {
           drawParticleConnections(particle, i);
         }
-      });
+      }
 
-      noiseTime += isMobile ? 0.003 : 0.005; // Slower noise movement on mobile
+      noiseTime += mobile ? 0.003 : 0.005;
+
       animationId = requestAnimationFrame(animateParticles);
     };
 
     const createBackgroundGradient = (theme: string, hue: number) => {
-      // Get the current zoom level to adjust gradient positioning
-      const zoomLevel = window.outerWidth / window.innerWidth;
-      
-      // Calculate center points in actual canvas coordinates
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      
-      // Calculate radius based on the viewport dimensions
-      // Use the larger dimension to ensure full coverage
-      const radius = Math.max(window.innerWidth, window.innerHeight) * 0.8;
-      
-      // Create gradient with zoom-adjusted positioning
-      const gradient = ctx.createRadialGradient(
-        centerX,
-        centerY,
-        0,
-        centerX,
-        centerY,
-        radius
-      );
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const outerWidth = window.outerWidth;
 
-      // Adjust color saturation and lightness based on zoom level
-      // This helps maintain color consistency at different zoom levels
+      const zoomLevel = outerWidth / width;
+
+      // Create a cache key based on theme, hue (rounded), zoom level (rounded)
+      const cacheKey = `${theme}_${Math.round(hue)}_${zoomLevel.toFixed(2)}_${width}x${height}`;
+
+      // Return cached gradient if exists
+      if (gradientCache.has(cacheKey)) {
+        return gradientCache.get(cacheKey)!;
+      }
+
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = Math.max(width, height) * 0.8;
+
+      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+
       const saturationAdjust = Math.min(100, Math.max(70, 85 - (zoomLevel - 1) * 30));
       const lightnessAdjust = Math.min(5, Math.max(-5, (zoomLevel - 1) * 10));
 
       if (theme === "sunset") {
-        const sunsetHue = (hue + 20) % 360; // Offset to a warmer tone
+        const sunsetHue = (hue + 20) % 360;
         gradient.addColorStop(0, `hsl(${sunsetHue}, ${saturationAdjust}%, ${30 + lightnessAdjust}%)`);
         gradient.addColorStop(0.3, `hsl(${(sunsetHue + 15) % 360}, ${saturationAdjust - 10}%, ${25 + lightnessAdjust}%)`);
         gradient.addColorStop(0.6, `hsl(${(sunsetHue + 30) % 360}, ${saturationAdjust - 15}%, ${20 + lightnessAdjust}%)`);
@@ -247,20 +280,28 @@ export default function ParticleBackground({ theme = "night", interaction = fals
         gradient.addColorStop(1, `hsl(${(hue + 45) % 360}, ${saturationAdjust - 15}%, ${8 + lightnessAdjust}%)`);
       }
 
+      gradientCache.set(cacheKey, gradient);
+
       return gradient;
     };
+
+    let globalPulseTime = 0; // updated once per frame outside this function
+    let activeExplosions = 3;
     const handleParticleExplosion = (particle: Particle) => {
-      particle.size *= 0.94;
-      particle.life -= 0.03;
-      
-      // Add a pulsing effect during explosion
-      const pulseRate = Math.sin(Date.now() * 0.01) * 0.1 + 0.9;
-      particle.size *= pulseRate;
-      
       if (particle.life <= 0) {
+        activeExplosions = Math.max(0, activeExplosions - 1);
         resetParticle(particle);
+        return;
       }
+
+      particle.size *= 0.92;
+      particle.life -= 0.04;
+
+      // Use a smooth pulse effect based on globalPulseTime instead of performance.now()
+      const pulse = 1 + 0.05 * Math.sin(globalPulseTime * 10); // pulsates between ~0.95 to 1.05
+      particle.size *= pulse;
     };
+
 
     const resetParticle = (particle: Particle) => {
       particle.exploded = false;
@@ -332,53 +373,46 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     };
 
     const drawParticle = (particle: Particle) => {
-      // Reduce or eliminate shadow effects on mobile for better performance
+      ctx.save(); // Save context state
+
       if (!isMobile) {
-        // Add glow effect based on particle state (only on desktop)
-        ctx.shadowColor = particle.exploded ? "white" : theme === "night" ? "rgba(120, 120, 255, 0.5)" : "rgba(255, 180, 120, 0.5)";
+        ctx.shadowColor = particle.exploded
+          ? "white"
+          : theme === "night"
+          ? "rgba(120, 120, 255, 0.5)"
+          : "rgba(255, 180, 120, 0.5)";
         ctx.shadowBlur = particle.exploded ? 15 : particle.size * 2;
       } else if (particle.exploded) {
-        // Only use shadows for exploded particles on mobile, with reduced blur
         ctx.shadowColor = "white";
         ctx.shadowBlur = 5;
+      } else {
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
       }
-      
-      // Draw the particle with a gradient for more depth
-      const gradient = ctx.createRadialGradient(
-        particle.x, particle.y, 0,
-        particle.x, particle.y, particle.size
-      );
-      
-      // Extract base color from the particle's color
-      const baseColor = particle.color.replace(/[^,]+(?=\))/, '1');
-      
+
+      const gradient = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size);
+      const baseColor = particle.color.replace(/[^,]+(?=\))/, "1");
       gradient.addColorStop(0, baseColor);
       gradient.addColorStop(0.6, particle.color);
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      
+      gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fillStyle = gradient;
       ctx.fill();
-      
-      // Reset shadow for performance
-      ctx.shadowBlur = 0;
+
+      ctx.restore(); // Restore context state
     };
 
+    const gradientCache = new Map<string, CanvasGradient>();
     const drawParticleConnections = (particle: Particle, index: number) => {
-      // Skip more particles on mobile for better performance
       if (index % (isMobile ? 5 : 3) !== 0) return;
-      
-      // Reduce connection distance on mobile
+
       const connectionDistance = isMobile ? 80 : 100;
-      
-      // Reduce max connections on mobile
       const maxConnections = isMobile ? 2 : 3;
       let connections = 0;
-      
-      // On mobile, check fewer particles for connections
       const checkStep = isMobile ? 2 : 1;
-      
+
       for (let j = index + checkStep; j < particles.length && connections < maxConnections; j += checkStep) {
         const other = particles[j];
         const dx = particle.x - other.x;
@@ -387,11 +421,9 @@ export default function ParticleBackground({ theme = "night", interaction = fals
 
         if (dist < connectionDistance) {
           connections++;
-          
-          // Calculate opacity based on distance
+
           const opacity = 0.2 * (1 - dist / connectionDistance);
-          
-          // On mobile, use simple lines instead of gradients for better performance
+
           if (isMobile) {
             ctx.beginPath();
             ctx.strokeStyle = `rgba(150, 150, 255, ${opacity})`;
@@ -400,18 +432,20 @@ export default function ParticleBackground({ theme = "night", interaction = fals
             ctx.lineTo(other.x, other.y);
             ctx.stroke();
           } else {
-            // Create gradient line for more visual appeal on desktop
-            const gradient = ctx.createLinearGradient(
-              particle.x, particle.y, other.x, other.y
-            );
-            
-            // Extract colors from particles for the connection
-            const color1 = particle.color.replace(/[^,]+(?=\))/, String(opacity));
-            const color2 = other.color.replace(/[^,]+(?=\))/, String(opacity));
-            
-            gradient.addColorStop(0, color1);
-            gradient.addColorStop(1, color2);
-            
+            // Use a stable key based on particle indices (smaller index first)
+            const key = index < j ? `${index}-${j}-${opacity.toFixed(3)}` : `${j}-${index}-${opacity.toFixed(3)}`;
+
+            let gradient = gradientCache.get(key);
+            if (!gradient) {
+              gradient = ctx.createLinearGradient(particle.x, particle.y, other.x, other.y);
+              const color1 = particle.color.replace(/[^,]+(?=\))/, String(opacity));
+              const color2 = other.color.replace(/[^,]+(?=\))/, String(opacity));
+              gradient.addColorStop(0, color1);
+              gradient.addColorStop(1, color2);
+
+              gradientCache.set(key, gradient);
+            }
+
             ctx.beginPath();
             ctx.strokeStyle = gradient;
             ctx.lineWidth = 0.8 * Math.min(particle.depth, other.depth) / 3;
@@ -420,7 +454,6 @@ export default function ParticleBackground({ theme = "night", interaction = fals
             ctx.stroke();
           }
 
-          // Reduce chance for particles to explode on mobile
           if (dist < 30 && Math.random() < (isMobile ? 0.002 : 0.005)) {
             particle.exploded = true;
             particle.speedX = (Math.random() - 0.5) * 2;
@@ -429,6 +462,7 @@ export default function ParticleBackground({ theme = "night", interaction = fals
         }
       }
     };
+
 
     // Start animation with timestamp
     animationId = requestAnimationFrame(animateParticles);
