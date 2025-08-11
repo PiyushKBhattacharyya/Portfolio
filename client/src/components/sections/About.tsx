@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Code, Cpu, Brain, SmartphoneIcon, Server } from 'lucide-react';
+import { Code, Brain, SmartphoneIcon, Server } from 'lucide-react';
 import TiltCard from '@/components/ui/tilt-card';
 import SkillCard from '@/components/ui/skill-card';
 
@@ -48,28 +48,29 @@ export default function About() {
         </motion.div>
 
         {/* Grid Layout */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-stretch gap-12 px-6 py-10 lg:px-24 lg:py-24 cursor-default select-none">
+        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-12 px-6 py-10 lg:px-24 lg:py-24 cursor-default select-none">
           {/* Left Column: Info Card */}
           <motion.div
-            className="lg:w-1/2 cursor-default select-none"
+            className="lg:w-1/2 cursor-default select-none mx-auto lg:mx-0"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
+            style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg animate-pulse-glow"></div>
+              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg animate-pulse-glow pointer-events-none"></div>
               <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-10 rounded-xl shadow-2xl border border-slate-800/50 hover:border-primary/30 transition-all duration-300">
-                <h3 className="text-2xl font-semibold mb-4 text-white">Who I Am</h3>
-                <p className="text-slate-300 leading-relaxed mb-6 text-base">
+                <h3 className="text-2xl font-semibold mb-4 text-white text-center lg:text-left">Who I Am</h3>
+                <p className="text-slate-300 leading-relaxed mb-6 text-center text-base lg:text-left">
                   I'm a final year Computer Science student passionate about <span className="text-primary font-medium">machine learning</span> and <span className="text-primary font-medium">full stack development</span>. I enjoy building intelligent, user-centric software that solves real-world problems.
                 </p>
-                <p className="text-slate-300 leading-relaxed mb-2 text-base">
+                <p className="text-slate-300 leading-relaxed mb-2 text-base text-center lg:text-left">
                   I started my tech journey in college and have been deeply exploring AI/ML and scalable systems ever since. My projects combine innovation, design, and practical utility.
                 </p>
 
                 {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-8 mt-10">
+                <div className="grid grid-cols-2 gap-8 mt-10 text-center lg:text-left">
                   {[
                     { label: "Education", value: "B.Tech in Computer Science" },
                     { label: "Experience", value: "1 Year" },
@@ -93,6 +94,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
+            style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 cursor-default select-none">
               {skillsData.map((skill, index) => (
@@ -102,6 +104,7 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.4 }}
+                  style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
                 >
                   <SkillCard
                     icon={skill.icon}
