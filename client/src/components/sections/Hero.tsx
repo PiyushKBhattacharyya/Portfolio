@@ -99,9 +99,13 @@ export default function Hero() {
               <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-pink-500 rounded-full transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
             </span>
           </h1>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-8">
+          <h2
+            className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-8 pb-2 leading-[1.3] antialiased"
+            style={{ transform: 'translateY(0.1px)' }}
+          >
             ML Engineer & Full Stack Developer
           </h2>
+
           <p className="text-base sm:text-lg text-slate-300/90 mb-8 max-w-xl mx-auto md:mx-0">
             Crafting innovative AI solutions and immersive digital experiences
             with cutting-edge web technologies.
