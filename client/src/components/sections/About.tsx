@@ -89,7 +89,7 @@ export default function About() {
 
           {/* Right Column: Skills */}
           <motion.div
-            className="lg:w-1/2 cursor-default select-none"
+            className="lg:w-1/2 cursor-default select-none lg:pt-12"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

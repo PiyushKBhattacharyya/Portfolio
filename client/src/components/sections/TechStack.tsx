@@ -123,7 +123,7 @@ export default function TechStack() {
         </motion.div>
 
         {/* Tech Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto max-w-5xl cursor-default select-none">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto max-w-5xl cursor-default select-none  text-center">
           {techCategories.map(({ label, icons }, categoryIndex) => (
             <motion.div
               key={label}
