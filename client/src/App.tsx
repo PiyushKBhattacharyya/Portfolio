@@ -12,6 +12,8 @@ import TechStack from "@/components/sections/TechStack";
 import Experience from "@/components/sections/Experience";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import { Analytics } from "@vercel/analytics/react";
+import { Component } from "lucide-react";
+import Publications from "./components/sections/Publications";
 
 // Detect if device is mobile
 const isMobile = typeof window !== 'undefined' &&
@@ -66,9 +68,10 @@ function Home() {
         {[
           { Component: About, id: "about" },
           { Component: Projects, id: "projects" },
+          { Component: Publications, id: "publications"},
           { Component: Awards, id: "awards" },
           { Component: Experience, id: "experience" },
-          { Component: TechStack, id: "techstack" }
+          { Component: TechStack, id: "techstack" },
         ].map(({ Component, id }, index) => (
           <motion.div
             key={id}

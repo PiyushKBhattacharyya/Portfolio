@@ -9,7 +9,7 @@ interface ProjectProps {
   title: string;
   description: string;
   tags: string[];
-  githubUrl: string;
+  githubUrl?: string;
   liveUrl?: string;
 }
 
@@ -94,14 +94,16 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
 
             <div className="flex justify-between items-center">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-slate-300 ${colorScheme.github} transition-all duration-300 hover:scale-125`}
-              >
-                <Github size={20} />
-              </a>
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-slate-300 ${colorScheme.github} transition-all duration-300 hover:scale-125`}
+                >
+                  <Github size={20} />
+                </a>
+              )}
               {project.liveUrl && (
                 <a
                   href={project.liveUrl}

@@ -5,15 +5,6 @@ export const SOCIAL_LINKS = {
   EMAIL: "piyushbhattacharyya@gmail.com"
 };
 
-// Navigation links for the navbar
-export const NAV_LINKS = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#awards", label: "Awards" },
-  { href: "#techstack", label: "Tech Stack" }
-];
-
 // Skills for the about section
 export const SKILLS = [
   {
@@ -37,10 +28,10 @@ export const SKILLS = [
 // Projects to showcase
 export const PROJECTS = [
   {
-    title: "LLM Chatbot",
-    description: "A Full Stack LLM ChatBot built with the help of Gemini API and React",
-    tags: ["React", "node.js", "Express", "Gemini-API", "Clerk", "MongoDB Atlas"],
-    githubUrl: "https://github.com/PiyushKBhattacharyya/LLM-ChatBot"
+    title: "Krishi Sahayogi",
+    description: "A platform revolutionizing farming through advanced drone technologies and AI, providing intelligent solutions for sustainable growth and a prosperous future.",
+    tags: ["React", "node.js", "FastAPI", "Gemini-API", "Machine Learning", "Supabase", "Kubernetes", "Docker"],
+    liveUrl: "https://startup.nielitbhubaneswar.in/learn-more"
   },
   {
     title: "Featureless Point Cloud Registration",
@@ -54,6 +45,19 @@ export const PROJECTS = [
     tags: ["Streamlit", "PyCaret", "Pandas Profiling", "Plotly"],
     githubUrl: "https://github.com/PiyushKBhattacharyya/AutoML",
     liveUrl: "https://automl.streamlit.app/"
+  },
+];
+
+// Publications
+export const publications = [
+  {
+    title: "Continual Learning for Food Category Classification Dataset: Enhancing Model Adaptability and Performance",
+    authors: ["Piyush Kaushik Bhattacharyya et al."],
+    conference: "2025 International Conference on Artificial intelligence and Emerging Technologies (ICAIET)",
+    year: "28-30 August 2025",
+    doi: "10.1109/ICAIET65052.2025.11211231",
+    abstract: "This paper presents a continual text-guided food classification framework that overcomes the limitations of conventional ML pipelines by enabling incremental learning of new categories without forgetting, making it adaptable for real-world dietary monitoring and personalized nutrition.",
+    link: "https://ieeexplore.ieee.org/document/11211231"
   },
 ];
 

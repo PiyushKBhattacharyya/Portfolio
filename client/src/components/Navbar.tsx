@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Home, User, Folder, Download, Sun, Moon, Award, ChartSpline } from 'lucide-react';
+import { Home, User, Folder, Download, Sun, Moon, Award, ChartSpline, BookOpen } from 'lucide-react';
 import {
   TooltipProvider,
   Tooltip,
@@ -13,9 +13,26 @@ import { cn } from '@/lib/utils';
 import ParticleBackground from './ui/ParticleBackground';
 
 const navItems = [
-  { href: '#home', label: 'Home', icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" /> },
-  { href: '#about', label: 'About', icon: <User className="w-5 h-5 sm:w-6 sm:h-6" /> },
-  { href: '#projects', label: 'Projects', icon: <Folder className="w-5 h-5 sm:w-6 sm:h-6" /> },
+  { 
+    href: '#home', 
+    label: 'Home', 
+    icon: <Home className="w-5 h-5 sm:w-6 sm:h-6" /> 
+  },
+  { 
+    href: '#about', 
+    label: 'About', 
+    icon: <User className="w-5 h-5 sm:w-6 sm:h-6" /> 
+  },
+  { 
+    href: '#projects', 
+    label: 'Projects', 
+    icon: <Folder className="w-5 h-5 sm:w-6 sm:h-6" />
+  },
+  {
+    href: '#publications',
+    label: 'Publications',
+    icon: <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
+  },
   {
     href: '#awards',
     label: 'Awards',
