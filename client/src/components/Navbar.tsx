@@ -28,7 +28,7 @@ const navItems = [
     icon: <ChartSpline className="w-5 h-5 sm:w-6 sm:h-6" />
   },
   {
-    href: 'https://drive.google.com/file/d/1w06FkQFZ8aBVYeyXH9ENKNYPBGO4WOPo/view?usp=sharing',
+    href: 'https://drive.google.com/file/d/1kSmi8De4tkFkRDrg-S_gzT1xqR6UyvMO/view?usp=sharing',
     label: 'Resume',
     icon: <Download className="w-5 h-5 sm:w-6 sm:h-6" />,
     target: '_blank',
