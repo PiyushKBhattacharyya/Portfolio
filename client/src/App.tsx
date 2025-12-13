@@ -10,30 +10,28 @@ import Projects from "@/components/sections/Projects";
 import Awards from "@/components/sections/Awards";
 import TechStack from "@/components/sections/TechStack";
 import Experience from "@/components/sections/Experience";
+import GrainOverlay from "@/components/ui/GrainOverlay";
+import CustomCursor from "@/components/ui/CustomCursor";
+import Spotlight from "@/components/ui/Spotlight";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import { Analytics } from "@vercel/analytics/react";
-import { Component } from "lucide-react";
-import Publications from "./components/sections/Publications";
+import Publications from "@/components/sections/Publications";
 
 // Detect if device is mobile
 const isMobile = typeof window !== 'undefined' &&
   (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-  window.innerWidth < 768);
+    window.innerWidth < 768);
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
-  // Component-level mobile detection for SSR compatibility
   const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   useEffect(() => {
-    // Set mobile state after component mounts to avoid hydration issues
     setIsMobileDevice(
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
       window.innerWidth < 768
     );
-    
-    // Set a small delay to ensure smooth transitions after initial load
-    // Use shorter delay on mobile for faster perceived loading
+
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, isMobileDevice ? 50 : 100);
@@ -46,9 +44,14 @@ function Home() {
       <div className="fixed top-0 left-0 w-full h-full -z-10">
         <ParticleBackground interaction />
       </div>
-      
+
+      {/* Global Visual overlays */}
+      <GrainOverlay />
+      <CustomCursor />
+      <Spotlight />
+
       <Navbar />
-      
+
       <main>
         <motion.div
           initial={{ opacity: 0 }}
@@ -63,12 +66,12 @@ function Home() {
         >
           <Hero />
         </motion.div>
-        
+
         {/* Section animations with mobile optimizations */}
         {[
           { Component: About, id: "about" },
           { Component: Projects, id: "projects" },
-          { Component: Publications, id: "publications"},
+          { Component: Publications, id: "publications" },
           { Component: Awards, id: "awards" },
           { Component: Experience, id: "experience" },
           { Component: TechStack, id: "techstack" },
@@ -96,7 +99,7 @@ function Home() {
           </motion.div>
         ))}
       </main>
-      
+
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -114,7 +117,7 @@ function Home() {
       >
         <Footer />
       </motion.div>
-    </div>
+    </div >
   );
 }
 
