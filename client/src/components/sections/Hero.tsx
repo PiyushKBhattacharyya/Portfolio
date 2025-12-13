@@ -7,34 +7,34 @@ import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
 // Detect if device is mobile
 const isMobile = typeof window !== 'undefined' &&
   (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-  window.innerWidth < 768);
+    window.innerWidth < 768);
 
 function ProfileImage() {
   return (
     <img
       src="/profile.png"
       alt="Piyush Kaushik Bhattacharyya"
-      className="rounded-full border-4 border-primary/30 shadow-2xl shadow-primary/30"
-      width={300}
-      height={300}
-      loading="eager" // Prioritize loading on all devices
+      className="w-full h-full object-cover"
+      width={400}
+      height={400}
+      loading="eager"
     />
   );
 }
 
 export default function Hero() {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  
+
   // Detect if device is mobile for component-level optimizations
   const [isMobileDevice, setIsMobileDevice] = useState(false);
-  
+
   useEffect(() => {
     // Set mobile state after component mounts to avoid hydration issues
     setIsMobileDevice(
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
       window.innerWidth < 768
     );
-    
+
     const element = scrollIndicatorRef.current;
     if (!element) return;
 
@@ -53,7 +53,7 @@ export default function Hero() {
         fill: 'both'
       }
     );
-    
+
     // Reduce animation workload when tab is not visible
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -62,7 +62,7 @@ export default function Hero() {
         bounce.playbackRate = 1; // Normal speed when visible
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
@@ -74,73 +74,74 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-20 relative"
+      className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden"
     >
-      <div className="container mx-auto px-20 py-20 flex flex-col-reverse md:flex-row items-center gap-12 cursor-default select-none">
+      {/* Background decorations */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-20 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-purple-500/30 blur-3xl rounded-full animate-pulse-slow" />
+      </div>
+
+      <div className="container mx-auto px-6 md:px-20 py-20 flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-20 relative z-10">
+
         {/* Text Section */}
         <motion.div
-          className="w-full md:w-1/2 text-center md:text-left cursor-default select-none"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: isMobile ? 0.6 : 0.8, // Faster animation on mobile
-            ease: "easeOut"
-          }}
-          style={{
-            willChange: "opacity, transform", // Hint for hardware acceleration
-            transform: "translateZ(0)", // Force hardware acceleration
-            backfaceVisibility: "hidden" // Prevent flickering
-          }}
+          className="w-full md:w-3/5 text-center md:text-left"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins mb-4 leading-tight">
-            Hi, I'm{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-gradient-shift relative">
-              Piyush Kaushik Bhattacharyya
-              <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-pink-500 rounded-full transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block mb-4 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
+          >
+            <span className="text-sm font-medium text-primary-foreground/80">
+              Passionate about Innovation
+            </span>
+          </motion.div>
+
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-poppins mb-6 leading-tight tracking-tight">
+            Hi, I'm <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-gradient-shift">
+              Piyush Kaushik
             </span>
           </h1>
-          <h2
-            className="text-xl sm:text-2xl md:text-3xl font-light text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 mb-8 pb-2 leading-[1.3] antialiased"
-            style={{ transform: 'translateY(0.1px)' }}
-          >
-            ML Engineer & Full Stack Developer
+
+          <h2 className="text-2xl sm:text-3xl font-light text-slate-300 mb-8 flex flex-col md:block gap-2">
+            <span className="font-semibold text-white">ML Engineer</span>
+            <span className="hidden md:inline mx-3 text-slate-500">•</span>
+            <span className="text-slate-400">Full Stack Developer</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300/90 mb-8 max-w-xl mx-auto md:mx-0">
-            Crafting innovative AI solutions and immersive digital experiences
-            with cutting-edge web technologies.
+          <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed">
+            Crafting intelligent AI solutions and immersive digital experiences that push the boundaries of what's possible on the web.
           </p>
 
-          <div className="flex flex-wrap justify-center md:justify-start gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
             <motion.a
               href="#projects"
-              className="px-6 sm:px-8 py-3 rounded-full border-2 border-primary text-white hover:bg-primary/20 font-semibold tracking-wide transition-all backdrop-blur-md cursor-default select-none shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/30"
-              whileHover={{ y: isMobile ? -2 : -4, scale: isMobile ? 1.02 : 1.05 }} // Reduced animation on mobile
+              className="px-8 py-4 rounded-full bg-primary text-white font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:bg-primary/90 transition-all flex items-center group"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              transition={{
-                type: "spring",
-                stiffness: isMobile ? 400 : 300, // Stiffer springs on mobile for faster animations
-                damping: isMobile ? 25 : 20 // More damping on mobile for less oscillation
-              }}
-              style={{
-                willChange: "transform", // Hint for hardware acceleration
-                transform: "translateZ(0)" // Force hardware acceleration
-              }}
             >
-              <span className="relative z-10 flex items-center">
-                <span className="mr-2">View Projects</span>
-                <span className="relative top-px">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 transform translate-x-0 group-hover:translate-x-1">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                  </svg>
-                </span>
-              </span>
+              View My Projects
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </motion.a>
+
+            <motion.a
+              href="#contact"
+              className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 backdrop-blur-md transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Contact Me
             </motion.a>
           </div>
 
-          <div className="flex justify-center md:justify-start space-x-5 mt-8">
-            {/* Social Icons */}
+          <div className="flex justify-center md:justify-start gap-6 mt-12">
             <SocialIcon
               href="https://github.com/PiyushKBhattacharyya"
               label="GitHub"
@@ -159,38 +160,59 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Profile Image */}
+        {/* Profile Image Area */}
         <motion.div
-          className="w-full md:w-1/2 flex justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: isMobile ? 0.7 : 1, // Faster animation on mobile
-            delay: isMobile ? 0.2 : 0.3, // Shorter delay on mobile
-            ease: "easeOut"
-          }}
-          style={{
-            willChange: "opacity", // Hint for hardware acceleration
-            transform: "translateZ(0)" // Force hardware acceleration
-          }}
+          className="w-full md:w-2/5 flex justify-center perspective-1000"
+          initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
+          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
-          <div className="relative w-64 h-64 md:w-80 md:h-80">
-            {/* Conditionally apply pulse animation based on device */}
-            <div className={`absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-pink-500/30 blur-2xl ${isMobile ? 'opacity-70' : 'animate-pulse'}`} />
-            <div className="relative z-10">
-              <ProfileImage />
+          <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] group preserve-3d">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary to-purple-500 rounded-full blur-[100px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+            <div className="relative w-full h-full rounded-full border-2 border-white/10 bg-black/50 backdrop-blur-sm p-4 animate-float-slow">
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+                <ProfileImage />
+              </div>
             </div>
+
+            {/* Floating decorative elements */}
+            <motion.div
+              className="absolute -top-10 -right-10 p-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl z-20"
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <span className="text-2xl">🚀</span>
+            </motion.div>
+
+            <motion.div
+              className="absolute -bottom-5 -left-5 p-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl z-20"
+              animate={{ y: [0, 15, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            >
+              <span className="text-2xl">⚡</span>
+            </motion.div>
           </div>
         </motion.div>
       </div>
 
       {/* Scroll Indicator */}
-      <div
+      <motion.div
         ref={scrollIndicatorRef}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-slate-300/50"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
       >
-        
-      </div>
+        <div className="w-[30px] h-[50px] rounded-full border-2 border-slate-500 flex justify-center p-2">
+          <motion.div
+            className="w-1.5 h-1.5 bg-slate-300 rounded-full"
+            animate={{ y: [0, 24, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -208,8 +230,8 @@ function SocialIcon({
   // Detect if device is mobile
   const isMobile = typeof window !== 'undefined' &&
     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768);
-    
+      window.innerWidth < 768);
+
   return (
     <motion.a
       href={href}

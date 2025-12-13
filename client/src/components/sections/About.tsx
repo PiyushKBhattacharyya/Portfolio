@@ -31,72 +31,77 @@ const skillsData = [
 
 export default function About() {
   return (
-    <section id="about" className="py-20">
-      <div className="container mx-auto px-4">
+    <section id="about" className="py-24 relative overflow-hidden">
+      <div className="container mx-auto px-6 md:px-20 relative z-10">
+
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16 cursor-default select-none"
-          initial={{ opacity: 0, y: 30 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium"
+          >
+            About Me
+          </motion.div>
           <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 animate-gradient-shift">Me</span>
+            Getting to Know <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Me</span>
           </h2>
-          <div className="h-1 w-32 mx-auto bg-gradient-to-r from-primary to-pink-500 rounded-full animate-pulse-glow"></div>
         </motion.div>
 
-        {/* Grid Layout */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-stretch gap-12 px-6 py-10 lg:px-24 lg:py-24 cursor-default select-none">
+        {/* Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+
           {/* Left Column: Info Card */}
           <motion.div
-            className="lg:w-1/2 cursor-default select-none mx-auto lg:mx-0"
+            className="lg:w-1/2"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
           >
-            <div className="relative">
-              <div className="absolute -inset-4 rounded-xl bg-gradient-to-r from-primary/30 to-pink-500/20 blur-lg animate-pulse-glow pointer-events-none"></div>
-              <TiltCard className="relative bg-slate-900/80 backdrop-blur-sm p-10 rounded-xl shadow-2xl border border-slate-800/50 hover:border-primary/30 transition-all duration-300">
-                <h3 className="text-2xl font-semibold mb-4 text-white text-center lg:text-left">Who I Am</h3>
-                <p className="text-slate-300 leading-relaxed mb-6 text-center text-base lg:text-left">
+            <TiltCard className="h-full bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10 hover:border-primary/30 transition-all duration-300">
+              <h3 className="text-2xl font-bold mb-6 text-white">Who I Am</h3>
+              <div className="space-y-6 text-slate-300 leading-relaxed">
+                <p>
                   I'm a final year Computer Science student passionate about <span className="text-primary font-medium">machine learning</span> and <span className="text-primary font-medium">full stack development</span>. I enjoy building intelligent, user-centric software that solves real-world problems.
                 </p>
-                <p className="text-slate-300 leading-relaxed mb-2 text-base text-center lg:text-left">
+                <p>
                   I started my tech journey in college and have been deeply exploring AI/ML and scalable systems ever since. My projects combine innovation, design, and practical utility.
                 </p>
+              </div>
 
-                {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-8 mt-10 text-center lg:text-left">
-                  {[
-                    { label: "Education", value: "B.Tech in Computer Science" },
-                    { label: "Experience", value: "1 Year" },
-                    { label: "Location", value: "Guwahati, India" },
-                    { label: "Languages", value: "English, Hindi, Assamese" }
-                  ].map((item, idx) => (
-                    <div key={idx}>
-                      <h4 className="text-sm font-medium text-primary mb-2">{item.label}</h4>
-                      <p className="text-slate-300 text-sm font-medium">{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </TiltCard>
-            </div>
+              {/* Details Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 pt-10 border-t border-white/10">
+                {[
+                  { label: "Education", value: "B.Tech in Computer Science" },
+                  { label: "Experience", value: "1 Year" },
+                  { label: "Location", value: "Guwahati, India" },
+                  { label: "Languages", value: "English, Hindi, Assamese" }
+                ].map((item, idx) => (
+                  <div key={idx} className="bg-black/20 p-4 rounded-xl border border-white/5">
+                    <h4 className="text-sm font-medium text-primary mb-1">{item.label}</h4>
+                    <p className="text-slate-200 font-medium">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </TiltCard>
           </motion.div>
 
           {/* Right Column: Skills */}
           <motion.div
-            className="lg:w-1/2 cursor-default select-none lg:pt-12"
+            className="lg:w-1/2 flex flex-col justify-center"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 cursor-default select-none">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {skillsData.map((skill, index) => (
                 <motion.div
                   key={index}
@@ -104,7 +109,6 @@ export default function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.4 }}
-                  style={{ willChange: 'opacity, transform', transform: 'translateZ(0)' }}
                 >
                   <SkillCard
                     icon={skill.icon}
