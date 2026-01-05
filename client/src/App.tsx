@@ -15,6 +15,7 @@ import CustomCursor from "@/components/ui/CustomCursor";
 import Spotlight from "@/components/ui/Spotlight";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Publications from "@/components/sections/Publications";
 
 // Detect if device is mobile
@@ -129,6 +130,7 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
