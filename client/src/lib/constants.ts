@@ -22,7 +22,7 @@ export const SKILLS = [
   {
     title: "Machine Learning",
     description: "Designing and deploying intelligent models for data-driven decision-making, automation, and predictive analytics."
-  }  
+  }
 ];
 
 // Projects to showcase
@@ -31,7 +31,7 @@ export const PROJECTS = [
     title: "Krishi Sahayogi",
     description: "A platform revolutionizing farming through advanced drone technologies and AI, providing intelligent solutions for sustainable growth and a prosperous future.",
     tags: ["React", "node.js", "FastAPI", "Gemini-API", "Machine Learning", "Supabase", "Kubernetes", "Docker"],
-    liveUrl: "https://startup.nielitbhubaneswar.in/learn-more"
+    liveUrl: "https://www.krishisahayogi.com/"
   },
   {
     title: "Featureless Point Cloud Registration",
@@ -51,10 +51,19 @@ export const PROJECTS = [
 // Publications
 export const publications = [
   {
+    title: "ECG Arrhythmia Detection Using Lightweight 1DCNN-Bi-LSTM Technique for Cardiovascular Disease",
+    authors: ["Payel Sarmah", "Piyush Kaushik Bhattacharyya", "et al."],
+    conference: "NICEDT-2025",
+    year: "4/01/2026",
+    doi: "10.1007/978-981-96-9932-2_27",
+    abstract: "This paper introduces a lightweight 1DCNN-Bi-LSTM architecture for real-time arrhythmia detection on 12-lead ECG signals. By implementing model pruning on a dataset of 45,152 patients, the proposed framework achieves 99.4% accuracy while significantly reducing computational overhead, making it highly effective for on-device cardiovascular monitoring.",
+    link: "https://link.springer.com/chapter/10.1007/978-981-96-9932-2_27"
+  },
+  {
     title: "Continual Learning for Food Category Classification Dataset: Enhancing Model Adaptability and Performance",
     authors: ["Piyush Kaushik Bhattacharyya et al."],
     conference: "2025 International Conference on Artificial intelligence and Emerging Technologies (ICAIET)",
-    year: "28-30 August 2025",
+    year: "30/10/2025",
     doi: "10.1109/ICAIET65052.2025.11211231",
     abstract: "This paper presents a continual text-guided food classification framework that overcomes the limitations of conventional ML pipelines by enabling incremental learning of new categories without forgetting, making it adaptable for real-world dietary monitoring and personalized nutrition.",
     link: "https://ieeexplore.ieee.org/document/11211231"

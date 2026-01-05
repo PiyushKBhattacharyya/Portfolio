@@ -101,20 +101,20 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-poppins mb-6 leading-tight tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-heading mb-6 leading-tight tracking-tight">
             Hi, I'm <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-pink-500 animate-gradient-shift">
-              Piyush Kaushik
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-300 to-pink-300 animate-gradient-shift filter drop-shadow-lg">
+              Piyush Kaushik Bhattacharyya
             </span>
           </h1>
 
-          <h2 className="text-2xl sm:text-3xl font-light text-slate-300 mb-8 flex flex-col md:block gap-2">
+          <h2 className="text-2xl sm:text-3xl font-light font-sans text-slate-300 mb-8 flex flex-col md:block gap-2">
             <span className="font-semibold text-white">ML Engineer</span>
             <span className="hidden md:inline mx-3 text-slate-500">•</span>
             <span className="text-slate-400">Full Stack Developer</span>
           </h2>
 
-          <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed">
+          <p className="text-lg text-slate-400 mb-10 max-w-xl mx-auto md:mx-0 leading-relaxed font-sans">
             Crafting intelligent AI solutions and immersive digital experiences that push the boundaries of what's possible on the web.
           </p>
 

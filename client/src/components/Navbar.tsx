@@ -49,7 +49,7 @@ export default function Navbar() {
     { href: '#experience', label: 'Experience', icon: <ChartSpline className="w-6 h-6" /> },
     { href: '#techstack', label: 'Tech Stack', icon: <Cpu className="w-6 h-6" /> },
     {
-      href: 'https://drive.google.com/file/d/1kSmi8De4tkFkRDrg-S_gzT1xqR6UyvMO/view?usp=sharing',
+      href: 'https://drive.google.com/file/d/1G9Y_Er-YEh_IRjWI0DCwruWF5k8WY2cJ/view?usp=sharing',
       label: 'Resume',
       icon: <Download className="w-6 h-6" />,
       target: '_blank',
