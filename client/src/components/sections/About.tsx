@@ -9,17 +9,17 @@ import SkillCard from '@/components/ui/skill-card';
 const skillsData = [
   {
     icon: <Code size={26} />,
-    title: "Full Stack Development",
-    description: "Building responsive and performant web applications using modern frameworks and technologies."
+    title: "Full Stack Dev",
+    description: "Building responsive and performant web applications using modern frameworks."
   },
   {
     icon: <Brain size={26} />,
-    title: "AI & Machine Learning",
-    description: "Developing intelligent solutions with TensorFlow, PyTorch, and natural language processing."
+    title: "AI & ML",
+    description: "Developing intelligent solutions with TensorFlow, PyTorch, and NLP."
   },
   {
     icon: <SmartphoneIcon size={26} />,
-    title: "Responsive Design",
+    title: "Responsive UX",
     description: "Crafting interfaces that work seamlessly across all devices and screen sizes."
   },
   {
@@ -32,6 +32,9 @@ const skillsData = [
 export default function About() {
   return (
     <section id="about" className="py-24 relative overflow-hidden">
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+
       <div className="container mx-auto px-6 md:px-20 relative z-10">
 
         {/* Section Header */}
@@ -45,12 +48,12 @@ export default function About() {
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium"
+            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono tracking-wider"
           >
-            About Me
+            BIO_DATA
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-4 tracking-tight">
-            Getting to Know <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Me</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-heading mb-4 tracking-tight text-white">
+            About <span className="text-gradient-quantum">Me</span>
           </h2>
         </motion.div>
 
@@ -65,28 +68,36 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <TiltCard className="h-full bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/10 hover:border-primary/30 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-white">Who I Am</h3>
-              <div className="space-y-6 text-slate-300 leading-relaxed">
+            <TiltCard className="h-full bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 relative group">
+              {/* Tech Corners */}
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/10 group-hover:border-primary/50 transition-colors" />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white/10 group-hover:border-primary/50 transition-colors" />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white/10 group-hover:border-primary/50 transition-colors" />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/10 group-hover:border-primary/50 transition-colors" />
+
+              <h3 className="text-2xl font-bold font-heading mb-6 text-white flex items-center gap-3">
+                <span className="text-primary font-mono text-sm">&gt;</span> WHO_AM_I?
+              </h3>
+              <div className="space-y-6 text-slate-300 font-light leading-relaxed">
                 <p>
-                  I'm a final year Computer Science student passionate about <span className="text-primary font-medium">machine learning</span> and <span className="text-primary font-medium">full stack development</span>. I enjoy building intelligent, user-centric software that solves real-world problems.
+                  I'm a final-year Computer Science student passionate about <span className="text-primary font-medium">Machine Learning</span> and <span className="text-secondary font-medium">Full Stack Development</span>. I enjoy building intelligent, user-centric software.
                 </p>
                 <p>
-                  I started my tech journey in college and have been deeply exploring AI/ML and scalable systems ever since. My projects combine innovation, design, and practical utility.
+                  My journey involves deep exploration of scalable systems and AI-driven solutions. I combine innovation with practical utility in every project.
                 </p>
               </div>
 
               {/* Details Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 pt-10 border-t border-white/10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 pt-10 border-t border-white/10">
                 {[
-                  { label: "Education", value: "B.Tech in Computer Science" },
-                  { label: "Experience", value: "1 Year" },
-                  { label: "Location", value: "Guwahati, India" },
-                  { label: "Languages", value: "English, Hindi, Assamese" }
+                  { label: "EDUCATION", value: "B.Tech CSE" },
+                  { label: "EXPERIENCE", value: "1+ Year" },
+                  { label: "LOCATION", value: "Guwahati, IN" },
+                  { label: "LANGUAGES", value: "En, Hi, As" }
                 ].map((item, idx) => (
-                  <div key={idx} className="bg-black/20 p-4 rounded-xl border border-white/5">
-                    <h4 className="text-sm font-medium text-primary mb-1">{item.label}</h4>
-                    <p className="text-slate-200 font-medium">{item.value}</p>
+                  <div key={idx} className="bg-white/[0.03] p-4 rounded-lg border border-white/5 hover:border-primary/20 transition-colors group/item">
+                    <h4 className="text-[10px] font-mono font-bold text-primary/70 mb-1 group-hover/item:text-primary transition-colors">{item.label}</h4>
+                    <p className="text-slate-200 font-medium tracking-wide">{item.value}</p>
                   </div>
                 ))}
               </div>

@@ -1,13 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import TiltCard from '@/components/ui/tilt-card';
 import { useEffect, useState } from 'react';
-
-// Detect if device is mobile
-const isMobile = typeof window !== 'undefined' &&
-  (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768);
 
 // Tech categories
 const techCategories = [
@@ -69,18 +63,6 @@ const getIconUrl = (slug: string) => {
   }
 };
 
-// Tailwind-safe dynamic column class
-const getGridColsClass = (count: number) => {
-  const cols = Math.min(count, 5);
-  return {
-    1: 'grid-cols-1',
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4',
-    5: 'grid-cols-5'
-  }[cols];
-};
-
 // TechStack Component
 export default function TechStack() {
   const [isMobileDevice, setIsMobileDevice] = useState(false);
@@ -93,7 +75,10 @@ export default function TechStack() {
   }, []);
 
   return (
-    <section id="techstack" className="min-h-screen py-24 relative">
+    <section id="techstack" className="min-h-screen py-24 relative overflow-hidden">
+      {/* Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+
       <div className="container mx-auto px-6 md:px-20 relative z-10">
         {/* Header */}
         <motion.div
@@ -106,15 +91,15 @@ export default function TechStack() {
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium"
+            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono tracking-wider"
           >
-            Expertise
+            SKILL_MATRIX
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-bold font-poppins mb-6 tracking-tight">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500">Tech Stack</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6 tracking-tight text-white">
+            My <span className="text-gradient-quantum">Tech Stack</span>
           </h2>
-          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
-            A comprehensive list of technologies I've mastered and use daily to build robust applications.
+          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto font-light">
+            Comprehensive arsenal of mastered technologies and tools.
           </p>
         </motion.div>
 
@@ -131,14 +116,16 @@ export default function TechStack() {
               <div className="flex flex-col md:flex-row items-center gap-6">
                 {/* Category Label */}
                 <div className="w-full md:w-48 flex-shrink-0 text-center md:text-right">
-                  <h3 className="text-xl font-bold text-white mb-1">{label}</h3>
-                  <div className="h-1 w-12 bg-primary/30 rounded-full mx-auto md:ml-auto md:mr-0" />
+                  <h3 className="text-xl font-bold text-white mb-1 font-heading">{label}</h3>
+                  <div className="h-0.5 w-12 bg-primary/30 rounded-full mx-auto md:ml-auto md:mr-0 group-hover:bg-primary transition-colors" />
                 </div>
 
                 {/* Icons Grid */}
-                <div className="flex-grow">
-                  <div className="glass-panel rounded-2xl p-6 md:p-8 hover:border-primary/20 transition-all duration-300">
-                    <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8">
+                <div className="flex-grow w-full">
+                  <div className="glass-panel bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 md:p-8 hover:border-primary/20 transition-all duration-300 relative group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none" />
+
+                    <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 relative z-10">
                       {icons.map((icon, iconIndex) => (
                         <motion.div
                           key={icon}
@@ -147,17 +134,17 @@ export default function TechStack() {
                             rotate: 5,
                             filter: "brightness(1.2)"
                           }}
-                          className="group relative flex flex-col items-center justify-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer"
+                          className="group/icon relative flex flex-col items-center justify-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer"
                         >
-                          <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">
+                          <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
                             <img
                               src={getIconUrl(icon)}
                               alt={icon}
-                              className="w-full h-full object-contain filter drop-shadow-lg transition-transform"
+                              className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] transition-transform"
                               loading="lazy"
                             />
                           </div>
-                          <span className="text-xs font-medium text-slate-400 group-hover:text-primary transition-colors capitalize opacity-0 group-hover:opacity-100 absolute -bottom-2 translate-y-full whitespace-nowrap bg-black/80 px-2 py-1 rounded">
+                          <span className="text-[10px] font-mono font-medium text-slate-400 group-hover/icon:text-primary transition-colors capitalize opacity-0 group-hover/icon:opacity-100 absolute -bottom-2 translate-y-full whitespace-nowrap bg-black/90 border border-white/10 px-2 py-1 rounded shadow-xl">
                             {icon}
                           </span>
                         </motion.div>

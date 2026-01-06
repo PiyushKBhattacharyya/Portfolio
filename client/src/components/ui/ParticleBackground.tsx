@@ -36,10 +36,10 @@ export default function ParticleBackground({ theme = "night", interaction = fals
     // Use '2d' with alpha for better performance
     const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
     if (!ctx) return;
-    
+
     // Detect if device is mobile - define once and use throughout
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-    
+
     // Optimize canvas rendering - reduce quality on mobile
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = isMobile ? 'medium' : 'high';
@@ -65,83 +65,84 @@ export default function ParticleBackground({ theme = "night", interaction = fals
 
     const particles: Particle[] = [];
 
-const createParticles = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  const screenArea = width * height;
+    const createParticle = (depth: number, width: number, height: number): Particle => {
+      // Helper to generate HSLA color string
+      const randomRange = (min: number, max: number) => min + Math.random() * (max - min);
 
-  const particleDensity = isMobile ? 1 / 10000 : 1 / 5000;
+      let hue: number;
+      if (theme === "night") {
+        // Quantum Fluid Theme: Cyan (180-200) and Neon Purple (260-290)
+        hue = Math.random() > 0.6
+          ? randomRange(180, 200)  // Cyan
+          : randomRange(260, 290); // Neon Violet
+      } else {
+        hue = Math.random() > 0.5
+          ? randomRange(20, 60)
+          : randomRange(320, 360);
+      }
+      const saturation = randomRange(80, 100);
+      const lightness = randomRange(60, 90);
+      const alpha = depth / 3;
 
-  const minParticles = isMobile ? 30 : 50;
-  const maxParticlesAllowed = isMobile ? 100 : 200;
+      const particleColor = `hsla(${hue.toFixed(1)}, ${saturation.toFixed(1)}%, ${lightness.toFixed(1)}%, ${alpha.toFixed(2)})`;
 
-  const calculatedCount = Math.floor(screenArea * particleDensity);
-  const maxParticles = Math.min(Math.max(calculatedCount, minParticles), maxParticlesAllowed);
+      // Cache some random values to avoid repeated calls
+      const baseSize = randomRange(0.5, 3.0);
+      const baseSpeedX = (Math.random() - 0.5) * 0.5;
+      const baseSpeedY = (Math.random() - 0.5) * 0.5;
+      const baseAngle = Math.random() * Math.PI * 2;
+      const baseAngleSpeed = (Math.random() - 0.5) * 0.02;
+      const baseDriftX = (Math.random() - 0.5) * 0.1;
+      const baseDriftY = (Math.random() - 0.5) * 0.1;
+      const noiseOffsetX = Math.random() * 1000;
+      const noiseOffsetY = Math.random() * 1000;
 
-  // Pre-allocate array size for potential slight perf gain
-  particles.length = 0;
-
-  for (let i = 0; i < maxParticles; i++) {
-    const depth = Math.random() * 3 + 1;
-    particles.push(createParticle(depth, width, height));
-    }
-  };
-
-  const createParticle = (depth: number, width: number, height: number): Particle => {
-    // Helper to generate HSLA color string
-    const randomRange = (min: number, max: number) => min + Math.random() * (max - min);
-
-    let hue: number;
-    if (theme === "night") {
-      hue = Math.random() > 0.7
-        ? randomRange(180, 240)  // cyan/blue tones
-        : randomRange(240, 300); // purple/violet tones
-    } else {
-      hue = Math.random() > 0.5
-        ? randomRange(20, 60)    // orange/yellow tones
-        : randomRange(320, 360); // pink/magenta tones
-    }
-    const saturation = randomRange(70, 100);
-    const lightness = randomRange(70, 100);
-    const alpha = depth / 4;
-
-    const particleColor = `hsla(${hue.toFixed(1)}, ${saturation.toFixed(1)}%, ${lightness.toFixed(1)}%, ${alpha.toFixed(2)})`;
-
-    // Cache some random values to avoid repeated calls
-    const baseSize = randomRange(0.5, 3.0);
-    const baseSpeedX = (Math.random() - 0.5) * 0.5;
-    const baseSpeedY = (Math.random() - 0.5) * 0.5;
-    const baseAngle = Math.random() * Math.PI * 2;
-    const baseAngleSpeed = (Math.random() - 0.5) * 0.02;
-    const baseDriftX = (Math.random() - 0.5) * 0.1;
-    const baseDriftY = (Math.random() - 0.5) * 0.1;
-    const noiseOffsetX = Math.random() * 1000;
-    const noiseOffsetY = Math.random() * 1000;
-
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: baseSize * (depth / 3),
-      speedX: baseSpeedX / depth,
-      speedY: baseSpeedY / depth,
-      angle: baseAngle,
-      angleSpeed: baseAngleSpeed,
-      driftX: baseDriftX,
-      driftY: baseDriftY,
-      noiseOffsetX,
-      noiseOffsetY,
-      depth,
-      color: particleColor,
-      exploded: false,
-      life: 1,
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: baseSize * (depth / 3),
+        speedX: baseSpeedX / depth,
+        speedY: baseSpeedY / depth,
+        angle: baseAngle,
+        angleSpeed: baseAngleSpeed,
+        driftX: baseDriftX,
+        driftY: baseDriftY,
+        noiseOffsetX,
+        noiseOffsetY,
+        depth,
+        color: particleColor,
+        exploded: false,
+        life: 1,
+      };
     };
-  };
 
-  createParticles();
+    const createParticles = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const screenArea = width * height;
 
-  let mouseX = 0,
-    mouseY = 0,
-    isMouseMoving = false;
+      const particleDensity = isMobile ? 1 / 10000 : 1 / 5000;
+
+      const minParticles = isMobile ? 30 : 50;
+      const maxParticlesAllowed = isMobile ? 100 : 200;
+
+      const calculatedCount = Math.floor(screenArea * particleDensity);
+      const maxParticles = Math.min(Math.max(calculatedCount, minParticles), maxParticlesAllowed);
+
+      // Pre-allocate array size for potential slight perf gain
+      particles.length = 0;
+
+      for (let i = 0; i < maxParticles; i++) {
+        const depth = Math.random() * 3 + 1;
+        particles.push(createParticle(depth, width, height));
+      }
+    };
+
+    createParticles();
+
+    let mouseX = 0,
+      mouseY = 0,
+      isMouseMoving = false;
     // Initialize mouse position
 
     // Handle both mouse and touch events for interaction
@@ -156,7 +157,7 @@ const createParticles = () => {
         mouseX = e.clientX;
         mouseY = e.clientY;
       }
-      
+
       isMouseMoving = true;
       clearTimeout(mouseMoveTimeout);
       mouseMoveTimeout = setTimeout(() => {
@@ -316,7 +317,7 @@ const createParticles = () => {
       const zoomLevel = window.outerWidth / window.innerWidth;
       // Calculate a movement scale factor that compensates for zoom
       const movementScale = Math.max(0.5, Math.min(1.5, zoomLevel));
-      
+
       const noiseX = noise(particle.noiseOffsetX, noiseTime) - 0.5;
       const noiseY = noise(particle.noiseOffsetY, noiseTime) - 0.5;
 
@@ -334,7 +335,7 @@ const createParticles = () => {
 
       // Add a small buffer to prevent edge artifacts when zooming
       const buffer = 5;
-      
+
       // Handle boundary wrapping with buffer
       if (particle.x > window.innerWidth + buffer) particle.x = -buffer;
       if (particle.x < -buffer) particle.x = window.innerWidth + buffer;
@@ -346,7 +347,7 @@ const createParticles = () => {
 
     const applyMouseEffects = (particle: Particle) => {
       if (!interaction) return;
-      
+
       const dx = mouseX - particle.x;
       const dy = mouseY - particle.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
@@ -357,7 +358,7 @@ const createParticles = () => {
         const force = Math.min(5 / distance, 0.08);
         particle.speedX -= Math.cos(Math.atan2(dy, dx)) * force;
         particle.speedY -= Math.sin(Math.atan2(dy, dx)) * force;
-        
+
         // Chance to trigger explosion based on proximity
         if (distance < 50 && Math.random() < 0.05) {
           particle.exploded = true;
@@ -379,8 +380,8 @@ const createParticles = () => {
         ctx.shadowColor = particle.exploded
           ? "white"
           : theme === "night"
-          ? "rgba(120, 120, 255, 0.5)"
-          : "rgba(255, 180, 120, 0.5)";
+            ? "rgba(120, 120, 255, 0.5)"
+            : "rgba(255, 180, 120, 0.5)";
         ctx.shadowBlur = particle.exploded ? 15 : particle.size * 2;
       } else if (particle.exploded) {
         ctx.shadowColor = "white";

@@ -33,31 +33,35 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
     switch (colorName) {
       case 'primary':
         return {
-          border: 'border-blue-500/30',
-          bg: 'bg-blue-500/10',
-          text: 'text-blue-500',
-          dot: 'border-blue-500'
+          border: 'border-primary/30',
+          bg: 'bg-primary/5',
+          text: 'text-primary',
+          dot: 'border-primary',
+          hoverBorder: 'group-hover:border-primary/60'
         };
       case 'secondary':
         return {
-          border: 'border-purple-500/30',
-          bg: 'bg-purple-500/10',
-          text: 'text-purple-500',
-          dot: 'border-purple-500'
+          border: 'border-secondary/30',
+          bg: 'bg-secondary/5',
+          text: 'text-secondary',
+          dot: 'border-secondary',
+          hoverBorder: 'group-hover:border-secondary/60'
         };
       case 'accent':
         return {
           border: 'border-pink-500/30',
-          bg: 'bg-pink-500/10',
+          bg: 'bg-pink-500/5',
           text: 'text-pink-500',
-          dot: 'border-pink-500'
+          dot: 'border-pink-500',
+          hoverBorder: 'group-hover:border-pink-500/60'
         };
       default:
         return {
           border: 'border-slate-500/30',
-          bg: 'bg-slate-500/10',
+          bg: 'bg-slate-500/5',
           text: 'text-slate-500',
-          dot: 'border-slate-500'
+          dot: 'border-slate-500',
+          hoverBorder: 'group-hover:border-slate-500/60'
         };
     }
   };
@@ -71,26 +75,39 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
-      className="p-6 max-w-sm"
+      className="p-6 max-w-md w-full"
     >
-      <TiltCard className={`relative bg-slate-900/60 backdrop-blur-lg border ${colorClasses.border} rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500`}>
-        <div className="absolute -top-2 -left-2 w-10 h-10 bg-white/10 backdrop-blur-lg rounded-full blur-xl" />
-        <span className={`text-xs ${colorClasses.text} font-semibold ${colorClasses.bg} px-3 py-1 rounded-full`}>
-          {award.year}
-        </span>
-        <h3 className="text-2xl font-bold font-poppins mt-3 mb-2 text-white drop-shadow">{award.title}</h3>
-        <p className="text-slate-300/90 text-sm leading-relaxed mb-3">
+      <TiltCard className={`relative bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl group transition-all duration-500`}>
+        {/* Tech Corners */}
+        <div className={`absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 ${colorClasses.hoverBorder} transition-colors duration-300`} />
+        <div className={`absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 ${colorClasses.hoverBorder} transition-colors duration-300`} />
+        <div className={`absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 ${colorClasses.hoverBorder} transition-colors duration-300`} />
+        <div className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 ${colorClasses.hoverBorder} transition-colors duration-300`} />
+
+        {/* Header Tag */}
+        <div className="flex items-center justify-between mb-4">
+          <span className={`text-xs font-mono font-bold ${colorClasses.text} ${colorClasses.bg} px-3 py-1 rounded-sm border ${colorClasses.border}`}>
+            {award.year}
+          </span>
+          <div className={`h-px flex-grow mx-4 bg-gradient-to-r from-transparent via-white/10 to-transparent`} />
+        </div>
+
+        <h3 className="text-2xl font-bold font-heading mb-2 text-white group-hover:text-glow transition-all duration-300">{award.title}</h3>
+        <p className="text-slate-300/80 text-sm font-light leading-relaxed mb-4">
           {award.description}
         </p>
+
         {award.image && (
-          <motion.img
-            src={award.image}
-            alt={award.title}
-            className="rounded-md w-full shadow-lg hover:scale-[1.03] transition-transform duration-300"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          />
+          <div className="relative overflow-hidden rounded-md border border-white/10 group-hover:border-white/20 transition-colors">
+            <div className="absolute inset-0 bg-primary/10 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <motion.img
+              src={award.image}
+              alt={award.title}
+              className="w-full h-40 object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+              initial={{ opacity: 0, scale: 1 }}
+              whileInView={{ opacity: 1 }}
+            />
+          </div>
         )}
       </TiltCard>
     </motion.div>
@@ -98,19 +115,19 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
 
   return (
     <motion.div
-      className="relative z-10 mb-20"
+      className="relative z-10 mb-24"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8, delay: index * 0.2 }}
       viewport={{ once: true }}
     >
-      <div className="flex flex-col md:flex-row items-center md:items-start relative">
+      <div className="flex flex-col md:flex-row items-center md:items-start relative w-full">
         {/* Left Side */}
         <div
           className={`
-            order-1 md:order-1 md:w-1/2
+            order-1 md:order-1 md:w-1/2 w-full
             flex justify-center md:justify-${position === 'left' ? 'end' : 'start'}
-            px-0 md:px-8 mb-8 md:mb-0
+            px-0 md:px-12 mb-8 md:mb-0
             md:text-${position === 'left' ? 'right' : 'left'}
           `}
         >
@@ -118,21 +135,22 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
         </div>
 
         {/* Center Dot + Shimmer Line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center h-full">
           <motion.div
-            className={`w-8 h-8 bg-slate-900 border-2 ${colorClasses.dot} rounded-full relative z-20`}
-            animate={{ boxShadow: ['0 0 0 rgba(0,0,0,0)', `0 0 12px ${colorClasses.dot.split('-')[1]}`] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-          />
-          <div className="w-1 h-20 bg-gradient-to-b from-transparent via-slate-500/20 to-transparent" />
+            className={`w-6 h-6 bg-black border-2 ${colorClasses.dot} rounded-full relative z-20 shadow-[0_0_15px_rgba(var(--primary),0.5)]`}
+            animate={{ boxShadow: ['0 0 0 rgba(0,0,0,0)', `0 0 20px ${colorClasses.dot.includes('primary') ? '#8000FF' : '#00DDFF'}`] }}
+            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+          >
+            <div className="absolute inset-0 m-auto w-2 h-2 bg-white rounded-full animate-pulse" />
+          </motion.div>
         </div>
 
         {/* Right Side */}
         <div
           className={`
-            order-2 md:order-2 md:w-1/2
+            order-2 md:order-2 md:w-1/2 w-full
             flex justify-center md:justify-${position === 'right' ? 'start' : 'end'}
-            px-0 md:px-8 mb-8 md:mb-0
+            px-0 md:px-12 mb-8 md:mb-0
             md:text-${position === 'right' ? 'left' : 'right'}
           `}
         >

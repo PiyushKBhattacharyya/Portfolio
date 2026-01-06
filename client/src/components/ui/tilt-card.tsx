@@ -10,6 +10,7 @@ interface TiltCardProps {
   transitionSpeed?: number;
   glareOpacity?: number;
   disableTiltOnMobile?: boolean;
+  onClick?: () => void;
 }
 
 export default function TiltCard({
@@ -20,7 +21,8 @@ export default function TiltCard({
   perspective = 1500,
   transitionSpeed = 300,
   glareOpacity = 0.3,
-  disableTiltOnMobile = false
+  disableTiltOnMobile = false,
+  onClick
 }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
@@ -28,12 +30,12 @@ export default function TiltCard({
   // Detect if device is mobile
   const isMobile = typeof window !== 'undefined' &&
     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768);
+      window.innerWidth < 768);
 
   // Throttle function to limit how often the event handler runs
   const throttle = useCallback((callback: Function, delay: number) => {
     let lastCall = 0;
-    return function(...args: any[]) {
+    return function (...args: any[]) {
       const now = Date.now();
       if (now - lastCall >= delay) {
         lastCall = now;
@@ -52,11 +54,11 @@ export default function TiltCard({
 
     // Adjust glare opacity for mobile
     const effectiveGlareOpacity = isMobile ? glareOpacity * 0.7 : glareOpacity;
-    
+
     // Simplified transform calculation for mobile
     const updateTransformStyle = (x: number, y: number) => {
       const rect = card.getBoundingClientRect();
-      
+
       // Calculate glare position
       const glareX = ((x - rect.left) / rect.width) * 100;
       const glareY = ((y - rect.top) / rect.height) * 100;
@@ -77,7 +79,7 @@ export default function TiltCard({
     // Handle both mouse and touch events
     const handlePointerMove = (e: MouseEvent | TouchEvent) => {
       let clientX: number, clientY: number;
-      
+
       // Handle touch events
       if ('touches' in e) {
         if (e.touches.length === 0) return;
@@ -87,10 +89,10 @@ export default function TiltCard({
         clientX = e.clientX;
         clientY = e.clientY;
       }
-      
+
       updateTransformStyle(clientX, clientY);
     };
-    
+
     const handlePointerLeave = () => resetStyles();
 
     // Apply more aggressive throttling on mobile
@@ -124,6 +126,7 @@ export default function TiltCard({
     <motion.div
       ref={cardRef}
       whileHover={hoverAnimation}
+      onClick={onClick}
       className={`
         relative rounded-2xl overflow-hidden transform-gpu
         transition-transform duration-${transitionSpeed}

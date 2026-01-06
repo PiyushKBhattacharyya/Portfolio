@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Link } from 'lucide-react';
@@ -32,19 +30,25 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   const getColorScheme = (idx: number) => {
     const schemes = [
       {
-        tag: 'bg-primary/20 text-primary',
-        link: 'text-primary hover:text-pink-500',
+        tag: 'bg-primary/5 text-primary border-primary/20',
+        hoverTag: 'group-hover/tag:bg-primary/20 group-hover/tag:border-primary/50',
+        link: 'text-primary hover:text-white',
         github: 'hover:text-primary',
+        glow: 'group-hover:shadow-[0_0_20px_-5px_var(--primary)]',
       },
       {
-        tag: 'bg-purple-500/20 text-purple-500',
-        link: 'text-purple-500 hover:text-pink-500',
-        github: 'hover:text-purple-500',
+        tag: 'bg-secondary/5 text-secondary border-secondary/20',
+        hoverTag: 'group-hover/tag:bg-secondary/20 group-hover/tag:border-secondary/50',
+        link: 'text-secondary hover:text-white',
+        github: 'hover:text-secondary',
+        glow: 'group-hover:shadow-[0_0_20px_-5px_var(--secondary)]',
       },
       {
-        tag: 'bg-pink-500/20 text-pink-500',
-        link: 'text-pink-500 hover:text-primary',
+        tag: 'bg-pink-500/5 text-pink-500 border-pink-500/20',
+        hoverTag: 'group-hover/tag:bg-pink-500/20 group-hover/tag:border-pink-500/50',
+        link: 'text-pink-500 hover:text-white',
         github: 'hover:text-pink-500',
+        glow: 'group-hover:shadow-[0_0_20px_-5px_#ec4899]',
       },
     ];
     return schemes[idx % schemes.length];
@@ -64,42 +68,54 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       })}
       onClick={() => setExpanded((prev) => !prev)}
     >
-      <TiltCard className="group rounded-2xl overflow-hidden backdrop-blur-md bg-slate-900/60 transition-all duration-300 shadow-xl hover:shadow-[0_10px_40px_0_rgba(124,58,237,0.4)] hover:border hover:border-primary/30 border border-transparent transform-gpu animate-pulse-glow">
+      <TiltCard className={`group rounded-xl overflow-hidden backdrop-blur-xl bg-black/40 border border-white/10 transition-all duration-500 shadow-xl ${colorScheme.glow} hover:border-white/20 relative`}>
+        {/* Tech Corners */}
+        <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 group-hover:border-white/40 transition-colors" />
+        <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 group-hover:border-white/40 transition-colors" />
+        <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 group-hover:border-white/40 transition-colors" />
+        <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 group-hover:border-white/40 transition-colors" />
+
         <motion.div
-          className="p-6 transition-all duration-300 ease-in-out"
-          whileHover={{ scale: 1.02 }}
+          className="p-8 transition-all duration-300 ease-in-out relative z-10"
         >
-          <h3 className="text-xl font-bold font-poppins mb-3 text-center text-transparent bg-clip-text bg-gradient-to-r from-primary to-pink-500 tracking-wide">
+          <div className="flex justify-between items-start mb-4">
+            <div className="inline-flex px-2 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              System_0{index + 1}
+            </div>
+          </div>
+
+          <h3 className="text-2xl font-bold font-heading mb-4 text-white group-hover:text-glow transition-all duration-300">
             {project.title}
           </h3>
 
           {/* Animated content section */}
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="overflow-hidden text-slate-300/90 space-y-3"
+            animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 1, height: 'auto' }} // Always visible for cleaner UX on desktop too, or toggle
+            className="text-slate-300 font-light leading-relaxed space-y-6"
           >
-            <p className="text-sm mb-4">{project.description}</p>
+            <p className="text-sm border-l-2 border-white/10 pl-4">
+              {project.description}
+            </p>
 
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2">
               {project.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className={`text-xs px-3 py-1 rounded-full ${colorScheme.tag} transition-all duration-300 hover:scale-105 hover:shadow-md`}
+                  className={`text-xs px-3 py-1 font-mono rounded-md border ${colorScheme.tag} ${colorScheme.hoverTag} transition-colors cursor-default group/tag`}
                 >
                   {tag}
                 </span>
               ))}
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center pt-4 border-t border-white/5">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-slate-300 ${colorScheme.github} transition-all duration-300 hover:scale-125`}
+                  className={`text-slate-400 ${colorScheme.github} transition-all duration-300 hover:scale-110`}
                 >
                   <Github size={20} />
                 </a>
@@ -109,10 +125,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-slate-300 ${colorScheme.link} flex items-center gap-2 transition-all duration-300 hover:scale-110 text-sm font-medium`}
+                  className={`${colorScheme.link} flex items-center gap-2 transition-all duration-300 hover:translate-x-1 text-sm font-mono tracking-wide`}
                 >
                   <Link size={14} />
-                  Live Preview
+                  LIVE_DEMO
                 </a>
               )}
             </div>
