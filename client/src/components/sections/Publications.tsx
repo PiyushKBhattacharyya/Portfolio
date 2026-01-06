@@ -65,9 +65,9 @@ export default function Publications() {
                 {/* Glow Effect */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
 
-                <div className="flex flex-col lg:flex-row gap-8 relative z-10">
+                <div className="flex flex-col lg:flex-row gap-8 relative z-10 text-center md:text-left">
                   <div className="flex-1">
-                    <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-4 mb-4">
                       <h3 className="text-xl md:text-2xl font-bold font-heading text-white group-hover:text-glow-cyan transition-all duration-300 leading-tight">
                         {pub.title}
                       </h3>
@@ -75,14 +75,23 @@ export default function Publications() {
                         href={pub.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-shrink-0 p-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:bg-primary hover:text-white hover:border-primary transition-all"
+                        className="flex-shrink-0 p-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:bg-primary hover:text-white hover:border-primary transition-all hidden md:block"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={20} />
+                      </a>
+                      <a
+                        href={pub.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-shrink-0 p-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 hover:bg-primary hover:text-white hover:border-primary transition-all md:hidden mx-auto"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink size={20} />
                       </a>
                     </div>
 
-                    <div className="flex flex-wrap gap-4 text-sm text-slate-400 mb-6 font-mono">
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-400 mb-6 font-mono">
                       <span className="flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10">
                         <Users size={14} className="text-primary" />
                         {pub.authors.join(', ')}
@@ -97,7 +106,7 @@ export default function Publications() {
                       </span>
                     </div>
 
-                    <p className="text-slate-300 font-light leading-relaxed border-l-2 border-white/10 pl-4">
+                    <p className="text-slate-300 font-light leading-relaxed border-l-0 md:border-l-2 border-white/10 pl-0 md:pl-4">
                       {pub.abstract}
                     </p>
                   </div>

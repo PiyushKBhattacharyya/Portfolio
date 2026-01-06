@@ -4,11 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
 
-// Detect if device is mobile
-const isMobile = typeof window !== 'undefined' &&
-  (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768);
-
 function ProfileImage() {
   return (
     <img
@@ -73,7 +68,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center pt-28 md:pt-20 relative overflow-hidden"
     >
       {/* Quantum Background Elements */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
@@ -85,7 +80,7 @@ export default function Hero() {
 
         {/* Text Section */}
         <motion.div
-          className="w-full md:w-3/5 text-center md:text-left"
+          className="w-full md:w-3/5 text-center md:text-left flex flex-col items-center md:items-start"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -94,7 +89,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/5 border border-primary/20 backdrop-blur-md shadow-[0_0_15px_-5px_rgba(139,92,246,0.3)]"
+            className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/5 border border-primary/20 backdrop-blur-md shadow-[0_0_15px_-5px_rgba(139,92,246,0.3)] mx-auto md:mx-0"
           >
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             <span className="text-sm font-mono text-primary-foreground/90 tracking-wide">
@@ -109,21 +104,21 @@ export default function Hero() {
             </span>
           </h1>
 
-          <h2 className="text-2xl sm:text-3xl font-light font-mono text-slate-300 mb-8 flex flex-col md:block gap-2">
+          <h2 className="text-2xl sm:text-3xl font-light font-mono text-slate-300 mb-8 flex flex-col md:block gap-2 w-full">
             <span className="text-glow-cyan text-secondary font-semibold">&lt;ML_Engineer / &gt;</span>
             <span className="hidden md:inline mx-3 text-slate-600">|</span>
             <span className="text-slate-400">Full_Stack_Dev</span>
           </h2>
 
-          <p className="text-lg text-slate-400 mb-6 max-w-xl mx-auto md:mx-0 leading-relaxed font-sans">
+          <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed font-sans">
             Architecting intelligent AI solutions and immersive digital experiences.
             Bridging the gap between <span className="text-white font-medium">complex algorithms</span> and <span className="text-white font-medium">fluid interfaces</span>.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 w-full md:w-auto">
             <motion.a
               href="#projects"
-              className="px-8 py-4 rounded-xl bg-primary text-white font-mono font-bold tracking-wide shadow-[0_0_20px_-5px_var(--primary)] hover:shadow-[0_0_30px_-5px_var(--primary)] hover:bg-primary/90 transition-all flex items-center group relative overflow-hidden"
+              className="px-8 py-4 rounded-xl bg-primary text-white font-mono font-bold tracking-wide shadow-[0_0_20px_-5px_var(--primary)] hover:shadow-[0_0_30px_-5px_var(--primary)] hover:bg-primary/90 transition-all flex items-center justify-center group relative overflow-hidden w-full sm:w-auto"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -138,7 +133,7 @@ export default function Hero() {
 
             <motion.a
               href="#contact"
-              className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-mono font-medium hover:bg-white/10 hover:border-primary/50 backdrop-blur-md transition-all"
+              className="px-8 py-4 rounded-xl bg-black/40 border border-white/10 text-white font-mono font-medium hover:bg-white/5 hover:border-primary/50 backdrop-blur-md transition-all w-full sm:w-auto text-center shadow-lg"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -146,7 +141,7 @@ export default function Hero() {
             </motion.a>
           </div>
 
-          <div className="flex justify-center md:justify-start gap-6 mt-6">
+          <div className="flex justify-center md:justify-start gap-6 mt-8 md:mt-6 w-full">
             <SocialIcon
               href="https://github.com/PiyushKBhattacharyya"
               label="GitHub"
@@ -167,12 +162,12 @@ export default function Hero() {
 
         {/* Profile Image Area - Quantum Frame */}
         <motion.div
-          className="w-full md:w-2/5 flex justify-center perspective-1000"
+          className="w-full md:w-2/5 flex justify-center perspective-1000 mb-8 md:mb-0"
           initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
           animate={{ opacity: 1, scale: 1, rotateY: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <div className="relative w-72 h-72 md:w-[400px] md:h-[400px] group preserve-3d">
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] group preserve-3d">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary via-purple-500 to-secondary rounded-[2rem] blur-[60px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
 
             <div className="relative w-full h-full rounded-[2rem] border border-white/10 bg-black/40 backdrop-blur-sm p-3 animate-float-slow">

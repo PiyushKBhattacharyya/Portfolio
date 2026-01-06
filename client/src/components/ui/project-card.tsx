@@ -76,9 +76,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 group-hover:border-white/40 transition-colors" />
 
         <motion.div
-          className="p-8 transition-all duration-300 ease-in-out relative z-10"
+          className="p-8 transition-all duration-300 ease-in-out relative z-10 text-center md:text-left"
         >
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex justify-center md:justify-start items-start mb-4">
             <div className="inline-flex px-2 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
               System_0{index + 1}
             </div>
@@ -94,11 +94,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 1, height: 'auto' }} // Always visible for cleaner UX on desktop too, or toggle
             className="text-slate-300 font-light leading-relaxed space-y-6"
           >
-            <p className="text-sm border-l-2 border-white/10 pl-4">
+            <p className="text-sm border-l-0 md:border-l-2 border-white/10 pl-0 md:pl-4">
               {project.description}
             </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center md:justify-start gap-2">
               {project.tags.map((tag, idx) => (
                 <span
                   key={idx}

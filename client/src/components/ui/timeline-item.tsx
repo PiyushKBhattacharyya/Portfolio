@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import TiltCard from './tilt-card';
 
 interface AwardProps {
@@ -28,7 +29,72 @@ const fadeInUp = {
   }),
 };
 
+// Helper to format dates for mobile (e.g., "May 2025" -> "05/2025")
+const formatMobileDate = (dateString: string) => {
+  const months: { [key: string]: string } = {
+    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+    'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12',
+    'January': '01', 'February': '02', 'March': '03', 'April': '04', 'June': '06',
+    'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'
+  };
+
+  // Replace all month names with numbers
+  return dateString.replace(/\b([a-zA-Z]+)\b/g, (match) => {
+    // Check if it's a month name (case insensitive matching if needed, but simple map covers standard cases)
+    const monthNum = months[match] || months[match.substring(0, 3)];
+    return monthNum ? monthNum + '/' : match;
+  }).replace(/ \/ /g, '/').replace(/ (\d{4})/g, '$1'); // clean up spaces if "Month YYYY" -> "MM/ YYYY" -> "MM/YYYY"
+};
+
+// More robust formatter specifically for "Month YYYY - Month YYYY" patterns
+const getDisplayDate = (originalDate: string, isMobile: boolean) => {
+  if (!isMobile) return originalDate;
+
+  // Try to parse "Month YYYY" pattern
+  // Example: "May 2025 - Jun 2025"
+
+  const monthMap: { [key: string]: string } = {
+    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+    'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+  };
+
+  // Split by " - " or "-"
+  const parts = originalDate.split(/\s*-\s*/);
+
+  const formattedParts = parts.map(part => {
+    const trimmed = part.trim();
+    // Match "Month YYYY" or "Mon YYYY"
+    const match = trimmed.match(/^([a-zA-Z]+)\s+(\d{4})$/);
+    if (match) {
+      const monthStr = match[1].substring(0, 3); // Take first 3 chars
+      const year = match[2];
+      const monthNum = monthMap[monthStr];
+      if (monthNum) {
+        return `${monthNum}/${year}`;
+      }
+    }
+    // Return original if no match (e.g. "Present")
+    return trimmed;
+  });
+
+  return formattedParts.join(' - ');
+};
+
+
 export default function TimelineItem({ award, index, position }: TimelineItemProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check for mobile on mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const getColorClasses = (colorName: string) => {
     switch (colorName) {
       case 'primary':
@@ -67,6 +133,7 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
   };
 
   const colorClasses = getColorClasses(award.colorClass);
+  const displayDate = getDisplayDate(award.year, isMobile);
 
   const renderCard = () => (
     <motion.div
@@ -86,8 +153,8 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
 
         {/* Header Tag */}
         <div className="flex items-center justify-between mb-4">
-          <span className={`text-xs font-mono font-bold ${colorClasses.text} ${colorClasses.bg} px-3 py-1 rounded-sm border ${colorClasses.border}`}>
-            {award.year}
+          <span className={`inline-flex items-center justify-center text-xs font-mono font-bold ${colorClasses.text} ${colorClasses.bg} px-4 py-1.5 rounded-full border ${colorClasses.border} min-w-[120px]`}>
+            {displayDate}
           </span>
           <div className={`h-px flex-grow mx-4 bg-gradient-to-r from-transparent via-white/10 to-transparent`} />
         </div>
@@ -128,7 +195,7 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
             order-1 md:order-1 md:w-1/2 w-full
             flex justify-center md:justify-${position === 'left' ? 'end' : 'start'}
             px-0 md:px-12 mb-8 md:mb-0
-            md:text-${position === 'left' ? 'right' : 'left'}
+            text-center md:text-${position === 'left' ? 'right' : 'left'}
           `}
         >
           {position === 'left' && renderCard()}
@@ -151,7 +218,7 @@ export default function TimelineItem({ award, index, position }: TimelineItemPro
             order-2 md:order-2 md:w-1/2 w-full
             flex justify-center md:justify-${position === 'right' ? 'start' : 'end'}
             px-0 md:px-12 mb-8 md:mb-0
-            md:text-${position === 'right' ? 'left' : 'right'}
+            text-center md:text-${position === 'right' ? 'left' : 'right'}
           `}
         >
           {position === 'right' && renderCard()}

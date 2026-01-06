@@ -68,14 +68,14 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <TiltCard className="h-full bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 relative group">
+            <TiltCard className="h-full bg-black/40 backdrop-blur-xl p-8 md:p-10 rounded-2xl border border-white/10 hover:border-primary/30 transition-all duration-300 relative group text-center md:text-left">
               {/* Tech Corners */}
               <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white/10 group-hover:border-primary/50 transition-colors" />
               <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white/10 group-hover:border-primary/50 transition-colors" />
               <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white/10 group-hover:border-primary/50 transition-colors" />
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white/10 group-hover:border-primary/50 transition-colors" />
 
-              <h3 className="text-2xl font-bold font-heading mb-6 text-white flex items-center gap-3">
+              <h3 className="text-2xl font-bold font-heading mb-6 text-white flex flex-col md:flex-row items-center gap-3 justify-center md:justify-start">
                 <span className="text-primary font-mono text-sm">&gt;</span> WHO_AM_I?
               </h3>
               <div className="space-y-6 text-slate-300 font-light leading-relaxed">
@@ -88,7 +88,7 @@ export default function About() {
               </div>
 
               {/* Details Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 pt-10 border-t border-white/10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10 pt-10 border-t border-white/10 text-center md:text-left">
                 {[
                   { label: "EDUCATION", value: "B.Tech CSE" },
                   { label: "EXPERIENCE", value: "1+ Year" },
