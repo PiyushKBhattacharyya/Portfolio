@@ -47,14 +47,7 @@ export default function Navbar() {
     { href: '#publications', label: 'Publications', icon: <BookOpen className="w-6 h-6" /> },
     { href: '#awards', label: 'Awards', icon: <Award className="w-6 h-6" /> },
     { href: '#experience', label: 'Experience', icon: <ChartSpline className="w-6 h-6" /> },
-    { href: '#techstack', label: 'Tech Stack', icon: <Cpu className="w-6 h-6" /> },
-    {
-      href: 'https://drive.google.com/file/d/1G9Y_Er-YEh_IRjWI0DCwruWF5k8WY2cJ/view?usp=sharing',
-      label: 'Resume',
-      icon: <Download className="w-6 h-6" />,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-    },
+    { href: '#techstack', label: 'Tech Stack', icon: <Cpu className="w-6 h-6" /> }
   ];
 
   useEffect(() => {
@@ -104,15 +97,13 @@ export default function Navbar() {
               "transition-all duration-300"
             )}
           >
-            {navItems.map(({ href, label, icon, target, rel }) => {
+            {navItems.map(({ href, label, icon }) => {
               const isActive = activeSection === href.slice(1);
               return (
                 <Tooltip key={label}>
                   <TooltipTrigger asChild>
                     <motion.a
                       href={href}
-                      target={target}
-                      rel={rel}
                       className={cn(
                         "relative p-3 rounded-xl transition-all duration-300",
                         "hover:bg-white/5",
@@ -207,11 +198,10 @@ export default function Navbar() {
               </div>
 
               <div className="flex flex-col gap-2">
-                {navItems.map(({ href, label, icon, target }) => (
+                {navItems.map(({ href, label, icon }) => (
                   <a
                     key={label}
                     href={href}
-                    target={target}
                     onClick={() => setDrawerOpen(false)}
                     className="flex items-center gap-4 p-4 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 hover:border-white/10 border border-transparent transition-all"
                   >
