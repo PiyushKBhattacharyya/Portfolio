@@ -82,7 +82,7 @@ export default function TechStack() {
             </h2>
           </div>
 
-          <div className="flex gap-8 md:gap-16 text-[10px] font-mono text-white/30 uppercase tracking-widest md:tracking-[0.2em] flex-wrap sm:flex-nowrap">
+          <div className="flex gap-8 md:gap-16 text-[10px] font-mono text-white/30 uppercase tracking-widest md:tracking-[0.2em] flex-wrap sm:flex-nowrap md:mr-20">
             <div className="flex flex-col gap-2">
               <span>UNITS_MOUNTED: 05</span>
               <div className="h-0.5 w-32 bg-white/5 overflow-hidden">
