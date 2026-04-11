@@ -2,74 +2,112 @@
 
 import { motion } from 'framer-motion';
 import { EXPERIENCE } from '@/lib/constants';
-import { GitBranch, GitCommit, ShieldCheck } from 'lucide-react';
+import { GitBranch, GitCommit, ShieldCheck, Terminal } from 'lucide-react';
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 relative overflow-hidden bg-[#060608]">
+    <section id="experience" className="py-32 relative overflow-hidden bg-[#060608]">
       <div className="container mx-auto px-6 md:px-20 relative z-10">
         
-        {/* Header */}
-        <div className="flex flex-col gap-2 mb-20">
-          <div className="flex items-center gap-2">
-            <GitBranch size={14} className="text-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-bold">Trace_Chronology_v01</span>
+        {/* Header - Industrial Display */}
+        <div className="flex flex-col gap-3 mb-24 border-l-4 border-primary pl-10 relative">
+          <div className="absolute left-[-4px] top-0 bottom-0 w-1 bg-primary blur-[4px] opacity-40" />
+          <div className="flex items-center gap-3">
+            <GitBranch size={16} className="text-primary animate-pulse" />
+            <span className="text-[10px] font-mono text-primary uppercase tracking-[0.5em] font-bold animate-flicker">Audit_Chronology_Verified</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic">
-            AUDIT_<span className="text-transparent border-b-4 border-primary px-2">TRAIL</span>
+          <h2 className="text-5xl md:text-7xl font-black font-heading tracking-tighter text-white uppercase italic leading-none">
+            REVISION_<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/40 animate-aberration">HISTORY</span>
           </h2>
         </div>
 
-        <div className="max-w-4xl relative">
-          {/* Vertical Trace Line */}
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-white/10" />
+        <div className="max-w-5xl relative">
+          {/* Vertical Trace Line (Physics Pulse) */}
+          <div className="absolute left-4 md:left-10 top-0 bottom-0 w-px bg-white/5 overflow-hidden">
+            <motion.div 
+              className="w-full h-32 bg-primary/40 blur-[1px]"
+              animate={{ top: ["-10%", "110%"] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
 
-          <div className="space-y-16">
+          <div className="space-y-24">
             {EXPERIENCE.map((exp, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative pl-12 md:pl-24"
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="relative pl-16 md:pl-28"
               >
-                {/* Node */}
-                <div className="absolute left-[13px] md:left-[29px] top-2 w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_var(--primary)] z-10" />
+                {/* Hardware Node */}
+                <div className="absolute left-[11px] md:left-[35px] top-4 z-10 flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 bg-primary shadow-[0_0_15px_var(--primary)] rotate-45" />
+                  <motion.div 
+                    className="absolute inset-[-8px] border border-primary/20 rounded-full"
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.1, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                </div>
                 
-                <div className="group border border-white/5 bg-white/[0.02] p-8 chamfer-tr hover:border-primary/40 transition-all">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div className="group relative border border-white/5 bg-white/[0.01] p-10 chamfer-tr hover:border-primary/30 transition-all duration-500 overflow-hidden">
+                  {/* Prestige Tracing Border */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" preserveAspectRatio="none">
+                    <motion.rect
+                      x="0" y="0" width="100%" height="100%"
+                      fill="none"
+                      stroke="var(--primary)"
+                      strokeWidth="1"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      whileInView={{ pathLength: 1, opacity: 0.3 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.5, delay: index * 0.2 }}
+                    />
+                  </svg>
+
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-8 relative z-20">
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <GitCommit size={12} className="text-primary/60" />
-                        <span className="text-[10px] font-mono text-primary/60 uppercase">Revision_State_{index + 1}</span>
+                      <div className="flex items-center gap-3 mb-2">
+                        <Terminal size={12} className="text-primary/40" />
+                        <span className="text-[10px] font-mono text-primary/40 uppercase tracking-[0.2em]">Kernel_Level_0{index + 1}</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-primary transition-colors">
-                        {exp.title.toUpperCase()}
+                      <h3 className="text-3xl font-black text-white tracking-tighter group-hover:text-primary transition-colors italic uppercase leading-none">
+                        {exp.title}
                       </h3>
-                      <p className="text-sm font-mono text-white/40">{exp.company}</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-[11px] font-mono text-white/40 tracking-widest">{exp.company}</span>
+                        <div className="w-1 h-1 bg-white/10 rounded-full" />
+                        <span className="text-[9px] font-mono text-primary/60 font-bold uppercase tracking-tighter">Status: Committed</span>
+                      </div>
                     </div>
-                    <div className="bg-primary/5 border border-primary/20 px-3 py-1 chamfer-tr h-fit">
-                      <span className="text-[10px] font-mono text-primary font-bold">{exp.period}</span>
+                    <div className="bg-primary/5 border border-primary/20 px-4 py-2 chamfer-tr h-fit shadow-[0_0_15px_rgba(255,157,0,0.05)]">
+                      <span className="text-[11px] font-mono text-primary font-black tracking-widest">{exp.period}</span>
                     </div>
                   </div>
 
-                  <p className="text-sm font-mono text-slate-400 mb-8 leading-relaxed border-l border-white/10 pl-4 italic">
-                    {exp.description}
-                  </p>
+                  <div className="relative mb-10 p-6 bg-white/[0.01] border-l-2 border-white/5 group-hover:border-primary/20 transition-colors">
+                    <div className="absolute top-0 right-0 p-3 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                      <GitCommit size={48} className="text-primary" />
+                    </div>
+                    <p className="text-[13px] font-mono text-slate-400 leading-relaxed max-w-3xl">
+                      <span className="text-white/20 mr-4">// AUDIT_LOG:</span>
+                      {exp.description}
+                    </p>
+                  </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {exp.skills.map((skill, sIdx) => (
-                      <div key={sIdx} className="flex items-center gap-2 px-2 py-1 bg-black border border-white/5">
-                        <ShieldCheck size={10} className="text-white/20" />
-                        <span className="text-[9px] font-mono text-white/40 uppercase">{skill}</span>
+                      <div key={sIdx} className="flex items-center gap-3 px-3 py-1.5 bg-black border border-white/10 group-hover:border-primary/10 transition-colors">
+                        <ShieldCheck size={12} className="text-primary/30" />
+                        <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">{skill}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Corner Accent */}
-                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[8px] font-mono text-primary">000x0{index + 1}</span>
+                  {/* Corner Visual ID */}
+                  <div className="absolute bottom-6 right-6 opacity-5 group-hover:opacity-20 transition-opacity">
+                    <span className="text-[30px] font-black font-mono text-primary italic">0x{index + 1}</span>
                   </div>
                 </div>
               </motion.div>

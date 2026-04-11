@@ -13,6 +13,7 @@ import GrainOverlay from "@/components/ui/GrainOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { Analytics } from "@vercel/analytics/react";
 import Publications from "@/components/sections/Publications";
+import DataBitstream from "@/components/ui/DataBitstream";
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,16 +26,19 @@ function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#060608]`}>
+    <div className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#060608] relative overflow-x-hidden`}>
       
-      {/* Global Visual overlays */}
-      <GrainOverlay />
+      {/* Global Prestige Overlays */}
+      <div className="vignette" />
+      <div className="grain-bg" />
+      <div className="fixed inset-0 scanline-overlay pointer-events-none z-[9998] opacity-[0.05] animate-scan" />
+      <DataBitstream />
+      
       <CustomCursor />
-      <div className="fixed inset-0 scanline-overlay pointer-events-none z-[9998] opacity-[0.05]" />
       
       <Navbar />
 
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <Projects />

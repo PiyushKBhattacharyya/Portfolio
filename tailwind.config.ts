@@ -63,15 +63,31 @@ export default {
           "from": { transform: "translateY(-100%)" },
           "to": { transform: "translateY(100%)" },
         },
-        "pulse-cyan": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
+        "pulse-amber": {
+          "0%, 100%": { opacity: "1", filter: "brightness(1) contrast(1)" },
+          "50%": { opacity: "0.7", filter: "brightness(1.2) contrast(1.1)" },
+        },
+        "flicker": {
+          "0%": { opacity: "0.97" },
+          "5%": { opacity: "0.95" },
+          "10%": { opacity: "0.9" },
+          "15%": { opacity: "0.98" },
+          "20%": { opacity: "0.92" },
+          "25%": { opacity: "0.99" },
+          "30%": { opacity: "0.95" },
+          "100%": { opacity: "1" },
+        },
+        "aberration": {
+          "0%, 100%": { textShadow: "1px 0 0 rgba(255,0,0,0.5), -1px 0 0 rgba(0,255,255,0.5)" },
+          "50%": { textShadow: "1.5px 0 0 rgba(255,0,0,0.7), -1.5px 0 0 rgba(0,255,255,0.7)" },
         }
       },
       animation: {
         glitch: "glitch 0.2s ease-in-out infinite",
         scan: "scan 8s linear infinite",
-        "pulse-cyan": "pulse-cyan 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-amber": "pulse-amber 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "flicker": "flicker 0.15s infinite",
+        "aberration": "aberration 0.2s ease-in-out infinite",
       },
     },
   }

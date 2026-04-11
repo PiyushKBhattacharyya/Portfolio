@@ -29,8 +29,8 @@ export default function About() {
               <span className="w-8 h-[1px] bg-primary" />
               <span className="text-[10px] font-mono text-primary uppercase tracking-[0.4em]">Sub_Profile_A7</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic">
-              SUBJECT_<span className="text-transparent border-b-4 border-primary px-2">OVERVIEW</span>
+            <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic leading-none">
+              SUBJECT_<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/40 animate-aberration px-2 border-b-4 border-primary/20">OVERVIEW</span>
             </h2>
           </div>
           

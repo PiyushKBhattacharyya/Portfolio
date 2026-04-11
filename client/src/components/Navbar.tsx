@@ -106,12 +106,19 @@ export default function Navbar() {
       {/* Main Nav Bar */}
       <div className="container mx-auto px-6 mt-4">
         <div className="flex justify-between items-center pointer-events-auto">
-          {/* Logo / Title Area */}
-          <div className="bg-black/80 border border-white/10 px-4 py-2 chamfer-tr flex items-center gap-3">
-            <Target size={18} className="text-primary animate-pulse-cyan" />
+          {/* Logo / Title Area Area */}
+          <div className="bg-black/80 border border-primary/20 px-6 py-3 chamfer-tr flex items-center gap-4 group hover:border-primary transition-all pointer-events-auto">
+            <div className="relative">
+              <Target size={20} className="text-primary animate-pulse-amber" />
+              <motion.div 
+                className="absolute inset-0 border border-primary/40 rounded-full"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </div>
             <div className="flex flex-col">
-              <span className="text-xs font-bold tracking-tighter text-white">PIYUSH_KB</span>
-              <span className="text-[10px] font-mono text-primary/60 mt-[-2px]">V_2.0.46</span>
+              <span className="text-sm font-black tracking-widest text-white leading-none">PIYUSH_KB</span>
+              <span className="text-[10px] font-mono text-primary/60 mt-1 uppercase">AUTH_SYSTEM_v4.6</span>
             </div>
           </div>
 
