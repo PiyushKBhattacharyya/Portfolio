@@ -1,70 +1,81 @@
-import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
+import { Terminal, Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { SOCIAL_LINKS } from '@/lib/constants';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="relative z-10 border-t border-white/10 bg-black/40 backdrop-blur-xl pb-24 md:pb-0">
-      <div className="container mx-auto px-4 py-16 flex flex-col items-center space-y-8">
+    <footer className="relative z-10 border-t border-white/5 bg-[#060608] pt-16 pb-12 overflow-hidden">
+      {/* Background ID String */}
+      <div className="absolute top-0 right-10 text-[60px] font-black text-white/[0.02] pointer-events-none select-none">
+        046-PKB-SYS
+      </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center">
-            Let's <span className="text-gradient-primary">Connect</span>
-          </h2>
-          <p className="text-slate-400 text-center max-w-md">
-            I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
-          </p>
+      <div className="container mx-auto px-6 md:px-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          
+          {/* Column 1: Core Ident */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-2 mb-6 text-primary">
+              <Terminal size={18} />
+              <span className="text-sm font-bold font-mono tracking-widest uppercase italic">Piyush_KB // Terminal</span>
+            </div>
+            <p className="text-sm font-mono text-slate-400 mb-8 max-w-sm leading-relaxed">
+              Precision System v2.0.46 // Built on the intersection of stochastic intelligence and rigid logic.
+            </p>
+            <div className="flex items-center gap-4">
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+              <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">System_Functional_Optimal</span>
+            </div>
+          </div>
+
+          {/* Column 2: Comms / Links */}
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-bold">Comms_Protocol</span>
+            <div className="flex flex-col gap-3 font-mono text-xs">
+              <a href={SOCIAL_LINKS.GITHUB} target="_blank" rel="noreferrer" className="text-white/40 hover:text-primary transition-colors flex items-center gap-2">
+                <Github size={14} /> GITHUB_REPO
+              </a>
+              <a href={SOCIAL_LINKS.LINKEDIN} target="_blank" rel="noreferrer" className="text-white/40 hover:text-primary transition-colors flex items-center gap-2">
+                <Linkedin size={14} /> LINKEDIN_AUTH
+              </a>
+            </div>
+          </div>
+
+          {/* Column 3: Navigation */}
+          <div className="flex flex-col gap-4">
+            <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-bold">Direct_Jump</span>
+            <div className="flex flex-col gap-3 font-mono text-xs text-white/40">
+              <a href="#about" className="hover:text-primary transition-colors">/ BIOS</a>
+              <a href="#projects" className="hover:text-primary transition-colors">/ MODULES</a>
+              <a href="#publications" className="hover:text-primary transition-colors">/ LOGS</a>
+              <a href="#experience" className="hover:text-primary transition-colors">/ AUDIT</a>
+            </div>
+          </div>
+
         </div>
 
-        <div className="flex gap-6">
-          {[
-            {
-              href: "https://github.com/PiyushKBhattacharyya",
-              label: "GitHub",
-              icon: <Github size={22} />,
-            },
-            {
-              href: "https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/",
-              label: "LinkedIn",
-              icon: <Linkedin size={22} />,
-            },
-            {
-              href: "mailto:piyushbhattacharyya@gmail.com",
-              label: "Email",
-              icon: <Mail size={22} />,
-            }
-          ].map(({ href, label, icon }) => (
-            <motion.a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="p-3 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-primary/20 hover:border-primary/50 transition-all duration-300"
-              whileHover={{ y: -5, scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {icon}
-            </motion.a>
-          ))}
-        </div>
+        {/* Global Footer Bottom */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col gap-1">
+            <span className="text-[9px] font-mono text-white/20 uppercase tracking-widest">
+              © {currentYear} PIYUSH_KAUSHIK_BHATTACHARYYA. NO_RIGHTS_RESERVED.
+            </span>
+            <span className="text-[8px] font-mono text-white/10 uppercase">
+              Engineered_Static_Environment // Host: Local_Vite
+            </span>
+          </div>
 
-        <div className="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-        <div className="flex flex-col items-center gap-6">
           <motion.a
             href="#home"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="p-3 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-all animate-bounce"
+            whileHover={{ y: -5 }}
+            className="p-4 bg-white/[0.03] border border-white/10 text-primary hover:border-primary/50 transition-all chamfer-tr"
           >
             <ArrowUp size={20} />
           </motion.a>
-
-          <p className="text-sm text-slate-500 font-medium">
-            © {new Date().getFullYear()} Piyush K. Bhattacharyya. Crafted with <span className="text-red-500">♥</span>
-          </p>
         </div>
       </div>
     </footer>
   );
-}
+}

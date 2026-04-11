@@ -56,7 +56,7 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 h-1 bg-pink-500 z-[9999] origin-left"
+      className="fixed top-0 left-0 h-1 bg-primary z-[9999] origin-left"
       style={{
         width: `${scrollProgress}%`,
         willChange: 'transform', // Hint for hardware acceleration

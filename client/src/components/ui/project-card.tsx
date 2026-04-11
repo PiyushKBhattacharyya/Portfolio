@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Github, Link } from 'lucide-react';
-import TiltCard from './tilt-card';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Link, Terminal, Package, Cpu } from 'lucide-react';
+import ProjectModal from './ProjectModal';
 
 interface ProjectProps {
   title: string;
@@ -9,6 +9,7 @@ interface ProjectProps {
   tags: string[];
   githubUrl?: string;
   liveUrl?: string;
+  badge?: string;
 }
 
 interface ProjectCardProps {
@@ -17,124 +18,116 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    const checkTouchDevice = () => {
-      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    };
-    checkTouchDevice();
-  }, []);
-
-  const getColorScheme = (idx: number) => {
-    const schemes = [
-      {
-        tag: 'bg-primary/5 text-primary border-primary/20',
-        hoverTag: 'group-hover/tag:bg-primary/20 group-hover/tag:border-primary/50',
-        link: 'text-primary hover:text-white',
-        github: 'hover:text-primary',
-        glow: 'group-hover:shadow-[0_0_20px_-5px_var(--primary)]',
-      },
-      {
-        tag: 'bg-secondary/5 text-secondary border-secondary/20',
-        hoverTag: 'group-hover/tag:bg-secondary/20 group-hover/tag:border-secondary/50',
-        link: 'text-secondary hover:text-white',
-        github: 'hover:text-secondary',
-        glow: 'group-hover:shadow-[0_0_20px_-5px_var(--secondary)]',
-      },
-      {
-        tag: 'bg-pink-500/5 text-pink-500 border-pink-500/20',
-        hoverTag: 'group-hover/tag:bg-pink-500/20 group-hover/tag:border-pink-500/50',
-        link: 'text-pink-500 hover:text-white',
-        github: 'hover:text-pink-500',
-        glow: 'group-hover:shadow-[0_0_20px_-5px_#ec4899]',
-      },
-    ];
-    return schemes[idx % schemes.length];
-  };
-
-  const colorScheme = getColorScheme(index);
+  const [hovered, setHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.2 }}
-      {...(!isTouch && {
-        onMouseEnter: () => setExpanded(true),
-        onMouseLeave: () => setExpanded(false),
-      })}
-      onClick={() => setExpanded((prev) => !prev)}
-    >
-      <TiltCard className={`group rounded-xl overflow-hidden backdrop-blur-xl bg-black/40 border border-white/10 transition-all duration-500 shadow-xl ${colorScheme.glow} hover:border-white/20 relative`}>
-        {/* Tech Corners */}
-        <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 group-hover:border-white/40 transition-colors" />
-        <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 group-hover:border-white/40 transition-colors" />
-        <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 group-hover:border-white/40 transition-colors" />
-        <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 group-hover:border-white/40 transition-colors" />
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="group relative bg-[#060608] border border-white/10 overflow-hidden"
+      >
+        {/* Module Header */}
+        <div className="bg-white/5 border-b border-white/10 px-4 py-2 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Terminal size={12} className="text-primary" />
+            <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">Module_0{index + 1}</span>
+          </div>
+          <div className="flex gap-1">
+            <div className={`w-1 h-1 rounded-full ${hovered ? 'bg-primary' : 'bg-white/20'} transition-colors`} />
+            <div className="w-1 h-1 rounded-full bg-white/20" />
+          </div>
+        </div>
 
-        <motion.div
-          className="p-8 transition-all duration-300 ease-in-out relative z-10 text-center md:text-left"
-        >
-          <div className="flex justify-center md:justify-start items-start mb-4">
-            <div className="inline-flex px-2 py-0.5 rounded border border-white/10 bg-white/5 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-              System_0{index + 1}
-            </div>
+        <div className="p-6">
+          {/* Title & Badge */}
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-white tracking-tighter group-hover:text-primary transition-colors">
+              {project.title.toUpperCase()}
+            </h3>
+            {project.badge && (
+              <div className="flex items-center gap-2 mt-1">
+                <Package size={10} className="text-primary/60" />
+                <span className="text-[9px] font-mono text-primary/60 italic uppercase tracking-tighter">
+                  {project.badge}
+                </span>
+              </div>
+            )}
           </div>
 
-          <h3 className="text-2xl font-bold font-heading mb-4 text-white group-hover:text-glow transition-all duration-300">
-            {project.title}
-          </h3>
-
-          {/* Animated content section */}
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={expanded ? { opacity: 1, height: 'auto' } : { opacity: 1, height: 'auto' }} // Always visible for cleaner UX on desktop too, or toggle
-            className="text-slate-300 font-light leading-relaxed space-y-6"
-          >
-            <p className="text-sm border-l-0 md:border-l-2 border-white/10 pl-0 md:pl-4">
+          {/* Description */}
+          <div className="mb-8 relative">
+            <div className="absolute -left-3 top-0 bottom-0 w-[1px] bg-primary/20" />
+            <p className="text-xs font-mono text-slate-400 leading-relaxed pl-4 line-clamp-3">
+              <span className="text-white/20 mr-2">[DESC]</span>
               {project.description}
             </p>
+          </div>
 
-            <div className="flex flex-wrap justify-center md:justify-start gap-2">
-              {project.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className={`text-xs px-3 py-1 font-mono rounded-md border ${colorScheme.tag} ${colorScheme.hoverTag} transition-colors cursor-default group/tag`}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+          {/* Tags Matrix */}
+          <div className="grid grid-cols-2 gap-2 mb-8">
+            {project.tags.slice(0, 4).map((tag, idx) => (
+              <div key={idx} className="flex items-center gap-2 bg-white/[0.02] border border-white/5 px-2 py-1">
+                <Cpu size={10} className="text-white/20" />
+                <span className="text-[9px] font-mono text-white/40 uppercase">{tag}</span>
+              </div>
+            ))}
+          </div>
 
-            <div className="flex justify-between items-center pt-4 border-t border-white/5">
+          {/* Actions Footer */}
+          <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-auto">
+            <div className="flex gap-4">
               {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`text-slate-400 ${colorScheme.github} transition-all duration-300 hover:scale-110`}
-                >
-                  <Github size={20} />
+                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-primary transition-colors">
+                  <Github size={16} />
                 </a>
               )}
               {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${colorScheme.link} flex items-center gap-2 transition-all duration-300 hover:translate-x-1 text-sm font-mono tracking-wide`}
-                >
-                  <Link size={14} />
-                  LIVE_DEMO
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-primary transition-colors">
+                  <Link size={16} />
                 </a>
               )}
             </div>
-          </motion.div>
-        </motion.div>
-      </TiltCard>
-    </motion.div>
+            
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="text-[9px] font-mono text-primary/60 hover:text-primary font-bold tracking-widest flex items-center gap-2 group/btn"
+            >
+              INITIALIZE_DATA
+              <motion.span 
+                animate={hovered ? { x: [0, 4, 0] } : {}}
+                transition={{ repeat: Infinity, duration: 0.6 }}
+              >
+                &gt;&gt;
+              </motion.span>
+            </button>
+          </div>
+        </div>
+
+        {/* Decorative Scan Line */}
+        <AnimatePresence>
+          {hovered && (
+            <motion.div 
+              className="absolute top-0 left-0 w-full h-[1px] bg-primary/20 z-20"
+              initial={{ top: "0%" }}
+              animate={{ top: "100%" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
+
+      <ProjectModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        project={project} 
+      />
+    </>
   );
-}
+}

@@ -5,15 +5,16 @@ import { motion } from 'framer-motion';
 
 export default function CustomCursor() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [isHere, setIsHere] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
-        // Check if device is mobile - if so, don't render custom cursor
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-        if (isMobile) return;
+        const checkMobile = () => {
+          setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768);
+        };
+        checkMobile();
 
-        setIsHere(true);
+        if (isMobile) return;
 
         const updateMousePosition = (e: MouseEvent) => {
             setMousePosition({ x: e.clientX, y: e.clientY });
@@ -21,13 +22,11 @@ export default function CustomCursor() {
 
         const handleMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // Check if target is clickable/interactive
             if (
                 target.tagName.toLowerCase() === 'a' ||
                 target.tagName.toLowerCase() === 'button' ||
                 target.closest('a') ||
                 target.closest('button') ||
-                target.classList.contains('cursor-pointer') ||
                 window.getComputedStyle(target).cursor === 'pointer'
             ) {
                 setIsHovering(true);
@@ -43,48 +42,61 @@ export default function CustomCursor() {
             window.removeEventListener('mousemove', updateMousePosition);
             window.removeEventListener('mouseover', handleMouseOver);
         };
-    }, []);
+    }, [isMobile]);
 
-    if (!isHere) return null;
+    if (isMobile) return null;
 
     return (
-        <>
-            {/* Main Cursor Dot */}
+        <div className="fixed inset-0 pointer-events-none z-[9999]">
+            {/* Horizontal Line */}
+            <motion.div 
+                className="absolute h-[1px] bg-primary/20"
+                animate={{ 
+                    top: mousePosition.y,
+                    left: 0,
+                    right: 0
+                }}
+                transition={{ type: "tween", ease: "linear", duration: 0 }}
+            />
+            {/* Vertical Line */}
+            <motion.div 
+                className="absolute w-[1px] bg-primary/20"
+                animate={{ 
+                    left: mousePosition.x,
+                    top: 0,
+                    bottom: 0
+                }}
+                transition={{ type: "tween", ease: "linear", duration: 0 }}
+            />
+
+            {/* Corner Bracket TL */}
             <motion.div
-                className="fixed top-0 left-0 z-[9999] w-4 h-4 rounded-full bg-primary mix-blend-difference pointer-events-none"
+                className="absolute w-4 h-4 border-t border-l border-primary shadow-[0_0_8px_var(--primary)]"
                 animate={{
-                    x: mousePosition.x - 8,
-                    y: mousePosition.y - 8,
-                    scale: isHovering ? 0.5 : 1
+                    x: mousePosition.x - (isHovering ? 20 : 15),
+                    y: mousePosition.y - (isHovering ? 20 : 15),
+                    scale: isHovering ? 1.2 : 1
                 }}
-                transition={{
-                    type: "spring",
-                    damping: 30,
-                    stiffness: 300,
-                    mass: 0.5
-                }}
-                style={{
-                    boxShadow: "0 0 10px rgba(124, 58, 237, 0.5)"
+            />
+            {/* Corner Bracket BR */}
+            <motion.div
+                className="absolute w-4 h-4 border-b border-r border-primary shadow-[0_0_8px_var(--primary)]"
+                animate={{
+                    x: mousePosition.x + (isHovering ? 4 : 0),
+                    y: mousePosition.y + (isHovering ? 4 : 0),
+                    scale: isHovering ? 1.2 : 1
                 }}
             />
 
-            {/* Trailing Ring */}
+            {/* Center Pointer */}
             <motion.div
-                className="fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full border border-primary/50 pointer-events-none"
+                className="absolute w-1 h-1 bg-primary"
                 animate={{
-                    x: mousePosition.x - 16,
-                    y: mousePosition.y - 16,
-                    scale: isHovering ? 2.5 : 1,
-                    borderColor: isHovering ? "rgba(124, 58, 237, 0.2)" : "rgba(124, 58, 237, 0.5)",
-                    backgroundColor: isHovering ? "rgba(124, 58, 237, 0.1)" : "transparent"
-                }}
-                transition={{
-                    type: "spring",
-                    damping: 20,
-                    stiffness: 150,
-                    mass: 0.8
+                    x: mousePosition.x - 2,
+                    y: mousePosition.y - 2,
+                    scale: isHovering ? 0 : 1
                 }}
             />
-        </>
+        </div>
     );
 }

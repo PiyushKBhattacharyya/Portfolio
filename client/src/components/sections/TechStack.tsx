@@ -1,41 +1,38 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { Cpu, Terminal, Database, Cloud, Layers, Command } from 'lucide-react';
 
 // Tech categories
 const techCategories = [
   {
-    label: 'Frontend',
-    icons: ['typescript', 'javascript', 'react', 'nextdotjs', 'html5']
+    label: 'NEURAL_LOGIC',
+    icons: ['tensorflow', 'pytorch', 'scikitlearn'],
+    icon: <Cpu size={16} />
   },
   {
-    label: 'Backend',
-    icons: ['nodedotjs', 'express', 'aspdotnet', 'dotnet']
+    label: 'KERNEL_LANGS',
+    icons: ['python', 'rust', 'cplusplus', 'c', 'java', 'csharp'],
+    icon: <Command size={16} />
   },
   {
-    label: 'Mobile',
-    icons: ['flutter', 'android', 'androidstudio', 'dart']
+    label: 'INTERFACE_FABRIC',
+    icons: ['typescript', 'react', 'nextdotjs', 'tailwind-css', 'framer-motion'],
+    icon: <Layers size={16} />
   },
   {
-    label: 'Machine Learning',
-    icons: ['tensorflow', 'pytorch', 'scikitlearn']
+    label: 'DATA_CLUSTERS',
+    icons: ['postgresql', 'mongodb', 'redis', 'sqlite'],
+    icon: <Database size={16} />
   },
   {
-    label: 'Programming Languages',
-    icons: ['python', 'java', 'csharp', 'cplusplus', 'c']
-  },
-  {
-    label: 'Databases',
-    icons: ['mysql', 'postgresql', 'sqlite']
-  },
-  {
-    label: 'DevOps & Tools',
-    icons: ['git', 'github', 'vercel', 'docker', 'kubernetes']
+    label: 'INFRA_MESH',
+    icons: ['docker', 'kubernetes', 'aws', 'vercel', 'git'],
+    icon: <Cloud size={16} />
   }
 ];
 
-// Icon URL resolver
+// Icon URL resolver with system aesthetics
 const getIconUrl = (slug: string) => {
   switch (slug) {
     case 'java':
@@ -44,119 +41,86 @@ const getIconUrl = (slug: string) => {
       return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg';
     case 'pytorch':
       return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg';
-    case 'scikitlearn':
-      return 'https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg';
-    case 'aspdotnet':
-      return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg';
-    case 'dotnet':
-      return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg';
-    case 'efcore':
-      return 'https://seeklogo.com/images/E/entity-framework-core-logo-02F1775E5B-seeklogo.com.png';
-    case 'c':
-      return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg';
     case 'cplusplus':
       return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg';
-    case 'csharp':
-      return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg';
     default:
-      return `https://cdn.simpleicons.org/${slug}`;
+      return `https://cdn.simpleicons.org/${slug}/white`;
   }
 };
 
-// TechStack Component
 export default function TechStack() {
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-
-  useEffect(() => {
-    setIsMobileDevice(
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth < 768
-    );
-  }, []);
-
   return (
-    <section id="techstack" className="min-h-screen py-24 relative overflow-hidden">
-      {/* Background Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-
+    <section id="techstack" className="py-24 relative overflow-hidden bg-[#060608]">
       <div className="container mx-auto px-6 md:px-20 relative z-10">
+        
         {/* Header */}
-        <motion.div
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            className="inline-block mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono tracking-wider"
-          >
-            SKILL_MATRIX
-          </motion.div>
-          <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6 tracking-tight text-white">
-            My <span className="text-gradient-quantum">Tech Stack</span>
+        <div className="flex flex-col gap-2 mb-20 border-l-4 border-primary pl-8">
+          <div className="flex items-center gap-2">
+            <Terminal size={14} className="text-primary animate-pulse" />
+            <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-bold">System_Dependency_Mapper</span>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic">
+            CORE_<span className="text-transparent border-b-4 border-primary px-2">MAINFRAME</span>
           </h2>
-          <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto font-light">
-            Comprehensive arsenal of mastered technologies and tools.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* Tech Categories */}
-        <div className="flex flex-col gap-12 max-w-6xl mx-auto">
-          {techCategories.map(({ label, icons }, categoryIndex) => (
+        {/* Dense Grid Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-white/5 border border-white/5">
+          {techCategories.map((cat, i) => (
             <motion.div
-              key={label}
+              key={i}
+              className={`lg:col-span-${i === 0 ? '7' : i === 1 ? '5' : '4'} bg-[#0a0a0c] p-8 border border-white/5 hover:border-primary/20 transition-all group`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: categoryIndex * 0.1, duration: 0.5 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
             >
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                {/* Category Label */}
-                <div className="w-full md:w-48 flex-shrink-0 text-center md:text-right">
-                  <h3 className="text-xl font-bold text-white mb-1 font-heading">{label}</h3>
-                  <div className="h-0.5 w-12 bg-primary/30 rounded-full mx-auto md:ml-auto md:mr-0 group-hover:bg-primary transition-colors" />
-                </div>
+              <div className="flex items-center gap-3 mb-8">
+                <span className="text-primary/40 group-hover:text-primary transition-colors">{cat.icon}</span>
+                <h3 className="text-xs font-bold font-mono tracking-[0.2em] text-white uppercase">{cat.label}</h3>
+              </div>
 
-                {/* Icons Grid */}
-                <div className="flex-grow w-full">
-                  <div className="glass-panel bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 md:p-8 hover:border-primary/20 transition-all duration-300 relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none" />
-
-                    <div className="flex flex-wrap justify-center md:justify-start gap-6 md:gap-8 relative z-10">
-                      {icons.map((icon, iconIndex) => (
-                        <motion.div
-                          key={icon}
-                          whileHover={{
-                            scale: 1.15,
-                            rotate: 5,
-                            filter: "brightness(1.2)"
-                          }}
-                          className="group/icon relative flex flex-col items-center justify-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer"
-                        >
-                          <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center">
-                            <img
-                              src={getIconUrl(icon)}
-                              alt={icon}
-                              className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] transition-transform"
-                              loading="lazy"
-                            />
-                          </div>
-                          <span className="text-[10px] font-mono font-medium text-slate-400 group-hover/icon:text-primary transition-colors capitalize opacity-0 group-hover/icon:opacity-100 absolute -bottom-2 translate-y-full whitespace-nowrap bg-black/90 border border-white/10 px-2 py-1 rounded shadow-xl">
-                            {icon}
-                          </span>
-                        </motion.div>
-                      ))}
+              <div className="flex flex-wrap gap-4">
+                {cat.icons.map((icon, idx) => (
+                  <div key={idx} className="flex flex-col items-center gap-3 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
+                    <div className="w-10 h-10 p-2 bg-white/[0.03] border border-white/5 chamfer-tr group-hover:border-primary/20">
+                      <img
+                        src={getIconUrl(icon)}
+                        alt={icon}
+                        className="w-full h-full object-contain"
+                      />
                     </div>
+                    <span className="text-[8px] font-mono text-white/40 uppercase group-hover:text-primary transition-colors">{icon}</span>
                   </div>
+                ))}
+              </div>
+
+              {/* Functional Metrics (Visual Decoration) */}
+              <div className="mt-12 flex justify-between items-end">
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map(j => (
+                    <div key={j} className={`w-1 h-4 ${j <= (5 - i) ? 'bg-primary/20' : 'bg-white/5'}`} />
+                  ))}
                 </div>
+                <span className="text-[8px] font-mono text-white/20 uppercase tracking-tighter">Sector_Load_Stable</span>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Global Footer Stats */}
+        <div className="mt-12 p-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex gap-8 text-[10px] font-mono text-white/30 uppercase">
+            <span>Integrated_Modules: 5</span>
+            <span>Uptime: Persistent</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-[10px] font-mono text-primary font-bold">SYSTEMS_SYNCHRONIZED</span>
+          </div>
+        </div>
+
       </div>
     </section>
   );
-}
+}

@@ -1,53 +1,41 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Home,
   User,
   Folder,
-  Download,
-  Sun,
-  Moon,
   Award,
   ChartSpline,
   BookOpen,
   Cpu,
   Menu,
   X,
+  Target
 } from 'lucide-react';
-
-import {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from '@radix-ui/react-tooltip';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import ParticleBackground from './ui/ParticleBackground';
 
 export default function Navbar() {
-  const containerRef = useRef(null);
   const [activeSection, setActiveSection] = useState('');
-  const [theme, setTheme] = useState<'night' | 'sunset'>('night');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const handleMouseMove = (e: MouseEvent) => {
+      setCoords({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const navItems = [
-    { href: '#home', label: 'Home', icon: <Home className="w-6 h-6" /> },
-    { href: '#about', label: 'About', icon: <User className="w-6 h-6" /> },
-    { href: '#projects', label: 'Projects', icon: <Folder className="w-6 h-6" /> },
-    { href: '#publications', label: 'Publications', icon: <BookOpen className="w-6 h-6" /> },
-    { href: '#awards', label: 'Awards', icon: <Award className="w-6 h-6" /> },
-    { href: '#experience', label: 'Experience', icon: <ChartSpline className="w-6 h-6" /> },
-    { href: '#techstack', label: 'Tech Stack', icon: <Cpu className="w-6 h-6" /> }
+    { href: '#home', label: 'HOME', icon: <Home className="w-4 h-4" /> },
+    { href: '#about', label: 'BIOS', icon: <User className="w-4 h-4" /> },
+    { href: '#projects', label: 'MODULES', icon: <Folder className="w-4 h-4" /> },
+    { href: '#publications', label: 'LOGS', icon: <BookOpen className="w-4 h-4" /> },
+    { href: '#experience', label: 'AUDIT', icon: <ChartSpline className="w-4 h-4" /> },
+    { href: '#techstack', label: 'SYSTEM', icon: <Cpu className="w-4 h-4" /> }
   ];
 
   useEffect(() => {
@@ -60,14 +48,10 @@ export default function Navbar() {
           }
         }
       },
-      {
-        threshold: 0.2,
-        rootMargin: '0px 0px -20% 0px',
-      }
+      { threshold: 0.2, rootMargin: '0px 0px -20% 0px' }
     );
 
     navItems.forEach(item => {
-      if (!item.href.startsWith('#')) return;
       const id = item.href.slice(1);
       const section = document.getElementById(id);
       if (section) observer.observe(section);
@@ -76,148 +60,132 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  const toggleTheme = () =>
-    setTheme(prev => (prev === 'night' ? 'sunset' : 'night'));
-
   return (
-    <>
-      {/* Desktop Navbar */}
-      {!isMobile && (
-        <TooltipProvider>
-          <motion.nav
-            ref={containerRef}
-            initial={{ y: -100, x: "-50%", opacity: 0 }}
-            animate={{ y: 0, x: "-50%", opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className={cn(
-              "fixed top-6 left-1/2 z-50",
-              "flex gap-2 px-6 py-3 rounded-2xl",
-              "bg-black/40 backdrop-blur-xl border border-white/10",
-              "shadow-[0_0_20px_rgba(0,0,0,0.2)]",
-              "transition-all duration-300"
-            )}
-          >
+    <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+      {/* Top Banner - System Stats */}
+      <div className="w-full bg-[#060608]/80 border-b border-primary/20 backdrop-blur-md px-6 py-2 flex justify-between items-center text-[10px] font-mono pointer-events-auto overflow-hidden relative">
+        {/* Dynamic Pulse Background */}
+        <motion.div 
+          className="absolute inset-0 bg-primary/5"
+          animate={{ opacity: [0, 0.1, 0] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
+
+        <div className="flex gap-8 relative z-10">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-0.5">
+              {[1, 2, 3].map(i => (
+                <motion.div 
+                  key={i}
+                  className="w-1 h-3 bg-primary"
+                  animate={{ height: [4, 12, 4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                />
+              ))}
+            </div>
+            <span className="text-primary font-bold">SYS_OPERATIONAL</span>
+          </div>
+          <span className="hidden md:inline text-white/40 tracking-tighter">COORD: 26.14°N / 91.73°E</span>
+          <span className="hidden lg:inline text-primary/60">COMMS: READY</span>
+        </div>
+
+        <div className="flex gap-8 relative z-10">
+          <div className="flex items-center gap-2">
+            <span className="text-white/20">X:</span>
+            <span className="text-primary tabular-nums">{coords.x}</span>
+            <span className="text-white/20">Y:</span>
+            <span className="text-primary tabular-nums">{coords.y}</span>
+          </div>
+          <div className="flex items-center gap-2 border-l border-white/10 pl-6">
+            <span className="text-white/20">UPTIME:</span>
+            <span className="text-primary tabular-nums tracking-widest">{Math.floor(performance.now() / 1000)}s</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Nav Bar */}
+      <div className="container mx-auto px-6 mt-4">
+        <div className="flex justify-between items-center pointer-events-auto">
+          {/* Logo / Title Area */}
+          <div className="bg-black/80 border border-white/10 px-4 py-2 chamfer-tr flex items-center gap-3">
+            <Target size={18} className="text-primary animate-pulse-cyan" />
+            <div className="flex flex-col">
+              <span className="text-xs font-bold tracking-tighter text-white">PIYUSH_KB</span>
+              <span className="text-[10px] font-mono text-primary/60 mt-[-2px]">V_2.0.46</span>
+            </div>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex gap-1 bg-black/40 backdrop-blur-xl border border-white/5 p-1">
             {navItems.map(({ href, label, icon }) => {
               const isActive = activeSection === href.slice(1);
               return (
-                <Tooltip key={label}>
-                  <TooltipTrigger asChild>
-                    <motion.a
-                      href={href}
-                      className={cn(
-                        "relative p-3 rounded-xl transition-all duration-300",
-                        "hover:bg-white/5",
-                        isActive ? "text-primary" : "text-slate-400 hover:text-white"
-                      )}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {icon}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeTab"
-                          className="absolute inset-0 bg-white/5 rounded-xl border border-primary/20"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                        />
-                      )}
-                    </motion.a>
-                  </TooltipTrigger>
-                  <TooltipContent
-                    side="bottom"
-                    sideOffset={10}
-                    className="animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2"
-                  >
-                    <div className="bg-black/90 text-white text-xs px-3 py-1.5 rounded-lg border border-white/10 shadow-xl backdrop-blur-md">
-                      {label}
-                    </div>
-                  </TooltipContent>
-                </Tooltip>
+                <a
+                  key={label}
+                  href={href}
+                  className={cn(
+                    "relative px-4 py-2 flex items-center gap-2 text-[11px] font-mono transition-all",
+                    isActive 
+                      ? "bg-primary text-black" 
+                      : "text-slate-400 hover:text-primary hover:bg-primary/5"
+                  )}
+                >
+                  {icon}
+                  {label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute -bottom-[1px] left-0 w-full h-[1px] bg-black"
+                    />
+                  )}
+                </a>
               );
             })}
+          </nav>
 
-            <div className="w-[1px] h-8 bg-white/10 mx-2 self-center" />
-
-            <motion.button
-              onClick={toggleTheme}
-              className="p-3 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
-              whileHover={{ scale: 1.05, rotate: 180 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </motion.button>
-          </motion.nav>
-        </TooltipProvider>
-      )}
-
-      {/* Mobile Bottom Nav - Glassmorphism */}
-      {isMobile && (
-        <motion.nav
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          className="fixed bottom-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-t border-white/10 px-6 py-4 flex justify-between items-center"
-        >
-          <span className="text-sm font-medium text-white/50">Menu</span>
+          {/* Mobile Menu Trigger */}
           <button
             onClick={() => setDrawerOpen(true)}
-            className="p-3 rounded-full bg-primary/20 text-primary border border-primary/20 hover:bg-primary/30 transition-colors"
+            className="md:hidden p-2 bg-black/80 border border-primary/20 text-primary chamfer-bl"
           >
-            <Menu className="w-6 h-6" />
+            <Menu size={20} />
           </button>
-        </motion.nav>
-      )}
+        </div>
+      </div>
 
       {/* Drawer */}
       <AnimatePresence>
         {drawerOpen && (
           <motion.div
-            key="drawer"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-            onClick={() => setDrawerOpen(false)}
+            className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md pointer-events-auto"
           >
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 h-full w-3/4 max-w-sm bg-black/90 border-l border-white/10 p-6 shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-center mb-8">
-                <span className="text-xl font-bold text-white">Navigation</span>
-                <button
-                  onClick={() => setDrawerOpen(false)}
-                  className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
-                >
-                  <X className="w-6 h-6" />
+            <div className="p-8 h-full flex flex-col">
+              <div className="flex justify-between items-center mb-12">
+                <span className="font-mono text-primary tracking-widest text-sm">SYSTEM_OVERRIDE</span>
+                <button onClick={() => setDrawerOpen(false)} className="text-primary p-2 border border-primary/20">
+                  <X size={24} />
                 </button>
               </div>
-
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4">
                 {navItems.map(({ href, label, icon }) => (
                   <a
                     key={label}
                     href={href}
                     onClick={() => setDrawerOpen(false)}
-                    className="flex items-center gap-4 p-4 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 hover:border-white/10 border border-transparent transition-all"
+                    className="flex items-center gap-6 p-6 border border-white/5 hover:border-primary/50 text-2xl font-bold transition-all group"
                   >
-                    <span className="p-2 rounded-lg bg-white/5 text-primary">
-                      {icon}
-                    </span>
-                    <span className="text-lg font-medium">{label}</span>
+                    <span className="text-primary group-hover:scale-110 transition-transform">{icon}</span>
+                    <span className="group-hover:translate-x-2 transition-transform">{label}</span>
                   </a>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <ParticleBackground theme={theme} interaction />
-    </>
+    </header>
   );
 }

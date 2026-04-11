@@ -1,8 +1,7 @@
 // Social Links
 export const SOCIAL_LINKS = {
   GITHUB: "https://github.com/PiyushKBhattacharyya",
-  LINKEDIN: "https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/",
-  EMAIL: "piyushbhattacharyya@gmail.com"
+  LINKEDIN: "https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/"
 };
 
 // Skills for the about section
@@ -28,23 +27,28 @@ export const SKILLS = [
 // Projects to showcase
 export const PROJECTS = [
   {
-    title: "Krishi Sahayogi",
-    description: "A platform revolutionizing farming through advanced drone technologies and AI, providing intelligent solutions for sustainable growth and a prosperous future.",
+    title: "Krishi-Sahayogi",
+    badge: "Incubated By NIELIT",
+    description: "Built on-device crop disease detection using MobileNetV2 (98.3% accuracy on 2,000+ field images), enabling offline inference in low-connectivity rural environments. Designed scalable backend APIs for model updates and disease metadata retrieval.",
     tags: ["React", "node.js", "FastAPI", "Gemini-API", "Machine Learning", "Supabase", "Kubernetes", "Docker"],
-    liveUrl: "https://www.krishisahayogi.com/"
+    liveUrl: "https://krishisahayogi.com/"
   },
   {
-    title: "Featureless Point Cloud Registration",
-    description: "A geometric alignment approach using Iterative Closest Point (ICP) to register point clouds without relying on explicit features.",
-    tags: ["Open3D", "NumPy", "SciPy", "Python"],
-    githubUrl: "https://github.com/PiyushKBhattacharyya/Featureless-Point-Cloud-Registration"
+    title: "Sys_Logger",
+    badge: "Used by NIELIT",
+    description: "Built containerized full-stack monitoring system (Flask + Next.js) for real-time CPU, RAM, GPU, and network telemetry across institutional lab infrastructure. Implemented health-check endpoints and configurable polling for fleet-level observability.",
+    tags: ["Flask", "Next.js", "Monitoring", "Telemetry", "Docker"],
+    liveUrl: "https://lab-monitoring.nielitbhubaneswar.in/"
   },
   {
-    title: "AutoML",
-    description: "An interactive web application that simplifies the machine learning workflow.",
-    tags: ["Streamlit", "PyCaret", "Pandas Profiling", "Plotly"],
-    githubUrl: "https://github.com/PiyushKBhattacharyya/AutoML",
-    liveUrl: "https://automl.streamlit.app/"
+    title: "Skynet",
+    description: "Engineered a hierarchical 3-level meta-learning system combining PPO-based meta-policy optimization, evolutionary population search, and LoRA-adapted transformer modules. Parameterized training dynamics into a differentiable 22-dimensional control vector, enabling continuous NAS.",
+    tags: ["PyTorch", "PPO", "LoRA", "Meta-Learning", "NAS"]
+  },
+  {
+    title: "Apex OS",
+    description: "Developing a Rust-based experimental OS with reinforcement learning-driven CPU scheduling for adaptive resource allocation. Implementing capability-based security, TPM 2.0 integration, and verified boot for kernel-level guarantees.",
+    tags: ["Rust", "Systems Programming", "Kernel", "RL", "Security"]
   },
 ];
 
@@ -52,20 +56,20 @@ export const PROJECTS = [
 export const publications = [
   {
     title: "ECG Arrhythmia Detection Using Lightweight 1DCNN-Bi-LSTM Technique for Cardiovascular Disease",
-    authors: ["Payel Sarmah", "Piyush Kaushik Bhattacharyya", "et al."],
-    conference: "NICEDT-2025",
-    year: "4/01/2026",
+    authors: ["Payel Sarmah", "P. K. Bhattacharyya", "et al."],
+    conference: "Springer (SN Computer Science)",
+    year: "2026",
     doi: "10.1007/978-981-96-9932-2_27",
-    abstract: "This paper introduces a lightweight 1DCNN-Bi-LSTM architecture for real-time arrhythmia detection on 12-lead ECG signals. By implementing model pruning on a dataset of 45,152 patients, the proposed framework achieves 99.4% accuracy while significantly reducing computational overhead, making it highly effective for on-device cardiovascular monitoring.",
+    abstract: "This paper introduces a lightweight 1DCNN-Bi-LSTM architecture for real-time arrhythmia detection on 12-lead ECG signals, achieving high accuracy with minimal computational overhead.",
     link: "https://link.springer.com/chapter/10.1007/978-981-96-9932-2_27"
   },
   {
     title: "Continual Learning for Food Category Classification Dataset: Enhancing Model Adaptability and Performance",
-    authors: ["Piyush Kaushik Bhattacharyya et al."],
-    conference: "2025 International Conference on Artificial intelligence and Emerging Technologies (ICAIET)",
-    year: "30/10/2025",
+    authors: ["P. K. Bhattacharyya", "et al."],
+    conference: "IEEE (ICAIET)",
+    year: "2025",
     doi: "10.1109/ICAIET65052.2025.11211231",
-    abstract: "This paper presents a continual text-guided food classification framework that overcomes the limitations of conventional ML pipelines by enabling incremental learning of new categories without forgetting, making it adaptable for real-world dietary monitoring and personalized nutrition.",
+    abstract: "This paper presents a continual learning framework for food classification, enabling incremental learning without catastrophic forgetting.",
     link: "https://ieeexplore.ieee.org/document/11211231"
   },
 ];
@@ -97,7 +101,7 @@ export const TECH_STACK = [
 // Work Experience
 export const EXPERIENCE = [
   {
-    title: "Summer Intern",
+    title: "Project Intern",
     company: "Indian Oil Corporation Ltd. (IOCL)",
     period: "May 2025 - Jun 2025",
     description: "Led the design, development, and training of a Computer Vision model to detect Personal Protective Equipment (PPE) compliance (helmets, safety vests, gloves) for refinery workers.",

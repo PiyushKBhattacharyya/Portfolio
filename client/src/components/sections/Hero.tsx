@@ -1,262 +1,172 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
+import { Linkedin, Github, Mail, Target, Shield, Activity, Zap } from 'lucide-react';
+import { SOCIAL_LINKS } from '@/lib/constants';
 
-function ProfileImage() {
+function ProfileFrame() {
   return (
-    <img
-      src="/profile.png"
-      alt="Piyush Kaushik Bhattacharyya"
-      className="w-full h-full object-cover"
-      width={400}
-      height={400}
-      loading="eager"
-    />
+    <div className="relative w-full aspect-square bg-black/40 border border-white/10 group overflow-hidden">
+      <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <img
+        src="/profile.png"
+        alt="Piyush Kaushik Bhattacharyya"
+        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+      />
+      {/* Subject ID Overlay */}
+      <div className="absolute top-4 left-4 bg-primary text-black text-[10px] font-mono px-2 py-0.5 font-bold">
+        SUBJ_ID: 046-PKB
+      </div>
+      <div className="absolute bottom-4 right-4 flex flex-col items-end gap-1">
+        <div className="w-12 h-1 bg-white/10 overflow-hidden">
+          <motion.div 
+            className="h-full bg-primary" 
+            animate={{ width: ["0%", "80%", "40%", "90%"] }} 
+            transition={{ duration: 4, repeat: Infinity }} 
+          />
+        </div>
+        <span className="text-[8px] font-mono text-white/40 uppercase">Sync_Stream_Active</span>
+      </div>
+    </div>
   );
 }
 
 export default function Hero() {
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-
-  // Detect if device is mobile for component-level optimizations
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-
-  useEffect(() => {
-    // Set mobile state after component mounts to avoid hydration issues
-    setIsMobileDevice(
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth < 768
-    );
-
-    const element = scrollIndicatorRef.current;
-    if (!element) return;
-
-    // Optimize animation for mobile
-    const bounce = element.animate(
-      [
-        { transform: 'translateY(0)' },
-        { transform: 'translateY(-16px)' },
-        { transform: 'translateY(0)' },
-      ],
-      {
-        duration: isMobileDevice ? 2500 : 2000,
-        iterations: Infinity,
-        easing: 'ease-in-out',
-        composite: 'replace',
-        fill: 'both'
-      }
-    );
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        bounce.playbackRate = 0.1;
-      } else {
-        bounce.playbackRate = 1;
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      bounce.cancel();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [isMobileDevice]);
-
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center pt-28 md:pt-20 relative overflow-hidden"
-    >
-      {/* Quantum Background Elements */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-[#060608]">
+      {/* Background Precision Grid */}
+      <div className="absolute inset-0 scanline-overlay opacity-[0.03]" />
+      <motion.div 
+        className="absolute top-0 left-0 w-full h-[1px] bg-primary/20 z-0"
+        animate={{ translateY: ["0vh", "100vh"] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
 
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-pulse-slow pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-[128px] animate-pulse-slow pointer-events-none" style={{ animationDelay: '1s' }} />
-
-      <div className="container mx-auto px-6 md:px-20 py-2 flex flex-col-reverse md:flex-row items-center gap-12 lg:gap-20 relative z-10">
-
-        {/* Text Section */}
-        <motion.div
-          className="w-full md:w-3/5 text-center md:text-left flex flex-col items-center md:items-start"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/5 border border-primary/20 backdrop-blur-md shadow-[0_0_15px_-5px_rgba(139,92,246,0.3)] mx-auto md:mx-0"
-          >
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            <span className="text-sm font-mono text-primary-foreground/90 tracking-wide">
-              SYSTEM_ONLINE
-            </span>
-          </motion.div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-heading mb-6 leading-tight tracking-tight">
-            Hi, I'm <br />
-            <span className="text-gradient-quantum filter drop-shadow-lg">
-              Piyush Kaushik Bhattacharyya
-            </span>
-          </h1>
-
-          <h2 className="text-2xl sm:text-3xl font-light font-mono text-slate-300 mb-8 flex flex-col md:block gap-2 w-full">
-            <span className="text-glow-cyan text-secondary font-semibold">&lt;ML_Engineer / &gt;</span>
-            <span className="hidden md:inline mx-3 text-slate-600">|</span>
-            <span className="text-slate-400">Full_Stack_Dev</span>
-          </h2>
-
-          <p className="text-lg text-slate-400 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed font-sans">
-            Architecting intelligent AI solutions and immersive digital experiences.
-            Bridging the gap between <span className="text-white font-medium">complex algorithms</span> and <span className="text-white font-medium">fluid interfaces</span>.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 w-full md:w-auto">
-            <motion.a
-              href="#projects"
-              className="px-8 py-4 rounded-xl bg-primary text-white font-mono font-bold tracking-wide shadow-[0_0_20px_-5px_var(--primary)] hover:shadow-[0_0_30px_-5px_var(--primary)] hover:bg-primary/90 transition-all flex items-center justify-center group relative overflow-hidden w-full sm:w-auto"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+      <div className="container mx-auto px-6 md:px-20 relative z-10 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-stretch">
+          
+          {/* Left Column: Subject Data */}
+          <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <span className="z-10 relative flex items-center">
-                VIEW_PROJECTS
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-            </motion.a>
-
-            <motion.a
-              href="#contact"
-              className="px-8 py-4 rounded-xl bg-black/40 border border-white/10 text-white font-mono font-medium hover:bg-white/5 hover:border-primary/50 backdrop-blur-md transition-all w-full sm:w-auto text-center shadow-lg"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              CONTACT_ME
-            </motion.a>
-          </div>
-
-          <div className="flex justify-center md:justify-start gap-6 mt-8 md:mt-6 w-full">
-            <SocialIcon
-              href="https://github.com/PiyushKBhattacharyya"
-              label="GitHub"
-              icon={<Github size={24} />}
-            />
-            <SocialIcon
-              href="https://www.linkedin.com/in/piyush-bhattacharyya-0b8a03131/"
-              label="LinkedIn"
-              icon={<Linkedin size={24} />}
-            />
-            <SocialIcon
-              href="mailto:piyushbhattacharyya@gmail.com"
-              label="Email"
-              icon={<Mail size={24} />}
-            />
-          </div>
-        </motion.div>
-
-        {/* Profile Image Area - Quantum Frame */}
-        <motion.div
-          className="w-full md:w-2/5 flex justify-center perspective-1000 mb-8 md:mb-0"
-          initial={{ opacity: 0, scale: 0.8, rotateY: 30 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-[400px] md:h-[400px] group preserve-3d">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary via-purple-500 to-secondary rounded-[2rem] blur-[60px] opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-            <div className="relative w-full h-full rounded-[2rem] border border-white/10 bg-black/40 backdrop-blur-sm p-3 animate-float-slow">
-
-              {/* Corner Accents */}
-              <div className="absolute -top-[1px] -left-[1px] w-8 h-8 border-t-2 border-l-2 border-primary rounded-tl-2xl" />
-              <div className="absolute -bottom-[1px] -right-[1px] w-8 h-8 border-b-2 border-r-2 border-secondary rounded-br-2xl" />
-
-              <div className="w-full h-full rounded-[1.5rem] overflow-hidden border border-white/5 shadow-2xl relative bg-black/50">
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent z-10" />
-                <ProfileImage />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-[1px] w-12 bg-primary/40" />
+                <span className="text-[10px] font-mono text-primary tracking-[0.3em] font-bold uppercase">System_Initialisation_Complete</span>
               </div>
-            </div>
 
-            {/* Floating Tech Elements */}
-            <motion.div
-              className="absolute -top-6 -right-6 p-4 bg-black/80 backdrop-blur-xl border border-primary/30 rounded-xl shadow-[0_0_15px_-5px_rgba(128,0,255,0.4)] z-20 flex items-center gap-2"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-mono text-primary-foreground">AI_Ready</span>
-            </motion.div>
+              <h1 className="text-5xl md:text-8xl font-black font-heading tracking-tighter mb-8 leading-[0.9] text-white">
+                PIYUSH<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/50">KAUSHIK_B.</span>
+              </h1>
 
-            <motion.div
-              className="absolute -bottom-4 -left-6 p-4 bg-black/80 backdrop-blur-xl border border-secondary/30 rounded-xl shadow-[0_0_15px_-5px_rgba(0,221,255,0.4)] z-20"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            >
-              <span className="text-xl">⚡</span>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12 border-l border-white/10 pl-8">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">[CORE_FOCUS]</span>
+                  <span className="text-sm font-bold text-white uppercase">ML_Engineering</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">[DEPLOY_STAT]</span>
+                  <span className="text-sm font-bold text-white uppercase">Active_Field</span>
+                </div>
+                <div className="flex flex-col gap-1 col-span-2 md:col-span-1">
+                  <span className="text-[10px] font-mono text-primary/60 uppercase tracking-widest">[AUTH_LEVEL]</span>
+                  <span className="text-sm font-bold text-white uppercase flex items-center gap-2">
+                    Level_4_Grant <Shield size={14} className="text-primary" />
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed font-mono text-[13px] border border-white/5 p-6 bg-white/[0.02]">
+                <span className="text-primary mr-2">&gt;</span>
+                Architecting high-fidelity AI systems and experimental infrastructure. 
+                Bridging the transition from <span className="text-white">stochastic models</span> to <span className="text-white">deterministic kernels</span>.
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <motion.a
+                  href="#projects"
+                  className="px-8 py-4 bg-primary text-black font-mono font-bold text-xs tracking-widest chamfer-tr flex items-center gap-3 hover:bg-white transition-colors"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <Target size={16} />
+                  ENGAGE_MODULES
+                </motion.a>
+                
+                <div className="flex items-center gap-4 px-6 border border-white/10 bg-white/[0.02]">
+                  <SocialIcon href={SOCIAL_LINKS.GITHUB} icon={<Github size={18} />} />
+                  <SocialIcon href={SOCIAL_LINKS.LINKEDIN} icon={<Linkedin size={18} />} />
+                </div>
+              </div>
             </motion.div>
           </div>
-        </motion.div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-      >
-        <div className="w-[20px] h-[36px] rounded-full border-2 border-white/20 flex justify-center p-1.5 backdrop-blur-sm">
-          <motion.div
-            className="w-1 h-1 bg-secondary rounded-full shadow-[0_0_10px_var(--secondary)]"
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          />
+          {/* Right Column: Bio Matrix / Data Visuals */}
+          <div className="lg:col-span-5 order-1 lg:order-2">
+            <motion.div
+              className="h-full flex flex-col"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+            >
+              <div className="border border-white/10 p-2 bg-white/[0.01] chamfer-bl h-full">
+                <ProfileFrame />
+                
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="bg-white/[0.03] border border-white/5 p-4 flex flex-col gap-2">
+                    <Activity size={16} className="text-primary" />
+                    <span className="text-[8px] font-mono text-white/30 uppercase">Neural_Throughput</span>
+                    <span className="text-xs font-bold text-white tracking-widest">94.8%_SAT</span>
+                  </div>
+                  <div className="bg-white/[0.03] border border-white/5 p-4 flex flex-col gap-2">
+                    <Zap size={16} className="text-amber-500" />
+                    <span className="text-[8px] font-mono text-white/30 uppercase">Optimization_Cycle</span>
+                    <span className="text-xs font-bold text-white tracking-widest">REALTIME_OFF</span>
+                  </div>
+                </div>
+
+                <div className="mt-4 p-4 border border-primary/20 bg-primary/5">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-[10px] font-mono text-primary font-bold tracking-widest uppercase">System_Logs</span>
+                    <span className="text-[8px] font-mono text-primary/50 underline">View_All</span>
+                  </div>
+                  <div className="space-y-1">
+                    {[
+                      "Initialize: Meta_Policy_v4",
+                      "Success: 22-D Control Matrix",
+                      "Sync: Apex_OS Kernel Load",
+                      "Ready: Krishi_Net_V2"
+                    ].map((log, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[10px] font-mono text-white/60">
+                        <span className="w-1 h-1 bg-primary/40" />
+                        {log}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
 
-// Reusable Social Icon component
-function SocialIcon({
-  href,
-  label,
-  icon,
-}: {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-}) {
-  // Detect if device is mobile
-  const isMobile = typeof window !== 'undefined' &&
-    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth < 768);
-
+function SocialIcon({ href, icon }: { href: string; icon: React.ReactNode }) {
+  const isMail = href.startsWith('mailto:');
   return (
-    <motion.a
+    <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="p-2 text-xl hover:text-primary transition-all duration-300 hover:shadow-md hover:shadow-primary/20 rounded-full"
-      aria-label={label}
-      whileHover={{ y: isMobile ? -2 : -4 }} // Reduced animation on mobile
-      transition={{
-        type: "spring",
-        stiffness: isMobile ? 400 : 300, // Stiffer springs on mobile for faster animations
-        damping: isMobile ? 25 : 20 // More damping on mobile for less oscillation
-      }}
-      style={{
-        willChange: "transform", // Hint for hardware acceleration
-        transform: "translateZ(0)" // Force hardware acceleration
-      }}
+      target={isMail ? "_self" : "_blank"}
+      rel={isMail ? undefined : "noopener noreferrer"}
+      className="p-2 text-white/40 hover:text-primary transition-all hover:scale-110"
     >
       {icon}
-    </motion.a>
+    </a>
   );
 }
+
