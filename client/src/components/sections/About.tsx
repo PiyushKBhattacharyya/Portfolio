@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Target, Cpu, HardDrive, Network, Layers, ShieldCheck } from 'lucide-react';
-import { EXECUTIVE_SUMMARY } from '@/lib/constants';
+import { Target, Cpu, HardDrive, Network, Layers } from 'lucide-react';
 
 const statsData = [
   { label: "COGNITION_PATH", value: "Neural_Architectures" },
@@ -44,25 +43,6 @@ export default function About() {
             ))}
           </div>
         </div>
-
-        {/* Executive Summary Block */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 p-8 border border-primary/20 bg-primary/[0.02] relative"
-        >
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <ShieldCheck size={40} className="text-primary" />
-          </div>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[10px] font-mono text-primary font-bold uppercase tracking-widest">[EXECUTIVE_SUMMARY]</span>
-            <div className="h-px flex-grow bg-primary/10" />
-          </div>
-          <p className="text-xl md:text-2xl font-bold text-white leading-tight tracking-tight italic">
-            {EXECUTIVE_SUMMARY}
-          </p>
-        </motion.div>
 
         {/* Content Matrix */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 px-1 bg-white/5">

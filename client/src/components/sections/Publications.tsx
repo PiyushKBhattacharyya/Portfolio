@@ -8,7 +8,7 @@ export default function Publications() {
   return (
     <section id="publications" className="py-24 relative overflow-hidden bg-[#0a0a0c]">
       <div className="container mx-auto px-6 md:px-20 relative z-10">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div>
@@ -44,13 +44,13 @@ export default function Publications() {
 
               <div className="bg-[#060608] border border-white/10 p-8 chamfer-tr group-hover:border-primary/40 transition-all">
                 <div className="flex flex-col lg:flex-row gap-12">
-                  
+
                   {/* Title & Link */}
                   <div className="lg:w-2/3">
                     <h3 className="text-2xl font-bold text-white tracking-tight mb-4 group-hover:text-primary transition-colors">
                       {pub.title.toUpperCase()}
                     </h3>
-                    
+
                     <div className="flex flex-wrap gap-6 mb-8 text-[10px] font-mono">
                       <div className="flex items-center gap-2 text-primary/60">
                         <Users size={12} />
