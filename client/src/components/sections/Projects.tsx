@@ -22,11 +22,7 @@ export default function Projects() {
               ENGINEERED_<span className="text-transparent border-b-2 md:border-b-4 border-primary px-2">SYSTEMS</span>
             </h2>
           </div>
-          <div className="md:text-right">
-            <p className="text-[10px] font-mono text-white/30 uppercase leading-relaxed max-w-[240px] md:ml-auto">
-              Deployment Archive: 4 Active Modules Detected. Target environment: Production_Local.
-            </p>
-          </div>
+
         </div>
 
         {/* Dense Grid Section */}

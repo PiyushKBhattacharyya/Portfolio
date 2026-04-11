@@ -3,27 +3,18 @@
 import { motion } from 'framer-motion';
 import { Target, Cpu, HardDrive, Network, Layers, Activity } from 'lucide-react';
 
-const statsData = [
-  { label: "COGNITION_PATH", value: "Neural_Architectures" },
-  { label: "SYSTEM_RUNTIME", value: "12500+ Hours" },
-  { label: "AUTH_TOKEN", value: "SEC_ALPHA_9" },
-  { label: "DATA_ORIGIN", value: "Guwahati_IN" }
-];
+
 
 export default function About() {
   return (
     <section id="about" className="pt-16 pb-32 relative overflow-hidden bg-[#0a0a0c]">
       {/* Structural Data Overlay */}
-      <div className="absolute top-10 right-10 p-4 text-[10px] font-mono text-white/5 flex flex-col items-end border-r-2 border-white/5 pr-6">
-        <span>DRAWING_NO: A-704</span>
-        <span>REV_LVL: S7_PROD</span>
-        <span>AUTH: SE_PIYUSH</span>
-      </div>
+
 
       <div className="container mx-auto px-6 md:px-20 relative z-10">
 
         {/* Section Header - Blueprint ID */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8 border-b-2 border-primary/20 pb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-2 gap-0 border-b-2 border-primary/20 pb-12">
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-[1px] bg-primary/40" />
@@ -34,14 +25,7 @@ export default function About() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 md:gap-6 lg:w-1/3 p-6 bg-white/[0.02] border border-white/5">
-            {statsData.map((stat, i) => (
-              <div key={i} className="flex flex-col min-w-0">
-                <span className="text-[7px] md:text-[8px] font-mono text-primary/40 uppercase font-bold tracking-widest truncate">{stat.label}</span>
-                <span className="text-[9px] md:text-[11px] font-black text-white tracking-widest uppercase italic break-all md:break-words">{stat.value}</span>
-              </div>
-            ))}
-          </div>
+
         </div>
 
         {/* Content Matrix - Modular Assembly */}
