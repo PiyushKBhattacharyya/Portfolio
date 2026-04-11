@@ -53,7 +53,7 @@ export default function CustomCursor() {
     if (isMobile) return null;
 
     return (
-        <div className="fixed inset-0 pointer-events-none z-[9999]">
+        <div className="fixed inset-0 pointer-events-none z-[9999] hidden lg:block">
             {/* Global Coordination Lines */}
             <motion.div 
                 className="absolute h-[1px] bg-primary/10"

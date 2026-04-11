@@ -6,7 +6,7 @@ import { publications } from '@/lib/constants';
 
 export default function Publications() {
   return (
-    <section id="publications" className="py-32 relative overflow-hidden bg-[#0a0a0c]">
+    <section id="publications" className="pt-16 pb-32 relative overflow-hidden bg-[#0a0a0c]">
       <div className="container mx-auto px-6 md:px-20 relative z-10">
         
         {/* Ledger Header */}
@@ -16,8 +16,8 @@ export default function Publications() {
               <BookOpen size={16} className="text-primary" />
               <span className="text-[10px] font-mono text-primary uppercase tracking-[0.5em] font-bold italic">Document_Archive_S7_FINAL</span>
             </div>
-            <h2 className="text-5xl md:text-8xl font-black font-heading tracking-tight text-white uppercase italic leading-none">
-              ENGINEERING_<span className="text-transparent border-b-4 border-primary/20 px-2 italic">LEDGER</span>
+            <h2 className="text-2xl sm:text-7xl lg:text-8xl xl:text-9xl font-black font-heading tracking-tight text-white uppercase italic leading-tight py-4">
+              ENGINEERING_<span className="text-transparent border-b-2 md:border-b-4 border-primary/20 px-2 italic">LEDGER</span>
             </h2>
           </div>
           
@@ -43,7 +43,7 @@ export default function Publications() {
               {/* Record Entry Row */}
               <div className="flex flex-col lg:flex-row lg:items-stretch min-h-[320px]">
                  {/* Metadata Sidebar */}
-                 <div className="lg:w-64 bg-white/[0.03] p-10 flex lg:flex-col justify-between items-center lg:items-start gap-8 border-r border-white/5 group-hover:bg-primary/5 transition-colors">
+                 <div className="lg:w-64 bg-white/[0.03] p-6 lg:p-10 flex lg:flex-col justify-between items-center lg:items-start gap-4 lg:gap-8 border-b lg:border-b-0 lg:border-r border-white/5 group-hover:bg-primary/5 transition-colors">
                     <div className="flex flex-col gap-1">
                        <span className="text-[8px] font-mono text-primary/40 uppercase font-black tracking-widest">PUB_DATE</span>
                        <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default function Publications() {
                  {/* Main Content Area */}
                  <div className="flex-grow p-10 md:p-14 relative flex flex-col">
                     <div className="absolute top-10 right-10 p-4 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity group-hover:rotate-12 duration-700">
-                       <Cpu size={120} className="text-primary" />
+                       <Cpu size={80} className="text-primary md:w-30 md:h-30" />
                     </div>
 
                     <div className="flex items-center gap-4 mb-6">
@@ -77,27 +77,26 @@ export default function Publications() {
                        <span className="text-[9px] font-mono text-white/20 uppercase tracking-[0.3em] font-bold">Research_Module // Logic_Verification</span>
                     </div>
 
-                    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase italic group-hover:text-primary transition-colors mb-8 leading-[1.1] max-w-4xl">
+                    <h3 className="text-lg md:text-4xl font-black text-white tracking-tighter uppercase italic group-hover:text-primary transition-colors mb-4 md:mb-8 leading-[1.1] max-w-4xl break-words">
                       {pub.title}
                     </h3>
 
-                    <div className="mb-10 p-8 bg-white/[0.01] border-l-4 border-primary/40 relative">
-                       <p className="text-[14px] font-mono text-slate-400 leading-relaxed font-bold italic max-w-3xl">
-                          <span className="text-primary/40 mr-4">// ABSTRACT_MANIFEST:</span>
+                    <div className="mb-6 md:mb-10 p-5 md:p-8 bg-white/[0.01] border-l-2 md:border-l-4 border-primary/40 relative">
+                        <p className="text-[10px] md:text-[14px] font-mono text-slate-400 leading-relaxed font-bold italic max-w-3xl break-words">
+                           <span className="text-primary/40 mr-2 md:mr-4 block md:inline mb-1 md:mb-0">// ABSTRACT_MANIFEST:</span>
                           {pub.abstract}
                        </p>
                     </div>
 
                     <div className="flex flex-wrap gap-12 items-end mt-auto pt-10 border-t border-white/5">
-                       <div className="flex flex-col gap-2">
-                          <span className="text-[8px] font-mono text-white/20 uppercase font-bold tracking-[0.2em]">Publisher_Entity</span>
-                          <span className="text-[11px] font-mono text-white font-black tracking-widest uppercase italic">{pub.conference}</span>
-                       </div>
-                       
-                       <div className="flex flex-col gap-2">
-                          <span className="text-[8px] font-mono text-white/20 uppercase font-bold tracking-[0.2em]">Object_DOI</span>
-                          <span className="text-[11px] font-mono text-primary font-black tracking-tighter uppercase animate-flicker">{pub.doi}</span>
-                       </div>
+                        <div className="flex flex-col gap-2 min-w-0">
+                           <span className="text-[8px] font-mono text-white/20 uppercase font-bold tracking-[0.2em]">Publisher_Entity</span>
+                           <span className="text-[9px] md:text-[11px] font-mono text-white font-black tracking-widest uppercase italic break-words">{pub.conference}</span>
+                        </div>
+                        <div className="flex flex-col gap-2 min-w-0">
+                           <span className="text-[8px] font-mono text-white/20 uppercase font-bold tracking-[0.2em]">Object_DOI</span>
+                           <span className="text-[9px] md:text-[11px] font-mono text-primary font-black tracking-tighter uppercase animate-flicker break-all">{pub.doi}</span>
+                        </div>
                        
                        <a 
                          href={pub.link} 

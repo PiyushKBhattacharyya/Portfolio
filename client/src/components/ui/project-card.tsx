@@ -78,7 +78,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         <div className="p-10 relative z-20">
           {/* Title & Technical Badge */}
           <div className="mb-10 flex flex-col gap-2">
-            <h3 className="text-3xl font-black text-white tracking-tighter group-hover:text-primary transition-colors italic uppercase leading-none">
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter group-hover:text-primary transition-colors italic uppercase leading-none break-words">
               {project.title}
             </h3>
             <div className="flex items-center gap-4">
@@ -101,8 +101,8 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
               <Cpu size={48} className="text-primary" />
             </div>
-            <p className="text-[12px] font-mono text-slate-400 leading-relaxed font-bold">
-              <span className="text-primary/40 mr-3">// MANIFEST:</span>
+            <p className="text-[10px] md:text-[12px] font-mono text-slate-400 leading-relaxed font-bold break-words">
+              <span className="text-primary/40 mr-2 md:mr-3">// MANIFEST:</span>
               {project.description}
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="px-8 py-3 bg-transparent border border-primary/30 text-[10px] font-mono text-primary font-black tracking-[0.3em] uppercase hover:bg-primary hover:text-black transition-all shadow-[inset_0_0_10px_rgba(255,157,0,0.1)] active:scale-95 flex items-center gap-4"
+              className="px-4 md:px-8 py-3 bg-transparent border border-primary/30 text-[10px] font-mono text-primary font-black tracking-widest md:tracking-[0.3em] uppercase hover:bg-primary hover:text-black transition-all shadow-[inset_0_0_10px_rgba(255,157,0,0.1)] active:scale-95 flex items-center gap-2 md:gap-4 shrink-0"
             >
               ENGAGE_UNIT
               <motion.span 

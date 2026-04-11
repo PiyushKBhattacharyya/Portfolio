@@ -5,7 +5,7 @@ import { PROJECTS } from '@/lib/constants';
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 relative overflow-hidden bg-[#060608]">
+    <section id="projects" className="pt-16 pb-32 relative overflow-hidden bg-[#060608]">
       {/* Background Matrix Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
@@ -18,8 +18,8 @@ export default function Projects() {
               <Database size={14} className="text-primary animate-pulse" />
               <span className="text-[10px] font-mono text-primary uppercase tracking-[0.3em] font-bold">Module_Registry_v2.0</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic">
-              ENGINEERED_<span className="text-transparent border-b-4 border-primary px-2">SYSTEMS</span>
+            <h2 className="text-2xl sm:text-7xl lg:text-8xl xl:text-9xl font-black font-heading tracking-tight text-white uppercase italic leading-tight py-4">
+              ENGINEERED_<span className="text-transparent border-b-2 md:border-b-4 border-primary px-2">SYSTEMS</span>
             </h2>
           </div>
           <div className="md:text-right">

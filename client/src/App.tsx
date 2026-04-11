@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Switch, Route } from "wouter";
 import NotFound from "@/pages/not-found";
 import Navbar from "@/components/Navbar";
@@ -13,12 +13,14 @@ import GrainOverlay from "@/components/ui/GrainOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { Analytics } from "@vercel/analytics/react";
 import Publications from "@/components/sections/Publications";
+import Awards from "@/components/sections/Awards";
 import EngineeringFeed from "@/components/ui/EngineeringFeed";
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // Only remove the loading opacity when fully mounted
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
@@ -26,31 +28,35 @@ function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#060608] relative overflow-x-hidden`}>
-      
-      {/* Global Prestige Overlays */}
-      <div className="vignette" />
-      <div className="grain-bg" />
-      <div className="fixed inset-0 scanline-overlay pointer-events-none z-[9998] opacity-[0.05] animate-scan" />
-      <EngineeringFeed />
-      
-      <CustomCursor />
-      
-      <Navbar />
+    <>
+      <div className={`min-h-screen transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'} bg-[#060608] relative overflow-x-hidden`}>
+        {/* Global Prestige Overlays */}
+        <div className="vignette" />
+        <div className="grain-bg" />
+        <div className="fixed inset-0 scanline-overlay pointer-events-none z-[9998] opacity-[0.05] animate-scan" />
+        <EngineeringFeed />
 
-      <main className="relative z-10">
-        <Hero />
-        <About />
-        <Projects />
-        <Publications />
-        <Experience />
-        <TechStack />
-      </main>
 
-      <Footer />
-    </div >
+        <CustomCursor />
+
+        <Navbar />
+
+        <main className="relative z-10">
+          <Hero />
+          <About />
+          <Projects />
+          <Publications />
+          <Awards />
+          <Experience />
+          <TechStack />
+        </main>
+
+        <Footer />
+      </div>
+    </>
   );
 }
+
 
 function App() {
   return (
