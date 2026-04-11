@@ -13,7 +13,7 @@ import GrainOverlay from "@/components/ui/GrainOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { Analytics } from "@vercel/analytics/react";
 import Publications from "@/components/sections/Publications";
-import DataBitstream from "@/components/ui/DataBitstream";
+import EngineeringFeed from "@/components/ui/EngineeringFeed";
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,7 +32,7 @@ function Home() {
       <div className="vignette" />
       <div className="grain-bg" />
       <div className="fixed inset-0 scanline-overlay pointer-events-none z-[9998] opacity-[0.05] animate-scan" />
-      <DataBitstream />
+      <EngineeringFeed />
       
       <CustomCursor />
       

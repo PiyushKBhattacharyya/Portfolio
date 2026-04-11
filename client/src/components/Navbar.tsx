@@ -11,7 +11,8 @@ import {
   Cpu,
   Menu,
   X,
-  Target
+  Target,
+  Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -30,12 +31,12 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { href: '#home', label: 'HOME', icon: <Home className="w-4 h-4" /> },
-    { href: '#about', label: 'BIOS', icon: <User className="w-4 h-4" /> },
-    { href: '#projects', label: 'MODULES', icon: <Folder className="w-4 h-4" /> },
-    { href: '#publications', label: 'LOGS', icon: <BookOpen className="w-4 h-4" /> },
-    { href: '#experience', label: 'AUDIT', icon: <ChartSpline className="w-4 h-4" /> },
-    { href: '#techstack', label: 'SYSTEM', icon: <Cpu className="w-4 h-4" /> }
+    { href: '#home', label: 'DRAFT_BOARD', sector: 'SEC_01', icon: <Home className="w-4 h-4" /> },
+    { href: '#about', label: 'SPEC_SHEET', sector: 'SEC_02', icon: <User className="w-4 h-4" /> },
+    { href: '#projects', label: 'ASSEMBLY', sector: 'SEC_03', icon: <Folder className="w-4 h-4" /> },
+    { href: '#publications', label: 'ledger', sector: 'SEC_04', icon: <BookOpen className="w-4 h-4" /> },
+    { href: '#experience', label: 'AUDIT', sector: 'SEC_05', icon: <ChartSpline className="w-4 h-4" /> },
+    { href: '#techstack', label: 'MAINFRAME', sector: 'SEC_06', icon: <Cpu className="w-4 h-4" /> }
   ];
 
   useEffect(() => {
@@ -62,87 +63,91 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
-      {/* Top Banner - System Stats */}
-      <div className="w-full bg-[#060608]/80 border-b border-primary/20 backdrop-blur-md px-6 py-2 flex justify-between items-center text-[10px] font-mono pointer-events-auto overflow-hidden relative">
-        {/* Dynamic Pulse Background */}
+      {/* Top Banner - Industrial Telemetry */}
+      <div className="w-full bg-[#060608]/90 border-b-2 border-primary/20 backdrop-blur-md px-10 py-2 flex justify-between items-center text-[10px] font-mono pointer-events-auto overflow-hidden relative">
         <motion.div 
           className="absolute inset-0 bg-primary/5"
           animate={{ opacity: [0, 0.1, 0] }}
           transition={{ duration: 4, repeat: Infinity }}
         />
 
-        <div className="flex gap-8 relative z-10">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-0.5">
-              {[1, 2, 3].map(i => (
+        <div className="flex gap-12 relative z-10 items-center">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1">
+              {[1, 2, 3, 4].map(i => (
                 <motion.div 
                   key={i}
-                  className="w-1 h-3 bg-primary"
-                  animate={{ height: [4, 12, 4] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                  className="w-1 h-4 bg-primary"
+                  animate={{ height: [4, 16, 4], opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
                 />
               ))}
             </div>
-            <span className="text-primary font-bold">SYS_OPERATIONAL</span>
+            <span className="text-primary font-black tracking-[0.2em] italic uppercase">Operational_State: STABLE</span>
           </div>
-          <span className="hidden md:inline text-white/40 tracking-tighter">COORD: 26.14°N / 91.73°E</span>
-          <span className="hidden lg:inline text-primary/60">COMMS: READY</span>
+          <div className="hidden md:flex gap-8 border-l border-white/10 pl-8 text-white/40">
+            <span className="flex items-center gap-2">FREQ: <span className="text-primary tracking-tighter tabular-nums">142.08GHZ</span></span>
+            <span className="flex items-center gap-2">LOAD: <motion.span className="text-primary tabular-nums" animate={{ opacity: [1, 0.4, 1] }} transition={{ duration: 0.5, repeat: Infinity }}>72%</motion.span></span>
+          </div>
         </div>
 
-        <div className="flex gap-8 relative z-10">
-          <div className="flex items-center gap-2">
-            <span className="text-white/20">X:</span>
-            <span className="text-primary tabular-nums">{coords.x}</span>
-            <span className="text-white/20">Y:</span>
-            <span className="text-primary tabular-nums">{coords.y}</span>
+        <div className="flex gap-12 relative z-10 items-center">
+          <div className="hidden lg:flex items-center gap-3">
+             <div className="w-2 h-2 bg-primary animate-pulse shadow-[0_0_8px_var(--primary)]" />
+             <span className="text-primary font-bold tracking-widest">SAT_SYNC: [ LOCKED ]</span>
           </div>
-          <div className="flex items-center gap-2 border-l border-white/10 pl-6">
-            <span className="text-white/20">UPTIME:</span>
-            <span className="text-primary tabular-nums tracking-widest">{Math.floor(performance.now() / 1000)}s</span>
+          <div className="flex items-center gap-4 border-l border-white/10 pl-8">
+            <div className="flex flex-col items-end">
+               <span className="text-[8px] text-white/20 uppercase">Core_Uptime</span>
+               <span className="text-primary tabular-nums tracking-widest font-bold">{Math.floor(performance.now() / 1000)}ms</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Nav Bar */}
-      <div className="container mx-auto px-6 mt-4">
+      <div className="container mx-auto px-6 mt-6">
         <div className="flex justify-between items-center pointer-events-auto">
-          {/* Logo / Title Area Area */}
-          <div className="bg-black/80 border border-primary/20 px-6 py-3 chamfer-tr flex items-center gap-4 group hover:border-primary transition-all pointer-events-auto">
+          {/* Logo / Engineering ID */}
+          <div className="bg-black/90 border-2 border-primary/20 p-5 flex items-center gap-5 group hover:border-primary transition-all pointer-events-auto relative shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+            <div className="absolute top-0 right-0 p-1 opacity-20">
+               <Cpu size={14} className="text-primary" />
+            </div>
             <div className="relative">
-              <Target size={20} className="text-primary animate-pulse-amber" />
-              <motion.div 
-                className="absolute inset-0 border border-primary/40 rounded-full"
-                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
+              <Compass size={24} className="text-primary group-hover:rotate-45 transition-transform duration-500" />
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-black tracking-widest text-white leading-none">PIYUSH_KB</span>
-              <span className="text-[10px] font-mono text-primary/60 mt-1 uppercase">AUTH_SYSTEM_v4.6</span>
+              <span className="text-lg font-black tracking-tighter text-white leading-none italic uppercase">PIYUSH_KB</span>
+              <span className="text-[10px] font-mono text-primary font-bold mt-1 uppercase tracking-[0.3em]">ENGINEERING_v5.0</span>
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-1 bg-black/40 backdrop-blur-xl border border-white/5 p-1">
-            {navItems.map(({ href, label, icon }) => {
+          {/* Desktop Nav - Sector Grid */}
+          <nav className="hidden md:flex gap-px bg-white/5 border border-white/10 p-1">
+            {navItems.map(({ href, label, sector, icon }) => {
               const isActive = activeSection === href.slice(1);
               return (
                 <a
                   key={label}
                   href={href}
                   className={cn(
-                    "relative px-4 py-2 flex items-center gap-2 text-[11px] font-mono transition-all",
+                    "relative px-6 py-4 flex flex-col items-start gap-1 font-mono transition-all",
                     isActive 
                       ? "bg-primary text-black" 
-                      : "text-slate-400 hover:text-primary hover:bg-primary/5"
+                      : "bg-[#0a0a0c] text-slate-500 hover:text-primary hover:bg-[#121215]"
                   )}
                 >
-                  {icon}
-                  {label}
+                  <span className={cn("text-[7px] font-black tracking-widest uppercase mb-1", isActive ? "text-black/60" : "text-primary/40")}>
+                    {sector}
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className={isActive ? "text-black" : "text-primary/60"}>{icon}</span>
+                    <span className="text-[10px] font-black tracking-[0.2em] uppercase">{label}</span>
+                  </div>
                   {isActive && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute -bottom-[1px] left-0 w-full h-[1px] bg-black"
+                      className="absolute bottom-0 left-0 w-full h-[2px] bg-black"
                     />
                   )}
                 </a>

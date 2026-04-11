@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Target, Cpu, HardDrive, Network, Layers } from 'lucide-react';
+import { Target, Cpu, HardDrive, Network, Layers, Activity } from 'lucide-react';
 
 const statsData = [
   { label: "COGNITION_PATH", value: "Neural_Architectures" },
@@ -12,112 +12,129 @@ const statsData = [
 
 export default function About() {
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-[#0a0a0c]">
-      {/* Background Coordinate System */}
-      <div className="absolute top-0 right-0 p-4 text-[10px] font-mono text-white/5 flex flex-col items-end">
-        <span>LAT: 26.1158</span>
-        <span>LONG: 91.7086</span>
-        <span>REF: DOSSIER_PKB</span>
+    <section id="about" className="py-32 relative overflow-hidden bg-[#0a0a0c]">
+      {/* Structural Data Overlay */}
+      <div className="absolute top-10 right-10 p-4 text-[10px] font-mono text-white/5 flex flex-col items-end border-r-2 border-white/5 pr-6">
+        <span>DRAWING_NO: A-704</span>
+        <span>REV_LVL: S7_PROD</span>
+        <span>AUTH: SE_PIYUSH</span>
       </div>
 
       <div className="container mx-auto px-6 md:px-20 relative z-10">
-        
-        {/* Section Header - Industrial Style */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 border-b border-white/10 pb-8">
+
+        {/* Section Header - Blueprint ID */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8 border-b-2 border-primary/20 pb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-8 h-[1px] bg-primary" />
-              <span className="text-[10px] font-mono text-primary uppercase tracking-[0.4em]">Sub_Profile_A7</span>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-[1px] bg-primary/40" />
+              <span className="text-[10px] font-mono text-primary uppercase tracking-[0.5em] font-bold">Structural_Dossier_Verified</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black font-heading tracking-tighter text-white uppercase italic leading-none">
-              SUBJECT_<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/40 animate-aberration px-2 border-b-4 border-primary/20">OVERVIEW</span>
+            <h2 className="text-5xl md:text-7xl font-black font-heading tracking-tight text-white uppercase italic leading-none">
+              DRAFT_<span className="text-transparent border-b-4 border-primary/20 px-2 italic">SPECIFICATIONS</span>
             </h2>
           </div>
-          
-          <div className="grid grid-cols-2 gap-4 md:w-1/3">
+
+          <div className="grid grid-cols-2 gap-6 md:w-1/3 p-6 bg-white/[0.02] border border-white/5">
             {statsData.map((stat, i) => (
               <div key={i} className="flex flex-col">
-                <span className="text-[8px] font-mono text-white/30 uppercase">{stat.label}</span>
-                <span className="text-xs font-bold text-white tracking-widest">{stat.value}</span>
+                <span className="text-[8px] font-mono text-primary/40 uppercase font-bold tracking-widest">{stat.label}</span>
+                <span className="text-[11px] font-black text-white tracking-widest uppercase italic">{stat.value}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Content Matrix */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 px-1 bg-white/5">
-          
-          {/* Main Dossier Content */}
-          <div className="lg:col-span-8 bg-[#060608] p-8 md:p-12">
-            <div className="flex items-center gap-3 mb-10">
-              <Target size={20} className="text-primary" />
-              <h3 className="text-xl font-bold font-mono tracking-widest text-white uppercase underline decoration-primary underline-offset-8">
-                Execution_Protocols
+        {/* Content Matrix - Modular Assembly */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-white/5">
+
+          {/* Main Engineering Records */}
+          <div className="lg:col-span-8 bg-[#060608] p-10 md:p-16 border border-white/5 relative">
+            <div className="absolute top-0 right-0 p-4 opacity-10">
+              <span className="text-[40px] font-black font-mono text-primary italic">PKB-S7</span>
+            </div>
+
+            <div className="flex items-center gap-4 mb-12">
+              <div className="p-3 bg-primary/10 border border-primary/20">
+                <Target size={20} className="text-primary animate-pulse" />
+              </div>
+              <h3 className="text-2xl font-black font-mono tracking-tighter text-white uppercase italic">
+                CORE_ENGINEERING_PROTOCOLS
               </h3>
             </div>
-            
-            <div className="space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Protocol 01 - Domain */}
-                <div className="relative group p-6 border border-white/5 bg-white/[0.01] hover:border-primary/30 transition-all">
-                  <div className="absolute -top-3 left-4 bg-[#060608] px-2 text-[10px] font-mono text-primary font-bold">PROTOCOL_01</div>
-                  <h4 className="text-sm font-bold text-white mb-3 uppercase tracking-tighter">Applied_Intelligence</h4>
-                  <p className="text-xs font-mono text-slate-400 leading-relaxed">
-                    Specialized in synthesizing stochastic neural agents with rigid kernel-level execution layers for optimized distributed inference.
+
+            <div className="space-y-12 relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+                {/* Protocol 01 - Intelligence */}
+                <div className="relative group p-8 bg-[#060608] hover:bg-[#0d0d0f] transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[9px] font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 italic">01 // DOMAIN</span>
+                  </div>
+                  <h4 className="text-md font-black text-white mb-4 uppercase tracking-tighter italic">Industrial_Cognition</h4>
+                  <p className="text-[13px] font-mono text-slate-400 leading-relaxed font-bold">
+                    Developing deterministic inference layers for industrial-scale intelligence, prioritizing low-latency execution and structural auditability.
                   </p>
                 </div>
 
-                {/* Protocol 02 - Engine */}
-                <div className="relative group p-6 border border-white/5 bg-white/[0.01] hover:border-primary/30 transition-all">
-                  <div className="absolute -top-3 left-4 bg-[#060608] px-2 text-[10px] font-mono text-primary font-bold">PROTOCOL_02</div>
-                  <h4 className="text-sm font-bold text-white mb-3 uppercase tracking-tighter">Skynet_Engine</h4>
-                  <p className="text-xs font-mono text-slate-400 leading-relaxed">
-                    Hierarchical meta-learning framework bridging PPO optimization with transformer modularity for continuous architectural adaptation.
+                {/* Protocol 02 - Processing */}
+                <div className="relative group p-8 bg-[#060608] hover:bg-[#0d0d0f] transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[9px] font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 italic">02 // ENGINE</span>
+                  </div>
+                  <h4 className="text-md font-black text-white mb-4 uppercase tracking-tighter italic">Production_Kernel</h4>
+                  <p className="text-[13px] font-mono text-slate-400 leading-relaxed font-bold">
+                    High-throughput processing pipelines optimized for real-time telemetry ingestion and high-fidelity signal analysis in technical environments.
                   </p>
                 </div>
 
-                {/* Protocol 03 - Core System */}
-                <div className="relative group p-6 border border-white/5 bg-white/[0.01] hover:border-primary/30 transition-all">
-                  <div className="absolute -top-3 left-4 bg-[#060608] px-2 text-[10px] font-mono text-primary font-bold">PROTOCOL_03</div>
-                  <h4 className="text-sm font-bold text-white mb-3 uppercase tracking-tighter">Apex_Kernel</h4>
-                  <p className="text-xs font-mono text-slate-400 leading-relaxed">
-                    Experimental Rust kernel implementation utilizing reinforcement learning for dynamic CPU scheduling and resource arbitration.
+                {/* Protocol 03 - Resource Management */}
+                <div className="relative group p-8 bg-[#060608] hover:bg-[#0d0d0f] transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[9px] font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 italic">03 // CONTROL</span>
+                  </div>
+                  <h4 className="text-md font-black text-white mb-4 uppercase tracking-tighter italic">Resource_Arbitration</h4>
+                  <p className="text-[13px] font-mono text-slate-400 leading-relaxed font-bold">
+                    Fine-grained resource orchestration, leveraging reinforced scheduling heuristics for maximum computational efficiency across distributed clusters.
                   </p>
                 </div>
 
-                {/* Protocol 04 - Stack */}
-                <div className="relative group p-6 border border-white/5 bg-white/[0.01] hover:border-primary/30 transition-all">
-                  <div className="absolute -top-3 left-4 bg-[#060608] px-2 text-[10px] font-mono text-primary font-bold">PROTOCOL_04</div>
-                  <h4 className="text-sm font-bold text-white mb-3 uppercase tracking-tighter">Infrastructure_Mesh</h4>
-                  <p className="text-xs font-mono text-slate-400 leading-relaxed">
-                    Deployment of scalable, containerized micro-architectures with automated health-check telemetry and protocol verification.
+                {/* Protocol 04 - Infrastructure */}
+                <div className="relative group p-8 bg-[#060608] hover:bg-[#0d0d0f] transition-all">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-[9px] font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 italic">04 // FABRIC</span>
+                  </div>
+                  <h4 className="text-md font-black text-white mb-4 uppercase tracking-tighter italic">Scalable_Architecture</h4>
+                  <p className="text-[13px] font-mono text-slate-400 leading-relaxed font-bold">
+                    Drafting of robust, self-healing modular ecosystems with zero-trust security profiles and automated maintenance telemetry.
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Side Matrix - Technical Stats */}
-          <div className="lg:col-span-4 bg-[#0a0a0c] p-8 flex flex-col gap-8 text-white">
-            <h4 className="text-[10px] font-mono text-primary font-bold tracking-[0.3em] uppercase mb-4">Functional_Sectors</h4>
-            
+          {/* Technical Metadata Matrix */}
+          <div className="lg:col-span-4 bg-[#0a0a0c] p-10 md:p-12 flex flex-col gap-10 text-white border border-white/5 relative">
+            <h4 className="text-[10px] font-mono text-primary font-bold tracking-[0.5em] uppercase mb-4 italic">Functional_Capacity</h4>
+
             {[
               { label: "Neural_Synthesis", val: 88, Icon: Cpu, color: "bg-primary" },
-              { label: "Kernel_Engineering", val: 72, Icon: HardDrive, color: "bg-amber-600" },
-              { label: "Cloud_Fabric", val: 94, Icon: Network, color: "bg-blue-600" },
-              { label: "Stack_Architecture", val: 91, Icon: Layers, color: "bg-emerald-600" }
+              { label: "Kernel_Engineering", val: 72, Icon: HardDrive, color: "bg-primary/60" },
+              { label: "Cloud_Fabric", val: 94, Icon: Network, color: "bg-primary/40" },
+              { label: "Stack_Architecture", val: 91, Icon: Layers, color: "bg-white/10" }
             ].map((skill, i) => (
-              <div key={i} className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <span className="text-white/40"><skill.Icon size={16} /></span>
-                    <span className="text-[10px] font-bold tracking-widest uppercase">{skill.label}</span>
+              <div key={i} className="space-y-4">
+                <div className="flex justify-between items-end">
+                  <div className="flex items-center gap-4">
+                    <span className="text-primary/40"><skill.Icon size={18} /></span>
+                    <span className="text-[10px] font-black tracking-widest uppercase italic">{skill.label}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-primary">{skill.val}%</span>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[12px] font-mono font-black text-primary">{skill.val}.0</span>
+                    <span className="text-[7px] font-mono text-white/20">UNIT_LOAD %</span>
+                  </div>
                 </div>
-                <div className="h-1 w-full bg-white/5 overflow-hidden">
-                  <motion.div 
-                    className={`h-full ${skill.color}`}
+                <div className="h-2 w-full bg-white/5 overflow-hidden p-0.5 border border-white/5">
+                  <motion.div
+                    className={`h-full ${skill.color} shadow-[0_0_10px_rgba(255,157,0,0.2)]`}
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.val}%` }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
@@ -126,9 +143,14 @@ export default function About() {
               </div>
             ))}
 
-            <div className="mt-auto pt-8 border-t border-white/5">
-              <div className="p-4 bg-primary text-black chamfer-bl">
-                <span className="text-[10px] font-bold font-mono tracking-tighter uppercase text-black">Subject_Readiness: OPTIMAL</span>
+            <div className="mt-auto pt-10 border-t border-white/5 space-y-4">
+              <div className="flex justify-between text-[10px] font-mono text-white/40 italic uppercase">
+                <span>Unit_Stability</span>
+                <span className="text-primary font-bold">OPTIMAL</span>
+              </div>
+              <div className="p-5 bg-primary text-black flex items-center justify-between group cursor-default">
+                <span className="text-[11px] font-black font-mono tracking-widest uppercase text-black">ENG_READY_S7</span>
+                <Activity size={16} className="text-black animate-pulse" />
               </div>
             </div>
           </div>

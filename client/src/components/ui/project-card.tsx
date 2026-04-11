@@ -30,46 +30,65 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         transition={{ duration: 0.5, delay: index * 0.1 }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="group relative bg-[#060608] border border-white/5 overflow-hidden"
+        className="group relative bg-[#060608] border border-white/10 overflow-hidden"
       >
-        {/* Prestige Tracing Border */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-30" preserveAspectRatio="none">
-          <motion.rect
-            x="0" y="0" width="100%" height="100%"
-            fill="none"
-            stroke="var(--primary)"
-            strokeWidth="1"
-            initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 0.4 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, delay: index * 0.2, ease: "easeInOut" }}
-          />
-        </svg>
+        {/* Structural Dimension Markers */}
+        <div className="absolute top-0 left-0 w-8 h-px bg-primary/20" />
+        <div className="absolute top-0 left-0 w-px h-8 bg-primary/20" />
+        <div className="absolute top-0 right-0 w-8 h-px bg-primary/20" />
+        <div className="absolute top-0 right-0 w-px h-8 bg-primary/20" />
+        <div className="absolute bottom-0 left-0 w-8 h-px bg-primary/20" />
+        <div className="absolute bottom-0 left-0 w-px h-8 bg-primary/20" />
+        <div className="absolute bottom-0 right-0 w-8 h-px bg-primary/20" />
+        <div className="absolute bottom-0 right-0 w-px h-8 bg-primary/20" />
+
+        <div className="absolute top-2 left-2 text-[6px] font-mono text-primary/20 tracking-widest uppercase">
+          Draft_ID: 0x{index.toString(16).toUpperCase()} // S7
+        </div>
+
+        {/* Blueprint Overlay Flow */}
+        <AnimatePresence>
+          {hovered && (
+            <motion.div 
+              className="absolute inset-0 z-10 pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.05 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="absolute inset-0" style={{ 
+                backgroundImage: 'linear-gradient(var(--primary) 1px, transparent 1px), linear-gradient(90deg, var(--primary) 1px, transparent 1px)',
+                backgroundSize: '10px 10px'
+              }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Module Header */}
-        <div className="bg-white/5 border-b border-white/10 px-4 py-3 flex justify-between items-center relative z-20">
-          <div className="flex items-center gap-2">
-            <Terminal size={12} className="text-primary animate-pulse" />
-            <span className="text-[10px] font-mono text-white/50 uppercase tracking-[0.3em]">Module_0{index + 1}</span>
+        <div className="bg-white/5 border-b-2 border-primary/20 px-6 py-4 flex justify-between items-center relative z-20">
+          <div className="flex items-center gap-3">
+            <Terminal size={14} className="text-primary group-hover:animate-pulse" />
+            <span className="text-[10px] font-mono text-white/60 uppercase tracking-[0.4em] font-bold italic">ASSEMBLY_NODE_0{index + 1}</span>
           </div>
           <div className="flex gap-2">
-            <div className={`w-1 h-3 ${hovered ? 'bg-primary shadow-[0_0_8px_var(--primary)]' : 'bg-white/10'} transition-all duration-300`} />
-            <div className="w-1 h-3 bg-white/5" />
+            <div className={`w-1.5 h-1.5 ${hovered ? 'bg-primary' : 'bg-white/20'} transition-all duration-300`} />
+            <div className={`w-1.5 h-1.5 bg-white/5`} />
           </div>
         </div>
 
-        <div className="p-8 relative z-20">
-          {/* Title & Badge */}
-          <div className="mb-8">
-            <h3 className="text-2xl font-black text-white tracking-tighter group-hover:text-primary transition-colors italic uppercase leading-none mb-2">
+        <div className="p-10 relative z-20">
+          {/* Title & Technical Badge */}
+          <div className="mb-10 flex flex-col gap-2">
+            <h3 className="text-3xl font-black text-white tracking-tighter group-hover:text-primary transition-colors italic uppercase leading-none">
               {project.title}
             </h3>
-            <div className="flex items-center gap-3">
-              <span className="text-[9px] font-mono text-primary/40 uppercase tracking-widest">[ID: {project.title.substring(0, 3).toUpperCase()}-46]</span>
+            <div className="flex items-center gap-4">
+              <span className="text-[8px] font-mono text-primary/40 uppercase tracking-[0.3em] font-bold border-l-2 border-primary/40 pl-3">
+                [ SPECIFICATION_VERIFIED ]
+              </span>
               {project.badge && (
                 <div className="flex items-center gap-2">
                   <Package size={10} className="text-primary/60" />
-                  <span className="text-[9px] font-mono text-primary/60 italic uppercase tracking-tighter">
+                  <span className="text-[8px] font-mono text-primary/60 italic uppercase tracking-tighter">
                     {project.badge}
                   </span>
                 </div>
@@ -77,47 +96,56 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
 
-          {/* Description */}
-          <div className="mb-8 relative p-4 bg-white/[0.02] border border-white/5">
-            <div className="absolute top-0 right-0 p-2 opacity-10">
-              <Cpu size={24} className="text-primary" />
+          {/* Description - Manifest Look */}
+          <div className="mb-10 relative p-6 bg-white/[0.01] border-l-2 border-primary/40">
+            <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+              <Cpu size={48} className="text-primary" />
             </div>
-            <p className="text-[11px] font-mono text-slate-400 leading-relaxed line-clamp-3">
-              <span className="text-primary/40 mr-2">&gt;&gt;</span>
+            <p className="text-[12px] font-mono text-slate-400 leading-relaxed font-bold">
+              <span className="text-primary/40 mr-3">// MANIFEST:</span>
               {project.description}
             </p>
           </div>
 
-          {/* Tags Matrix */}
-          <div className="grid grid-cols-2 gap-3 mb-10">
-            {project.tags.slice(0, 4).map((tag, idx) => (
-              <div key={idx} className="flex items-center gap-2 bg-black border border-white/10 px-3 py-1.5 group-hover:border-primary/20 transition-colors">
-                <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">{tag}</span>
-              </div>
-            ))}
+          {/* BOM (Bill of Materials) List */}
+          <div className="mb-12">
+            <div className="text-[8px] font-mono text-white/20 uppercase mb-4 tracking-[0.5em] flex items-center gap-4">
+               <span>Bill_of_Materials</span>
+               <div className="flex-grow h-px bg-white/10" />
+            </div>
+            <div className="grid grid-cols-1 gap-1">
+              {project.tags.map((tag, idx) => (
+                <div key={idx} className="flex items-center justify-between py-1.5 border-b border-white/5 group/row hover:bg-primary/5 transition-colors px-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                    <span className="text-[9px] font-mono text-white/50 uppercase tracking-widest">{tag}</span>
+                  </div>
+                  <span className="text-[7px] font-mono text-white/10 uppercase italic">v1.2.0</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Actions Footer */}
-          <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-auto">
-            <div className="flex gap-5">
+          {/* Actions Footer - Industrial Button */}
+          <div className="flex items-center justify-between pt-8 border-t border-white/5 mt-auto">
+            <div className="flex gap-8">
               {project.githubUrl && (
-                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-primary transition-all hover:scale-125">
-                  <Github size={18} />
+                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-primary transition-all hover:scale-125 group-hover:rotate-12">
+                  <Github size={20} />
                 </a>
               )}
               {project.liveUrl && (
-                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-primary transition-all hover:scale-125">
-                  <Link size={18} />
+                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-primary transition-all hover:scale-125 group-hover:rotate-12">
+                  <Link size={20} />
                 </a>
               )}
             </div>
             
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2 bg-transparent border border-primary/20 text-[9px] font-mono text-primary/80 hover:text-black hover:bg-primary transition-all font-bold tracking-[0.2em] flex items-center gap-3 active:scale-95 shadow-inner"
+              className="px-8 py-3 bg-transparent border border-primary/30 text-[10px] font-mono text-primary font-black tracking-[0.3em] uppercase hover:bg-primary hover:text-black transition-all shadow-[inset_0_0_10px_rgba(255,157,0,0.1)] active:scale-95 flex items-center gap-4"
             >
-              INITIALIZE
+              ENGAGE_UNIT
               <motion.span 
                 animate={hovered ? { x: [0, 4, 0] } : {}}
                 transition={{ repeat: Infinity, duration: 0.6 }}
@@ -128,24 +156,16 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Decorative Overlay FX */}
+        {/* Scanline Sweep */}
         <AnimatePresence>
           {hovered && (
-            <>
-              <motion.div 
-                className="absolute inset-0 bg-primary/[0.02] z-10"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              />
-              <motion.div 
-                className="absolute top-0 left-0 w-full h-[1px] bg-primary/40 z-30 blur-[1px]"
-                initial={{ top: "0%" }}
-                animate={{ top: "100%" }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              />
-            </>
+            <motion.div 
+              className="absolute top-0 left-0 w-full h-[1px] bg-primary/40 z-30 blur-[1px]"
+              initial={{ top: "0%" }}
+              animate={{ top: "100%" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            />
           )}
         </AnimatePresence>
       </motion.div>
