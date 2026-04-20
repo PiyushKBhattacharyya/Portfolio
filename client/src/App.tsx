@@ -12,6 +12,7 @@ import Experience from "@/components/sections/Experience";
 import GrainOverlay from "@/components/ui/GrainOverlay";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Publications from "@/components/sections/Publications";
 import Awards from "@/components/sections/Awards";
 import EngineeringFeed from "@/components/ui/EngineeringFeed";
@@ -66,6 +67,7 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <Analytics />
+      <SpeedInsights />
     </>
   );
 }
