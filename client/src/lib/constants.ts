@@ -55,6 +55,24 @@ export const PROJECTS = [
 // Publications
 export const publications = [
   {
+    title: "End-to-End Real-Time Drone-Based Person Detection Framework Using Deep Learning",
+    authors: ["P. K. Bhattacharyya", "et al."],
+    conference: "ICRAS-2026 (Preprint / arXiv)",
+    year: "2026",
+    doi: "arXiv:2607.10605",
+    abstract: "Presents an end-to-end real-time drone-based person detection framework leveraging deep learning, optimized for high precision and low-latency inference in aerial monitoring scenarios.",
+    link: "https://arxiv.org/abs/2607.10605"
+  },
+  {
+    title: "AutoNorm: Understanding Adaptive Normalization in Transformers through Differentiable Gating",
+    authors: ["P. K. Bhattacharyya", "et al."],
+    conference: "arXiv",
+    year: "2026",
+    doi: "arXiv:2607.10593",
+    abstract: "Analyzes adaptive normalization dynamics in transformer architectures using differentiable gating to improve training stability and representation learning across deep models.",
+    link: "https://arxiv.org/abs/2607.10593"
+  },
+  {
     title: "ECG Arrhythmia Detection Using Lightweight 1DCNN-Bi-LSTM Technique for Cardiovascular Disease",
     authors: ["Payel Sarmah", "P. K. Bhattacharyya", "et al."],
     conference: "Springer (SN Computer Science)",
@@ -101,12 +119,20 @@ export const TECH_STACK = [
 // Work Experience
 export const EXPERIENCE = [
   {
+    title: "Advanced App Engineering Analyst",
+    company: "Accenture · Full-time",
+    period: "Jul 2026 - Present",
+    description: "Engineering and developing scalable enterprise applications, architecting modern application components, and implementing high-throughput software solutions with robust deployment practices.",
+    skills: ["Enterprise Systems", "Application Engineering", "Cloud Systems", "Full Stack"],
+    colorClass: "primary"
+  },
+  {
     title: "Project Intern",
     company: "Indian Oil Corporation Ltd. (IOCL)",
     period: "May 2025 - Jun 2025",
     description: "Led the design, development, and training of a Computer Vision model to detect Personal Protective Equipment (PPE) compliance (helmets, safety vests, gloves) for refinery workers.",
     skills: ["Machine Learning", "Image Processing", "Project Management"],
-    colorClass: "primary"
+    colorClass: "secondary"
   },
   {
     title: "AIoT Intern",
